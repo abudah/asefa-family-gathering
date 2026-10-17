@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build the Asefa Family Gathering Constitution as a PDF (English + Amharic).
+"""Build the Asefa Family Gathering Constitution as a PDF (English + Amharic + Afaan Oromo).
 
 Run:  python3 build_constitution.py
 Output: Asefa-Family-Gathering-Constitution.pdf in the same folder.
 
-Edit the CONTENT_EN and CONTENT_AM lists below to change the text, then re-run.
+Edit the CONTENT_EN, CONTENT_AM and CONTENT_OM lists below to change the text, then re-run.
 Each item is one of:
   ("h1", text)              article heading
   ("p", text)               paragraph
@@ -36,6 +36,7 @@ pdfmetrics.registerFont(TTFont("Kefa", KEFA))
 
 DATE_EN = "17 October 2026"
 DATE_AM = "ጥቅምት 7 ቀን 2019 ዓ.ም. (17 October 2026)"
+DATE_OM = "Onkololeessa 7, 2019 ALI (17 October 2026)"
 
 # --------------------------------------------------------------------------
 # ENGLISH CONTENT
@@ -44,8 +45,8 @@ CONTENT_EN = [
     ("p", "This constitution governs the quarterly gathering of the grandchildren of Asefa. "
           "It is written so that every member knows what is expected, so that the gathering runs "
           "without waiting on anyone, and so that no member has cause to be angry at another. "
-          "The English text is followed by an Amharic version. Where the two differ, the Gathering "
-          "decides which text controls."),
+          "The English text is followed by Amharic and Afaan Oromo versions. Where they differ, the "
+          "Gathering decides which text controls."),
 
     ("h1", "Article 1. Name and purpose"),
     ("n", "1.", "The association is called the Asefa Family Gathering (the \"Gathering\")."),
@@ -282,8 +283,8 @@ CONTENT_EN = [
 CONTENT_AM = [
     ("p", "ይህ መተዳደሪያ ደንብ የአሰፋ የልጅ ልጆች በየሦስት ወሩ የሚያደርጉትን የቤተሰብ ስብሰባ የሚመራ ነው። "
           "የተጻፈውም እያንዳንዱ አባል ከእሱ የሚጠበቀውን እንዲያውቅ፣ ስብሰባው ማንንም ሳይጠብቅ እንዲካሄድ፣ "
-          "እንዲሁም አንዱ በሌላው ላይ የሚቆጣበት ምክንያት እንዳይኖር ነው። የእንግሊዝኛው ጽሑፍ የአማርኛ ቅጂ ይከተለዋል። "
-          "ሁለቱ ሲለያዩ የትኛው እንደሚጸና ስብሰባው ይወስናል።"),
+          "እንዲሁም አንዱ በሌላው ላይ የሚቆጣበት ምክንያት እንዳይኖር ነው። የእንግሊዝኛውን ጽሑፍ የአማርኛና የአፋን ኦሮሞ ቅጂዎች "
+          "ይከተሉታል። ሲለያዩ የትኛው እንደሚጸና ስብሰባው ይወስናል።"),
 
     ("h1", "አንቀጽ 1. ስም እና ዓላማ"),
     ("n", "1.", "ማኅበሩ \"የአሰፋ ቤተሰብ ስብሰባ\" (ከዚህ በኋላ \"ስብሰባው\") ተብሎ ይጠራል።"),
@@ -502,6 +503,260 @@ CONTENT_AM = [
 
 
 # --------------------------------------------------------------------------
+# AFAAN OROMO CONTENT
+# --------------------------------------------------------------------------
+CONTENT_OM = [
+    ("p", "Seerri ittiin bulmaataa kun walgahii ilmaan ijoollee Asefaa ji'a sadii sadiin taasifamu bulcha. "
+          "Kan barreeffameef miseensi hundi waan isa irraa eegamu akka beeku, walgahiin nama tokko illee "
+          "osoo hin eegin akka geggeeffamu, akkasumas miseensi tokko isa biraa irratti akka hin aarreef. "
+          "Barreeffamni kun Afaan Ingilizii, Afaan Amaaraa fi Afaan Oromootiin dhihaateera. Isaan yoo wal "
+          "dhaban, isa kamtu akka hojjetu Walgahiin murteessa."),
+
+    ("h1", "Keewwata 1. Maqaa fi kaayyoo"),
+    ("n", "1.", "Waldaan kun \"Walgahii Maatii Asefaa\" (kana booda \"Walgahii\") jedhamee waamama."),
+    ("n", "2.", "Miseensonni isaa ilmaan ijoollee Asefaa, jechuun ijoollee ilmaan isaa fi intallan isaa ti."),
+    ("n", "3.", "Kaayyoon Walgahii:"),
+    ("b", "ilmaan ijoollee Asefaa dhaloota irraa gara dhalootaatti akka maatii tokkootti tokkummaadhaan eeguu;"),
+    ("b", "ijoolleen obboleeyyanii fi ijoolleen isaanii wal beekanii waliin akka guddatan gochuu;"),
+    ("b", "yeroo gammachuu fi yeroo rakkinaa wal gargaaruu;"),
+    ("b", "yaadannoo fi duudhaa akaakayyuu keenya Asefaa fi warra keenyaa kabajuu."),
+    ("n", "4.", "Seerri seera ittiin bulmaataa kana keessa jiru hundi kaayyoo armaan olii tajaajila. Seerri "
+                "tokko ifa yoo hin taane, karaa maatii jaalalaa fi haqaan irra caalaa eeguun hiikama."),
+
+    ("h1", "Keewwata 2. Miseensummaa"),
+    ("n", "1.", "Ilmaan ijoollee Asefaa umuriin isaanii waggaa 18 guute hundi miseensa; akka makamanis ni eegama."),
+    ("n", "2.", "Abbaan manaa yookiin haati manaa miseensaa miseensa maatii Walgahii ti. Sagantaa hunda irratti "
+                "simatamu, marii irratti dubbachuu danda'u, miseensa waliin keessummeessuu danda'u. Buusii "
+                "addaa hin kaffalan; Walgahiin sadii keessaa lamaan yoo murteesse malee sagalee hin kennan."),
+    ("n", "3.", "Ijoolleen miseensotaa warra isaanii waliin argamu. Mucaan miseensaa waggaa 18 yoo guute, "
+                "mirgaa fi dirqama walqixa qabaatee miseensa guutuu ta'ee makamuu danda'a."),
+    ("n", "4.", "Miseensi magaalaa alaa yookiin biyya alaa jiraatu miseensummaan isaa itti fufa. Haalli "
+                "argamuu fi buusii isaa Keewwata 7 jalatti murtaa'a."),
+    ("n", "5.", "Miseensi barreessaadhaaf barreeffamaan beeksisee bahuu danda'a. Miseensi bahe buusii darbe "
+                "hin deebifamuuf; sababiin isaas maallaqni kun qabeenya Walgahii guutuu waan ta'eefi."),
+    ("n", "6.", "Miseensi ji'a jaha buusii yookiin adabbii hin kaffalle, akeekkachiisa barreeffamaa lama "
+                "booda, ni uggurama. Miseensi uggurame waan irra jiru kaffaluun deebi'uu danda'a."),
+    ("n", "7.", "Miseensi hundi mirga walqixa qaba: argamuu, dubbachuu, sagalee kennuu, keessummeessuu, "
+                "koreef dorgomuu fi galmee ilaaluu."),
+
+    ("h1", "Keewwata 3. Walgahicha"),
+    ("n", "1.", "Walgahiin ji'a sadii sadiin al tokko, Sanbata jalqabaa ji'a sanaa irratti taasifama."),
+    ("n", "2.", "Sagantaan sa'aatii 7:00 irratti jalqabee 11:00 irratti xumurama. Miseensi hundi dhufus "
+                "dhufuu baatus sagantaan 7:00 irratti jalqaba. Namni tokko illee nama biraa hin eegu."),
+    ("n", "3.", "Koreen guyyaa kan jijjiiru du'a, ayyaana guddaa yookiin dhimma biyyaaleessaa qofaaf yoo "
+                "ta'u, guyyaa haaraa yoo xiqqaate torban lama dura beeksisuu qaba."),
+    ("n", "4.", "Sagantaan hundi akka sirnaan geggeeffamuuf tartiiba walfakkaataa hordofa:"),
+    ("t", [
+        ["Sa'aatii", "Dhimma", "Kan geggeessu"],
+        ["7:00", "Baniinsa fi eebba", "Keessummeessaa"],
+        ["7:10", "Simannaa fi waamicha maqaa", "Barreessaa"],
+        ["7:20", "Yaadannoo walgahii darbee fi dhimmoota irraa ka'an", "Barreessaa"],
+        ["7:30", "Gabaasa qabduu maallaqaa: buusii, adabbii, haftee herregaa", "Qabduu Maallaqaa"],
+        ["7:45", "Oduu maatii: dhaloota, cidha, eebba barnootaa, dhukkuba, fedhii", "Dura Taa'aa"],
+        ["8:00", "Dhimmoota marii dursanii beeksifaman", "Dura Taa'aa"],
+        ["8:30", "Keessummeessaa itti aanu mirkaneessuu fi guyyaa beeksisuu", "Dura Taa'aa"],
+        ["8:40", "Nyaata, buna fi yeroo waliin dabarsuu", "Keessummeessaa"],
+        ["10:45", "Jecha cufiinsaa fi galata keessummeessaaf", "Dura Taa'aa"],
+        ["11:00", "Sagantaan xumurama", ""],
+    ], [22, 104, 34]),
+    ("n", "5.", "Miseensi dhimma tokko akka irratti mari'atamu barbaadu yoo xiqqaate torban tokko sagantaa "
+                "dura barreessaaf erga. Dhimmoonni guyyaa sana ka'an yeroon yoo hayyame qofa dhagahamu."),
+    ("n", "6.", "Kutaan sirnaa 7:00 irraa hanga 8:40tti gabaabaa fi sirna qabeessa ta'ee eegama; kunis "
+                "guyyaa irra caalaan waliin ta'uuf akka oolu."),
+
+    ("h1", "Keewwata 4. Keessummeessuu"),
+    ("n", "1.", "Sagantaan hundi tartiiba carraadhaan murtaa'een miseensa fuudhe yookiin heerumte tokkoon "
+                "mana isaa keessatti keessummeeffama."),
+    ("n", "2.", "Carraan miseensota hunda duratti al tokko baafama; barreessaan tartiiba guutuu galmeessa. "
+                "Keewwanni kun yoo hayyame malee tartiibni hin jijjiiramu."),
+    ("n", "3.", "Keessummeessitoonni lama waliigalteedhaan dabaree isaanii wal jijjiiruu danda'u; kanas yoo "
+                "xiqqaate ji'a tokko sagantaa dura barreessaaf beeksisu."),
+    ("n", "4.", "Keessummeessaan sababa cimaadhaan dabaree isaatti keessummeessuu hin dandeenye yoo xiqqaate "
+                "ji'a tokko dura koreef beeksisa. Keessummeessaan tartiibaan itti aanu bakka bu'a; miseensi "
+                "dabaree isaa darbe yeroo itti aanutti keessummeessa."),
+    ("n", "5.", "Miseensonni fuudhanii fi heeruman hundi al tokko erga keessummeessanii booda marsaan "
+                "tartiiba walfakkaataadhaan irra deebi'ee jalqaba. Miseensonni carraa booda fuudhan yookiin "
+                "heeruman dhuma tartiibaatti dabalamu."),
+    ("n", "6.", "Miseensonni hin fuune yookiin hin heerumne keessummeessuuf yookiin miseensa fuudhe waliin "
+                "keessummeessuuf fedhiidhaan dhihaachuu danda'u. Fedhiidhaan dhihaate dabaree duwwaa itti "
+                "aanutti dabalama."),
+    ("n", "7.", "Keessummeessaan bakka, nyaata fi sirna bunaa qopheessa; dura taa'aa waliin sagantaa yeroo "
+                "isaatti geggeessa."),
+    ("n", "8.", "Akka aadaa keenyaatti baasiin keessummeessuu keessummeessaadhaan uwwifama; garuu "
+                "keessummeessuun dorgommii miti. Keessummeessaan tokko illee isa dura ture caaluuf dhiibbaa "
+                "akka hin qabaanneef Walgahiin qajeelfama baasii madaalawaa baasa. Bakka kanaa Walgahiin "
+                "maallaqa irraa deeggarsa keessummeessuu dhaabbataa kaffaluuf murteessuu danda'a."),
+    ("n", "9.", "Cufiinsa sagantaa irratti miseensi hundi keessummeessaa galateeffata; miseensi tokko illee "
+                "mana yookiin nyaata keessummeessaa hin qeequ."),
+
+    ("h1", "Keewwata 5. Koree"),
+    ("n", "1.", "Walgahiin koree nama afuriitiin hoogganama: Dura Taa'aa, Itti Aanaa Dura Taa'aa, "
+                "Barreessaa fi Qabduu Maallaqaa."),
+    ("n", "2.", "Dirqamni isaanii:"),
+    ("b", "Dura Taa'aa: sagantaa geggeessa, Walgahii bakka bu'ee dubbata, sirna eega, seerri ittiin "
+          "bulmaataa kun akka kabajamu mirkaneessa."),
+    ("b", "Itti Aanaa Dura Taa'aa: dura taa'aan yeroo hin jirretti bakka bu'a; sagantaa hunda dura "
+          "keessummeessaa waliin qindeessa."),
+    ("b", "Barreessaa: yaadannoo walgahii, galmee argamuu, tartiiba keessummeessuu fi galmee adabbii "
+          "qabata; beeksisaa fi yaadachiisa erga."),
+    ("b", "Qabduu Maallaqaa: buusii fi adabbii walitti qaba, galmee herregaa fi herrega baankii qabata, "
+          "sagantaa hunda irratti gabaasa dhiheessa."),
+    ("n", "3.", "Koreen sagantaa jalqabaa waggaa irratti sagalee caalmaa miseensota argamaniitiin filatama. "
+                "Tokkoon tokkoon isaanii waggaa lama tajaajilu; walitti aansuun al tokko qofa irra "
+                "deebi'amee filatamuu danda'u. Sana booda yoo xiqqaate bara hojii tokko boqotu."),
+    ("n", "4.", "Miseensi liqii hin qabne kamiyyuu iddoo kamiifuu dorgomuu danda'a."),
+    ("n", "5.", "Walgahiin miseensa koree amanamummaa dhabuu, irra deddeebi'ee hafuu yookiin dirqama "
+                "dagachuu sababaan, erga dhagahamee booda, sagalee sadii keessaa lamaan kaasuu danda'a."),
+    ("n", "6.", "Iddoon tokko duwwaa yoo ta'e, koreen hanga filannoo itti aanutti miseensa tokko muuda."),
+    ("n", "7.", "Miseensonni koree kaffaltii hin argatan; buusii fi adabbii irraas bilisa miti."),
+
+    ("h1", "Keewwata 6. Maallaqa"),
+    ("n", "1.", "Miseensi hundi ji'a ji'aan Qarshii 700 buusa. Kaffaltiin hanga guyyaa 10ffaa ji'ichaatti "
+                "herrega baankii Walgahii yookiin qabduu maallaqaaf nagaheedhaan raawwatama."),
+    ("n", "2.", "Walgahiin maqaa isaatiin herrega baankii tokko qaba. Maallaqa baasuuf mallattoo lama "
+                "barbaachisa: kan qabduu maallaqaa fi kan dura taa'aa (yookiin itti aanaa)."),
+    ("n", "3.", "Maallaqni kun kanneen armaan gadii qofaaf oola:"),
+    ("b", "miseensa tokkoof cidha, dhaloota, dhukkuba cimaa yookiin du'a maatii dhihoo isaa irratti, hanga "
+          "gabatee deeggarsaa keessatti murtaa'een deeggarsa kennuuf;"),
+    ("b", "miseensa rakkoo keessa jiruuf liqii hatattamaa, Walgahiin hayyamee haala waliigalameen deebifamu;"),
+    ("b", "sagantaalee maatii waloo fi baasii Walgahii mataa isaa (meeshaa barreeffamaa, nagahee, kaffaltii baankii);"),
+    ("b", "kaayyoo biraa kamiyyuu miseensota argaman sadii keessaa lamaan raggaasifame."),
+    ("n", "4.", "Gabateen deeggarsaa Walgahiidhaan murtaa'a; waggaa waggaan ilaalama:"),
+    ("t", [
+        ["Taatee", "Deeggarsa maallaqa irraa (Qarshii)"],
+        ["Cidha miseensaa", ""],
+        ["Dhaloota mucaa miseensaa", ""],
+        ["Du'a abbaa yookiin haadha, abbaa manaa yookiin haadha manaa, yookiin mucaa miseensaa", ""],
+        ["Dhukkuba cimaa yookiin hospitaala ciisuu miseensaa", ""],
+    ], [100, 60]),
+    ("n", "5.", "Gaaffii barreeffamaa, galmee qabduu maallaqaa fi hayyama dura taa'aa malee kaffaltiin tokko "
+                "illee maallaqa irraa hin bahu. Kaffaltiin gabatee caalu sagalee Walgahii barbaachisa."),
+    ("n", "6.", "Qabduun maallaqaa sagantaa hunda irratti gabaasa dhiheessa: buusii walitti qabame, adabbii "
+                "walitti qabame, kaffaltii raawwatame fi haftee herregaa. Gabaasni barreeffamaan ta'ee "
+                "yaadannoo walgahii waliin qabama."),
+    ("n", "7.", "Miseensonni lama miseensa koree hin taane waggaatti al tokko galmee herregaa fi ibsa "
+                "baankii qoratanii Walgahiif gabaasu."),
+    ("n", "8.", "Buusiin guyyaa 30 ol ture ji'atti Qarshii 100 kaffaltii turtii qaba."),
+    ("n", "9.", "Walgahiin hanga buusii sagalee sadii keessaa lamaan jijjiiruu danda'a. Jijjiiramni "
+                "kurmaana itti aanu irraa eegalee hojii irra oola."),
+
+    ("h1", "Keewwata 7. Argamuu fi adabbii"),
+    ("n", "1.", "Sagantaa hunda irratti argamuun dirqama miseensummaa ti."),
+    ("n", "2.", "Miseensi argamuu hin dandeenye yoo xiqqaate guyyaa sadii sagantaa dura barreessaaf beeksisa."),
+    ("n", "3.", "Adabbiin akka armaan gadii ti:"),
+    ("t", [
+        ["Haala", "Adabbii (Qarshii)"],
+        ["Osoo hin beeksisin hafuu", "2,000"],
+        ["Yoo xiqqaate guyyaa 3 dura beeksisee hafuu", "1,000"],
+        ["Sababa fudhatama qabuun hafuu (lakk. 4 ilaali)", "hin jiru"],
+        ["Osoo hin beeksisin daqiiqaa 30 ol turuu", "200"],
+        ["Akeekkachiisa dura taa'aa tokko booda sagantaa jeequu", "500"],
+        ["Keessummeessaan sababa cimaa malee beeksisa ji'a tokkoo gadiin dabaree isaa haquu", "1,000"],
+    ], [130, 30]),
+    ("n", "4.", "Sababoonni fudhatama qaban: dhukkuba ofii yookiin dhukkuba abbaa manaa, haadha manaa yookiin "
+                "mucaa; du'a yookiin awwaalcha; dhaloota; imala hojii; qormaata; fi dirqama biyyaaleessaa "
+                "yookiin amantii. Barreessaan sababa galmeessa. Koreen sababoota cimoo biroo fudhachuu danda'a."),
+    ("n", "5.", "Miseensonni magaalaa alaa yookiin biyya alaa jiraatan argamuu irraa bilisa; waamicha "
+                "viidiyootiin hirmaachuu danda'u. Walgahiin hanga adda ta'e irratti yoo waliigale malee "
+                "buusii kaffaluu itti fufu."),
+    ("n", "6.", "Adabbiin guyyaa sana barreessaadhaan galmeeffamee sagantaa itti aanu irratti beeksifama. "
+                "Sagantaa itti aanu dura yookiin guyyaa sana kaffalama."),
+    ("n", "7.", "Miseensi adabbii mormu torban lama keessatti koreef dhiheessa. Koreen murteessa; miseensi "
+                "Keewwata 10 jalatti Walgahii guutuutti ol-iyyachuu danda'a."),
+    ("n", "8.", "Miseensi adabbii hin kaffalamne qabu hanga kaffalutti sagalee hin kennu. Adabbiin hin "
+                "kaffalamne Keewwata 2 jalatti akka buusii hin kaffalamneetti ilaalama."),
+    ("n", "9.", "Adabbiin maallaqa keessa gala; buusii waliin gabaafama."),
+
+    ("h1", "Keewwata 8. Seera naamusaa"),
+    ("n", "1.", "Akka obboleeyyanii fi obboleettotaatti kabajaan wal dubbifna. Arrabsoo, iyya, qoosaa hin jiru."),
+    ("n", "2.", "Mana keessummeessaa akka kan keenyaatti kabajna: yeroo isaatti dhufna, yoo gaafatamne "
+                "gargaarra, bakka sana akkuma argannetti dhiifna."),
+    ("n", "3.", "Kutaa sirnaa sagantaa keessatti bilbilli sagalee malee ta'a."),
+    ("n", "4.", "Yeroo sagantaa falmiin siyaasaa fi daldalaa hin taasifamu."),
+    ("n", "5.", "Warri amala fi nageenya ijoollee isaaniitiif itti gaafatamoo dha."),
+    ("n", "6.", "Dhugaatiin alkoolii yoo dhihaate madaalliidhaan fudhatama. Miseensi sirna dhabe akka bahu "
+                "gaafatama; Keewwata 7 jalatti adabama."),
+    ("n", "7.", "Wanti miseensi tokko Walgahii irratti iccitiidhaan qoodu maatii keessatti hafa."),
+    ("n", "8.", "Miseensi miseensa biraa irratti komii qabu Keewwata 10 jalatti dhiheessa malee Walgahii "
+                "duratti yookiin miidiyaa hawaasummaa irratti hin kaasu."),
+    ("n", "9.", "Dura taa'aan cabsaaf akeekkachiisa tokko kennuu danda'a. Sagantaa walfakkaataa keessatti "
+                "cabsi lammaffaa ni adabama. Cabsi irra deddeebi'u Walgahiif dhihaata; Walgahiinis "
+                "miseensicha sagantaa tokkoof ugguruu danda'a."),
+
+    ("h1", "Keewwata 9. Murtee fi sagalee kennuu"),
+    ("n", "1.", "Walgahiin waliigalaan murteessa. Koreen murteewwan hojii irra oolcha; dhimmoota guyyaa "
+                "guyyaa malee kophaa isaa hin murteessu."),
+    ("n", "2.", "Kooramii: murteewwan kan raggaasifaman miseensota walakkaa ol yoo argaman qofa."),
+    ("n", "3.", "Dhimmoonni idilee sagalee caalmaa miseensota argamaniitiin darbu. Sagaleen walqixa yoo "
+                "ta'e dura taa'aan murteessa."),
+    ("n", "4.", "Dhimmoonni kunneen sagalee sadii keessaa lama miseensota argamanii barbaachisu: hanga "
+                "buusii jijjiiruu, adabbii jijjiiruu, gabatee deeggarsaa ol baasuu, miseensa yookiin "
+                "miseensa koree ugguruu yookiin kaasuu, fi seera ittiin bulmaataa kana fooyyessuu."),
+    ("n", "5.", "Sagaleen harka ol kaasuun kennama. Miseensonni sadii kamiyyuu sagalee iccitii gaafachuu danda'u."),
+    ("n", "6.", "Miseensi hundi sagalee tokko qaba. Bakka bu'ummaadhaan sagalee kennuun hin jiru; garuu "
+                "miseensi biyya alaa jiru dhimma dursee beeksifame irratti barreeffamaan sagalee kennuu danda'a."),
+    ("n", "7.", "Dhimmi al tokko murtaa'e, wanti haaraan yoo argame malee, waggaa tokkoof irra deebi'amee "
+                "hin kaafamu."),
+
+    ("h1", "Keewwata 10. Wal-dhabdee hiikuu"),
+    ("n", "1.", "Maatii kamiyyuu keessatti wal-dhabdeen ni eegama. Wanti barbaachisaan akkaataa itti hiikamu dha."),
+    ("n", "2.", "Tarkaanfiiwwan, tartiibaan:"),
+    ("b", "Tarkaanfii 1. Miseensonni lamaan dhuunfaatti wal dubbatanii torban lama keessatti ofii "
+          "isaaniitiin hiikuuf yaalu."),
+    ("b", "Tarkaanfii 2. Yoo hin hiikamne, miseensi tokko koreef barreeffamaan dhiheessa. Koreen lamaan "
+          "isaanii ji'a tokko keessatti dhageessee yaada furmaataa dhiheessa."),
+    ("b", "Tarkaanfii 3. Miseensi tokko yaada koree yoo hin fudhanne, dhimmichi sagantaa itti aanu irratti "
+          "Walgahii guutuuf dhihaata. Walgahiin lamaan isaanii dhageessee sagalee caalmaadhaan murteessa. "
+          "Yeroo sagaleen kennamu miseensonni lamaan kutaa keessaa bahu."),
+    ("b", "Tarkaanfii 4. Wal-dhabdeen miseensa koree kan ilaallatu yoo ta'e, yookiin murteen Walgahii "
+          "fudhatama yoo hin arganne, dhimmichi jaarsa dhaloota warraa Walgahiin filatetti dhihaata. "
+          "Jechi jaarsaa isa dhumaa ti."),
+    ("n", "3.", "Wal-dhabdeen tokko illee miidiyaa hawaasummaa irratti yookiin namoota maatii alaa waliin "
+                "hin mari'atamu."),
+    ("n", "4.", "Miseensi tarkaanfiiwwan kana keessatti hirmaachuu dide, yookiin wal-dhabdee maatii gara "
+                "namoota alaatti geesse, Qarshii 1,000 adabama; ugguramuus danda'a."),
+    ("n", "5.", "Wal-dhabdeen yoo hiikame miseensonni lamaan Walgahii duratti harka wal fuudhu; dhimmichi "
+                "cufamee galmeeffama."),
+
+    ("h1", "Keewwata 11. Galmee fi iftoomina"),
+    ("n", "1.", "Barreessaan galmee miseensotaa, tarree argamuu, yaadannoo sagantaa hundaa, tartiiba "
+                "keessummeessuu fi galmee adabbii qabata."),
+    ("n", "2.", "Qabduun maallaqaa galmee buusii, nagahee, ibsa baankii fi galmee kaffaltii qabata."),
+    ("n", "3.", "Yaadannoon walgahii sagantaa itti aanu irratti dubbifamee miseensotaan raggaasifama."),
+    ("n", "4.", "Miseensi kamiyyuu yeroo kamiyyuu galmee kamiyyuu ilaaluuf gaafachuu danda'a; koreen torban "
+                "tokko keessatti agarsiisa."),
+    ("n", "5.", "Galmeewwan faayilii waloo keessatti, waraqaa fi dijitaalaan, qabamu; filannoo hunda irratti "
+                "koree itti aanuuf dabarfamu."),
+    ("n", "6.", "Garagalchi seera ittiin bulmaataa kanaa miseensa hundaaf, fi miseensa haaraa yeroo "
+                "makamutti kennama."),
+
+    ("h1", "Keewwata 12. Fooyya'iinsa fi raggaasisuu"),
+    ("n", "1.", "Miseensi kamiyyuu fooyya'iinsa barreeffamaan barreessaaf dhiheessuu danda'a. Yaadni "
+                "sagantaa tokko irratti beeksifamee isa itti aanu irratti sagaleen kennama; kunis miseensi "
+                "hundi itti yaaduuf ji'a sadii akka qabaatuuf."),
+    ("n", "2.", "Fooyya'iinsi sagalee sadii keessaa lama miseensota argamaniitiin darba; sagantaa itti aanu "
+                "irraa eegalee hojii irra oola."),
+    ("n", "3.", "Seerri ittiin bulmaataa kun kan raggaasifamu sagantaa tokko irratti guutummaatti dubbifamee, "
+                "miseensota hundaa keessaa sadii keessaa lamaan raggaasifamee, koree fi miseensota "
+                "argamaniin yoo mallatteeffame dha."),
+    ("n", "4.", "Dhimmoota Walgahiin yeroo raggaasisu murteessuu qabu:"),
+    ("b", "qajeelfama baasii keessummeessuu yookiin deeggarsa keessummeessuu (Keewwata 4, lakk. 8);"),
+    ("b", "hanga gabatee deeggarsaa (Keewwata 6, lakk. 4);"),
+    ("b", "abbaan manaa fi haati manaa sagalee kennuu fi dhiisuu (Keewwata 2, lakk. 2);"),
+    ("b", "buusii miseensota biyya alaa jiraataniif (Keewwata 7, lakk. 5);"),
+    ("b", "jaarsa ol-iyyannoo dhumaaf (Keewwata 10)."),
+    ("sig", {
+        "title": "Raggaasisuu fi mallattoo",
+        "line": "Guyyaa ____________________ bakka ____________________ tti raggaasifame.",
+        "cols": ["Iddoo", "Maqaa", "Mallattoo"],
+        "posts": ["Dura Taa'aa", "Itti Aanaa Dura Taa'aa", "Barreessaa", "Qabduu Maallaqaa"],
+        "members": "Miseensota argaman",
+        "mcols": ["Lakk.", "Maqaa", "Mallattoo"],
+    }),
+]
+
+
+# --------------------------------------------------------------------------
 # STYLES AND BUILDER
 # --------------------------------------------------------------------------
 INK = colors.HexColor("#1f2933")
@@ -610,9 +865,13 @@ def build():
         Spacer(1, 10 * mm),
         Paragraph("የአሰፋ ቤተሰብ ስብሰባ", ParagraphStyle("t2", parent=am["title"], fontSize=22)),
         Paragraph("መተዳደሪያ ደንብ", am["subtitle"]),
-        Spacer(1, 30 * mm),
+        Spacer(1, 10 * mm),
+        Paragraph("Walgahii Maatii Asefaa", ParagraphStyle("t3", parent=en["title"], fontSize=20)),
+        Paragraph("Seera Ittiin Bulmaataa", en["subtitle"]),
+        Spacer(1, 24 * mm),
         Paragraph(f"Draft for adoption &middot; {DATE_EN}", en["subtitle"]),
         Paragraph(f"ለማጽደቅ የቀረበ ረቂቅ &middot; {DATE_AM}", am["subtitle"]),
+        Paragraph(f"Wixinee raggaasisuuf dhihaate &middot; {DATE_OM}", en["subtitle"]),
         PageBreak(),
     ]
     # English part
@@ -622,6 +881,10 @@ def build():
     # Amharic part
     story.append(Paragraph("ክፍል ለ · አማርኛ", am["part"]))
     story += render(CONTENT_AM, am)
+    story.append(PageBreak())
+    # Afaan Oromo part (Latin script, same fonts as English)
+    story.append(Paragraph("Kutaa C &middot; Afaan Oromoo", en["part"]))
+    story += render(CONTENT_OM, en)
 
     doc.build(story, onFirstPage=lambda c, d: None, onLaterPages=page_decor)
     print("Wrote", OUT)

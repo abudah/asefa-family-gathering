@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Noto+Serif+Ethiopic:wght@400;600;700&display=swap">
 <style>
-/* Layout: a bound bilingual charter. Article number in the gutter, English and Amharic
-   as parallel columns, one language at a time on a phone or by the switch. */
+/* Layout: a bound trilingual charter. Article number in the gutter, English, Amharic and
+   Afaan Oromo as parallel columns on wide screens, one language at a time by the switch. */
 :root {
   --paper: #fbfaf6;
   --ink: #1b201d;
@@ -80,7 +80,8 @@ main { max-width: 72rem; margin: 0 auto; }
 .cover h1 { font-size: clamp(2.4rem, 6vw, 4.25rem); line-height: 1.02; font-weight: 700; font-variation-settings: "opsz" 144; letter-spacing: -.01em; }
 .cover .am-title { font-family: var(--ethiopic); font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.25; margin-top: .75rem; color: var(--accent); }
 .cover .sub { color: var(--muted); margin-top: 1.5rem; font-size: 1rem; }
-.cover .sub [lang="am"] { display: block; }
+.cover .sub span { display: block; }
+.cover .om-title { font-family: var(--display); font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.25; margin-top: .4rem; color: var(--muted); font-weight: 400; font-style: italic; }
 .rule { height: 3px; width: 5.5rem; background: var(--brass); margin: 1.75rem 0 0; position: relative; }
 .rule::after { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--brass); }
 
@@ -88,7 +89,8 @@ main { max-width: 72rem; margin: 0 auto; }
 .facts li { border-top: 1px solid var(--line); padding-top: .6rem; }
 .facts .k { display: block; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .facts .v { font-family: var(--display); font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.facts .v [lang="am"] { font-size: 1rem; font-weight: 400; color: var(--muted); display: block; }
+.facts .v span { font-size: .95rem; font-weight: 400; color: var(--muted); display: block; line-height: 1.5; }
+.facts .v span[lang="om"] { font-style: italic; }
 
 /* ---- contents */
 .toc { padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
@@ -97,7 +99,9 @@ main { max-width: 72rem; margin: 0 auto; }
 .toc a { display: grid; grid-template-columns: 2rem 1fr; column-gap: .5rem; align-items: baseline; text-decoration: none; color: var(--ink); padding: .45rem 0; border-bottom: 1px solid var(--line); }
 .toc a:hover .toc-en, .toc a:hover .toc-am { color: var(--accent); }
 .toc-num { font-family: var(--display); color: var(--brass); font-variant-numeric: tabular-nums; }
-.toc-am { grid-column: 2; display: block; font-size: .95rem; color: var(--muted); }
+.toc-sub { grid-column: 2; display: block; }
+.toc-am, .toc-om { font-size: .95rem; color: var(--muted); }
+.toc-om { font-style: italic; }
 
 /* ---- articles: gutter | en | am */
 .article, .preamble, .signatures {
@@ -146,18 +150,21 @@ ol.members li { border-bottom: 1px solid var(--line); height: 2rem; break-inside
 
 footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; max-width: 72rem; margin: 0 auto; }
 
-/* ---- two-column mode on wide screens, when both languages are shown */
-@media (min-width: 64rem) {
-  body[data-lang="both"] .article, body[data-lang="both"] .preamble, body[data-lang="both"] .signatures {
-    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1fr);
+/* ---- three-column mode on wide screens, when all languages are shown */
+body[data-lang="all"] main { max-width: 92rem; }
+@media (min-width: 80rem) {
+  body[data-lang="all"] .article, body[data-lang="all"] .preamble, body[data-lang="all"] .signatures {
+    grid-template-columns: 3.5rem repeat(3, minmax(0, 1fr)); column-gap: 2rem;
   }
-  body[data-lang="both"] .col.en { grid-column: 2; }
-  body[data-lang="both"] .col.am { grid-column: 3; }
-  body[data-lang="both"] .gutter { grid-row: 1; }
+  body[data-lang="all"] .col.en { grid-column: 2; }
+  body[data-lang="all"] .col.am { grid-column: 3; }
+  body[data-lang="all"] .col.om { grid-column: 4; }
+  body[data-lang="all"] .gutter { grid-row: 1; }
+  body[data-lang="all"] .article .col { font-size: 1rem; }
+  body[data-lang="all"] .article h2 { font-size: 1.35rem; }
 }
-body[data-lang="en"] .am, body[data-lang="en"] .toc-am { display: none; }
-body[data-lang="am"] .en, body[data-lang="am"] .toc-en { display: none; }
-body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.05rem; }
+body[data-lang="en"] :is(.am, .om), body[data-lang="am"] :is(.en, .om), body[data-lang="om"] :is(.en, .am) { display: none; }
+body[data-lang="am"] .toc-am, body[data-lang="om"] .toc-om { color: var(--ink); font-size: 1.05rem; font-style: normal; }
 @media (max-width: 40rem) {
   .gutter { flex-direction: row; align-items: baseline; gap: .6rem; grid-row: auto; grid-column: 1 / -1; }
   .article, .preamble, .signatures { grid-template-columns: 1fr; gap: .5rem; }
@@ -181,41 +188,44 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
 }
 </style>
 </head>
-<body data-lang="both">
+<body data-lang="all">
 
 <header class="toolbar">
-  <span class="brand">Asefa Family Gathering &middot; <span lang="am">የአሰፋ ቤተሰብ ስብሰባ</span></span>
+  <span class="brand">Asefa Family Gathering &middot; <span lang="am">የአሰፋ ቤተሰብ ስብሰባ</span> &middot; <span lang="om">Walgahii Maatii Asefaa</span></span>
   <div class="switch" role="group" aria-label="Language">
-    <button type="button" id="lang-both" data-lang="both" aria-pressed="true">Both</button>
+    <button type="button" id="lang-all" data-lang="all" aria-pressed="true">All</button>
     <button type="button" id="lang-en" data-lang="en" aria-pressed="false">English</button>
     <button type="button" id="lang-am" data-lang="am" lang="am" aria-pressed="false">አማርኛ</button>
+    <button type="button" id="lang-om" data-lang="om" lang="om" aria-pressed="false">Afaan Oromoo</button>
   </div>
 </header>
 
 <main>
 <section class="cover">
-  <span class="eyebrow">Constitution and Rules &middot; <span lang="am">መተዳደሪያ ደንብ</span></span>
+  <span class="eyebrow">Constitution and Rules &middot; <span lang="am">መተዳደሪያ ደንብ</span> &middot; <span lang="om">Seera Ittiin Bulmaataa</span></span>
   <h1>Asefa Family Gathering</h1>
   <div class="am-title" lang="am">የአሰፋ ቤተሰብ ስብሰባ</div>
+  <div class="om-title" lang="om">Walgahii Maatii Asefaa</div>
   <div class="rule"></div>
-  <p class="sub">Draft for adoption &middot; 17 October 2026<span lang="am">ለማጽደቅ የቀረበ ረቂቅ &middot; ጥቅምት 7 ቀን 2019 ዓ.ም. (17 October 2026)</span></p>
+  <p class="sub"><span lang="en">Draft for adoption &middot; 17 October 2026</span><span lang="am">ለማጽደቅ የቀረበ ረቂቅ &middot; ጥቅምት 7 ቀን 2019 ዓ.ም. (17 October 2026)</span><span lang="om">Wixinee raggaasisuuf dhihaate &middot; Onkololeessa 7, 2019 ALI (17 October 2026)</span></p>
   <ul class="facts">
-    <li><span class="k">Meets</span><span class="v">Every 3 months <span lang="am">በየሦስት ወሩ</span></span></li>
-    <li><span class="k">Day</span><span class="v">First Saturday <span lang="am">የመጀመሪያ ቅዳሜ</span></span></li>
-    <li><span class="k">Program</span><span class="v">7:00 to 11:00 <span lang="am">ከ7፡00 እስከ 11፡00</span></span></li>
-    <li><span class="k">Contribution</span><span class="v">700 birr / month <span lang="am">በወር 700 ብር</span></span></li>
+    <li><span class="k">Meets</span><span class="v">Every 3 months <span lang="am">በየሦስት ወሩ</span><span lang="om">Ji'a sadii sadiin</span></span></li>
+    <li><span class="k">Day</span><span class="v">First Saturday <span lang="am">የመጀመሪያ ቅዳሜ</span><span lang="om">Sanbata jalqabaa</span></span></li>
+    <li><span class="k">Program</span><span class="v">7:00 to 11:00 <span lang="am">ከ7፡00 እስከ 11፡00</span><span lang="om">7:00 hanga 11:00</span></span></li>
+    <li><span class="k">Contribution</span><span class="v">700 birr / month <span lang="am">በወር 700 ብር</span><span lang="om">Ji'atti Qarshii 700</span></span></li>
   </ul>
 </section>
 
 <nav class="toc" aria-label="Contents">
-  <h2>Contents &middot; <span lang="am">ማውጫ</span></h2>
-  <ol><li><a href="#article-1"><span class="toc-num">1</span><span class="toc-en en">Name and purpose</span><span class="toc-am am" lang="am">ስም እና ዓላማ</span></a></li><li><a href="#article-2"><span class="toc-num">2</span><span class="toc-en en">Membership</span><span class="toc-am am" lang="am">አባልነት</span></a></li><li><a href="#article-3"><span class="toc-num">3</span><span class="toc-en en">The gathering</span><span class="toc-am am" lang="am">ስብሰባው</span></a></li><li><a href="#article-4"><span class="toc-num">4</span><span class="toc-en en">Hosting</span><span class="toc-am am" lang="am">ማስተናገድ</span></a></li><li><a href="#article-5"><span class="toc-num">5</span><span class="toc-en en">The committee</span><span class="toc-am am" lang="am">ኮሚቴው</span></a></li><li><a href="#article-6"><span class="toc-num">6</span><span class="toc-en en">Finances</span><span class="toc-am am" lang="am">ገንዘብ</span></a></li><li><a href="#article-7"><span class="toc-num">7</span><span class="toc-en en">Attendance and fines</span><span class="toc-am am" lang="am">መገኘት እና ቅጣት</span></a></li><li><a href="#article-8"><span class="toc-num">8</span><span class="toc-en en">Code of conduct</span><span class="toc-am am" lang="am">የሥነ ምግባር ደንብ</span></a></li><li><a href="#article-9"><span class="toc-num">9</span><span class="toc-en en">Decisions and voting</span><span class="toc-am am" lang="am">ውሳኔ እና ድምፅ አሰጣጥ</span></a></li><li><a href="#article-10"><span class="toc-num">10</span><span class="toc-en en">Settling disputes</span><span class="toc-am am" lang="am">አለመግባባትን መፍታት</span></a></li><li><a href="#article-11"><span class="toc-num">11</span><span class="toc-en en">Records and transparency</span><span class="toc-am am" lang="am">መዝገብ እና ግልጽነት</span></a></li><li><a href="#article-12"><span class="toc-num">12</span><span class="toc-en en">Amendments and adoption</span><span class="toc-am am" lang="am">ማሻሻያ እና ማጽደቅ</span></a></li></ol>
+  <h2>Contents &middot; <span lang="am">ማውጫ</span> &middot; <span lang="om">Qabiyyee</span></h2>
+  <ol><li><a href="#article-1"><span class="toc-num">1</span><span class="toc-sub toc-en en">Name and purpose</span><span class="toc-sub toc-am am" lang="am">ስም እና ዓላማ</span><span class="toc-sub toc-om om" lang="om">Maqaa fi kaayyoo</span></a></li><li><a href="#article-2"><span class="toc-num">2</span><span class="toc-sub toc-en en">Membership</span><span class="toc-sub toc-am am" lang="am">አባልነት</span><span class="toc-sub toc-om om" lang="om">Miseensummaa</span></a></li><li><a href="#article-3"><span class="toc-num">3</span><span class="toc-sub toc-en en">The gathering</span><span class="toc-sub toc-am am" lang="am">ስብሰባው</span><span class="toc-sub toc-om om" lang="om">Walgahicha</span></a></li><li><a href="#article-4"><span class="toc-num">4</span><span class="toc-sub toc-en en">Hosting</span><span class="toc-sub toc-am am" lang="am">ማስተናገድ</span><span class="toc-sub toc-om om" lang="om">Keessummeessuu</span></a></li><li><a href="#article-5"><span class="toc-num">5</span><span class="toc-sub toc-en en">The committee</span><span class="toc-sub toc-am am" lang="am">ኮሚቴው</span><span class="toc-sub toc-om om" lang="om">Koree</span></a></li><li><a href="#article-6"><span class="toc-num">6</span><span class="toc-sub toc-en en">Finances</span><span class="toc-sub toc-am am" lang="am">ገንዘብ</span><span class="toc-sub toc-om om" lang="om">Maallaqa</span></a></li><li><a href="#article-7"><span class="toc-num">7</span><span class="toc-sub toc-en en">Attendance and fines</span><span class="toc-sub toc-am am" lang="am">መገኘት እና ቅጣት</span><span class="toc-sub toc-om om" lang="om">Argamuu fi adabbii</span></a></li><li><a href="#article-8"><span class="toc-num">8</span><span class="toc-sub toc-en en">Code of conduct</span><span class="toc-sub toc-am am" lang="am">የሥነ ምግባር ደንብ</span><span class="toc-sub toc-om om" lang="om">Seera naamusaa</span></a></li><li><a href="#article-9"><span class="toc-num">9</span><span class="toc-sub toc-en en">Decisions and voting</span><span class="toc-sub toc-am am" lang="am">ውሳኔ እና ድምፅ አሰጣጥ</span><span class="toc-sub toc-om om" lang="om">Murtee fi sagalee kennuu</span></a></li><li><a href="#article-10"><span class="toc-num">10</span><span class="toc-sub toc-en en">Settling disputes</span><span class="toc-sub toc-am am" lang="am">አለመግባባትን መፍታት</span><span class="toc-sub toc-om om" lang="om">Wal-dhabdee hiikuu</span></a></li><li><a href="#article-11"><span class="toc-num">11</span><span class="toc-sub toc-en en">Records and transparency</span><span class="toc-sub toc-am am" lang="am">መዝገብ እና ግልጽነት</span><span class="toc-sub toc-om om" lang="om">Galmee fi iftoomina</span></a></li><li><a href="#article-12"><span class="toc-num">12</span><span class="toc-sub toc-en en">Amendments and adoption</span><span class="toc-sub toc-am am" lang="am">ማሻሻያ እና ማጽደቅ</span><span class="toc-sub toc-om om" lang="om">Fooyya'iinsa fi raggaasisuu</span></a></li></ol>
 </nav>
 
 <section class="preamble">
   <div class="gutter" aria-hidden="true"></div>
-  <div class="col en" lang="en"><p>This constitution governs the quarterly gathering of the grandchildren of Asefa. It is written so that every member knows what is expected, so that the gathering runs without waiting on anyone, and so that no member has cause to be angry at another. The English text is followed by an Amharic version. Where the two differ, the Gathering decides which text controls.</p></div>
-  <div class="col am" lang="am"><p>ይህ መተዳደሪያ ደንብ የአሰፋ የልጅ ልጆች በየሦስት ወሩ የሚያደርጉትን የቤተሰብ ስብሰባ የሚመራ ነው። የተጻፈውም እያንዳንዱ አባል ከእሱ የሚጠበቀውን እንዲያውቅ፣ ስብሰባው ማንንም ሳይጠብቅ እንዲካሄድ፣ እንዲሁም አንዱ በሌላው ላይ የሚቆጣበት ምክንያት እንዳይኖር ነው። የእንግሊዝኛው ጽሑፍ የአማርኛ ቅጂ ይከተለዋል። ሁለቱ ሲለያዩ የትኛው እንደሚጸና ስብሰባው ይወስናል።</p></div>
+  <div class="col en" lang="en"><p>This constitution governs the quarterly gathering of the grandchildren of Asefa. It is written so that every member knows what is expected, so that the gathering runs without waiting on anyone, and so that no member has cause to be angry at another. The English text is followed by Amharic and Afaan Oromo versions. Where they differ, the Gathering decides which text controls.</p></div>
+  <div class="col am" lang="am"><p>ይህ መተዳደሪያ ደንብ የአሰፋ የልጅ ልጆች በየሦስት ወሩ የሚያደርጉትን የቤተሰብ ስብሰባ የሚመራ ነው። የተጻፈውም እያንዳንዱ አባል ከእሱ የሚጠበቀውን እንዲያውቅ፣ ስብሰባው ማንንም ሳይጠብቅ እንዲካሄድ፣ እንዲሁም አንዱ በሌላው ላይ የሚቆጣበት ምክንያት እንዳይኖር ነው። የእንግሊዝኛውን ጽሑፍ የአማርኛና የአፋን ኦሮሞ ቅጂዎች ይከተሉታል። ሲለያዩ የትኛው እንደሚጸና ስብሰባው ይወስናል።</p></div>
+  <div class="col om" lang="om"><p>Seerri ittiin bulmaataa kun walgahii ilmaan ijoollee Asefaa ji'a sadii sadiin taasifamu bulcha. Kan barreeffameef miseensi hundi waan isa irraa eegamu akka beeku, walgahiin nama tokko illee osoo hin eegin akka geggeeffamu, akkasumas miseensi tokko isa biraa irratti akka hin aarreef. Barreeffamni kun Afaan Ingilizii, Afaan Amaaraa fi Afaan Oromootiin dhihaateera. Isaan yoo wal dhaban, isa kamtu akka hojjetu Walgahiin murteessa.</p></div>
 </section>
 
 <section class="article" id="article-1">
@@ -228,6 +238,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፩</span>ስም እና ዓላማ</h2>
     <ol class="clauses"><li><p>ማኅበሩ "የአሰፋ ቤተሰብ ስብሰባ" (ከዚህ በኋላ "ስብሰባው") ተብሎ ይጠራል።</p></li><li><p>አባላቱ የአሰፋ የልጅ ልጆች፣ ማለትም የወንዶችና የሴቶች ልጆቹ ልጆች ናቸው።</p></li><li><p>የስብሰባው ዓላማ፦</p><ul class="sub"><li>የአሰፋን የልጅ ልጆች ከትውልድ ወደ ትውልድ እንደ አንድ ቤተሰብ አንድነታቸውን መጠበቅ፤</li><li>የአጎትና የአክስት ልጆች እና ልጆቻቸው እርስ በርስ እንዲተዋወቁና አብረው እንዲያድጉ ማድረግ፤</li><li>በደስታም በችግርም ጊዜ እርስ በርስ መደጋገፍ፤</li><li>የአያታችንን የአሰፋን እና የወላጆቻችንን መታሰቢያና እሴቶች ማክበር።</li></ul></li><li><p>በዚህ ደንብ ውስጥ ያለ እያንዳንዱ ሕግ ከላይ ያለውን ዓላማ ያገለግላል። አንድ ሕግ ግልጽ ባልሆነ ጊዜ ቤተሰቡን በፍቅርና በፍትሕ በሚጠብቅ መንገድ ይተረጎማል።</p></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 1</span>Maqaa fi kaayyoo</h2>
+    <ol class="clauses"><li><p>Waldaan kun "Walgahii Maatii Asefaa" (kana booda "Walgahii") jedhamee waamama.</p></li><li><p>Miseensonni isaa ilmaan ijoollee Asefaa, jechuun ijoollee ilmaan isaa fi intallan isaa ti.</p></li><li><p>Kaayyoon Walgahii:</p><ul class="sub"><li>ilmaan ijoollee Asefaa dhaloota irraa gara dhalootaatti akka maatii tokkootti tokkummaadhaan eeguu;</li><li>ijoolleen obboleeyyanii fi ijoolleen isaanii wal beekanii waliin akka guddatan gochuu;</li><li>yeroo gammachuu fi yeroo rakkinaa wal gargaaruu;</li><li>yaadannoo fi duudhaa akaakayyuu keenya Asefaa fi warra keenyaa kabajuu.</li></ul></li><li><p>Seerri seera ittiin bulmaataa kana keessa jiru hundi kaayyoo armaan olii tajaajila. Seerri tokko ifa yoo hin taane, karaa maatii jaalalaa fi haqaan irra caalaa eeguun hiikama.</p></li></ol>
+  </div>
 </section>
 <section class="article" id="article-2">
   <div class="gutter"><span class="num">2</span><span class="geez" lang="am">፪</span></div>
@@ -238,6 +252,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
   <div class="col am" lang="am">
     <h2><span class="eyebrow">አንቀጽ ፪</span>አባልነት</h2>
     <ol class="clauses"><li><p>ዕድሜው 18 ዓመት የሞላው እያንዳንዱ የአሰፋ የልጅ ልጅ አባል ነው፤ እንዲቀላቀልም ይጠበቅበታል።</p></li><li><p>የአባል ባል ወይም ሚስት የስብሰባው የቤተሰብ አባል ነው። በእያንዳንዱ ፕሮግራም እንኳን ደህና መጡ ይባላሉ፣ በውይይት መናገር ይችላሉ፣ ከአባሉ ጋር አብረው ማስተናገድ ይችላሉ። የተለየ መዋጮ አይከፍሉም፤ ስብሰባው በሁለት ሦስተኛ ድምፅ ካልወሰነ በስተቀር ድምፅ አይሰጡም።</p></li><li><p>የአባላት ልጆች ከወላጆቻቸው ጋር ይገኛሉ። የአባል ልጅ 18 ዓመት ሲሞላው እኩል መብትና ግዴታ ያለው ሙሉ አባል ሆኖ መቀላቀል ይችላል።</p></li><li><p>ከከተማ ውጭ ወይም በውጭ አገር የሚኖር አባል አባልነቱ ይቀጥላል። የመገኘትና የመዋጮ ሁኔታው በአንቀጽ 7 መሠረት ይወሰናል።</p></li><li><p>አባል ለጸሐፊው በጽሑፍ በማሳወቅ መልቀቅ ይችላል። የለቀቀ አባል ያለፈ መዋጮው አይመለስለትም፤ ምክንያቱም ገንዘቡ የስብሰባው በሙሉ ንብረት ነው።</p></li><li><p>ለስድስት ወራት መዋጮ ወይም ቅጣት ያልከፈለ አባል፣ ሁለት የጽሑፍ ማስታወሻ ከተሰጠው በኋላ፣ ይታገዳል። የታገደ አባል ዕዳውን በመክፈል መመለስ ይችላል።</p></li><li><p>እያንዳንዱ አባል እኩል መብት አለው፦ የመገኘት፣ የመናገር፣ ድምፅ የመስጠት፣ የማስተናገድ፣ ለኮሚቴ የመወዳደር እና መዝገቦችን የማየት።</p></li></ol>
+  </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 2</span>Miseensummaa</h2>
+    <ol class="clauses"><li><p>Ilmaan ijoollee Asefaa umuriin isaanii waggaa 18 guute hundi miseensa; akka makamanis ni eegama.</p></li><li><p>Abbaan manaa yookiin haati manaa miseensaa miseensa maatii Walgahii ti. Sagantaa hunda irratti simatamu, marii irratti dubbachuu danda'u, miseensa waliin keessummeessuu danda'u. Buusii addaa hin kaffalan; Walgahiin sadii keessaa lamaan yoo murteesse malee sagalee hin kennan.</p></li><li><p>Ijoolleen miseensotaa warra isaanii waliin argamu. Mucaan miseensaa waggaa 18 yoo guute, mirgaa fi dirqama walqixa qabaatee miseensa guutuu ta'ee makamuu danda'a.</p></li><li><p>Miseensi magaalaa alaa yookiin biyya alaa jiraatu miseensummaan isaa itti fufa. Haalli argamuu fi buusii isaa Keewwata 7 jalatti murtaa'a.</p></li><li><p>Miseensi barreessaadhaaf barreeffamaan beeksisee bahuu danda'a. Miseensi bahe buusii darbe hin deebifamuuf; sababiin isaas maallaqni kun qabeenya Walgahii guutuu waan ta'eefi.</p></li><li><p>Miseensi ji'a jaha buusii yookiin adabbii hin kaffalle, akeekkachiisa barreeffamaa lama booda, ni uggurama. Miseensi uggurame waan irra jiru kaffaluun deebi'uu danda'a.</p></li><li><p>Miseensi hundi mirga walqixa qaba: argamuu, dubbachuu, sagalee kennuu, keessummeessuu, koreef dorgomuu fi galmee ilaaluu.</p></li></ol>
   </div>
 </section>
 <section class="article" id="article-3">
@@ -250,6 +268,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፫</span>ስብሰባው</h2>
     <ol class="clauses"><li><p>ስብሰባው በየሦስት ወሩ አንድ ጊዜ፣ በዚያ ወር የመጀመሪያ ቅዳሜ ይካሄዳል።</p></li><li><p>ፕሮግራሙ በ7፡00 ይጀምራል፣ በ11፡00 ያበቃል። ሁሉም አባል ቢደርስም ባይደርስም ፕሮግራሙ በ7፡00 ይጀምራል። ማንም ማንንም አይጠብቅም።</p></li><li><p>ኮሚቴው ቀን የሚቀይረው ለሞት፣ ለትልቅ በዓል ወይም ለአገራዊ ጉዳይ ብቻ ሲሆን፣ አዲሱን ቀን ቢያንስ ከሁለት ሳምንት በፊት ማሳወቅ አለበት።</p></li><li><p>እያንዳንዱ ፕሮግራም በተመሳሳይ ቅደም ተከተል ይካሄዳል፦</p><div class="tablewrap"><table><thead><tr><th>ሰዓት</th><th>ጉዳይ</th><th>የሚመራው</th></tr></thead><tbody><tr><td>7፡00</td><td>መክፈቻ እና ምርቃት</td><td>አስተናጋጅ</td></tr><tr><td>7፡10</td><td>እንኳን ደህና መጣችሁ እና የተገኙ አባላት ጥሪ</td><td>ጸሐፊ</td></tr><tr><td>7፡20</td><td>የባለፈው ስብሰባ ቃለ ጉባኤ እና ከዚያ የሚነሱ ጉዳዮች</td><td>ጸሐፊ</td></tr><tr><td>7፡30</td><td>የገንዘብ ያዥ ሪፖርት፦ መዋጮ፣ ቅጣት፣ ቀሪ ሂሳብ</td><td>ገንዘብ ያዥ</td></tr><tr><td>7፡45</td><td>የቤተሰብ ዜና፦ ልደት፣ ሠርግ፣ ምረቃ፣ ሕመም፣ ፍላጎቶች</td><td>መሪ</td></tr><tr><td>8፡00</td><td>አስቀድመው የታወቁ የውይይት ጉዳዮች</td><td>መሪ</td></tr><tr><td>8፡30</td><td>ቀጣዩ አስተናጋጅና ቀን ይገለጻል</td><td>መሪ</td></tr><tr><td>8፡40</td><td>ምግብ፣ ቡና እና አብሮ መሆን</td><td>አስተናጋጅ</td></tr><tr><td>10፡45</td><td>የመዝጊያ ቃል እና ለአስተናጋጁ ምስጋና</td><td>መሪ</td></tr><tr><td>11፡00</td><td>ፕሮግራሙ ያበቃል</td><td></td></tr></tbody></table></div></li><li><p>አንድ ጉዳይ እንዲወያይበት የሚፈልግ አባል ቢያንስ ከፕሮግራሙ አንድ ሳምንት በፊት ለጸሐፊው ይልካል። በዕለቱ የሚነሱ ጉዳዮች ጊዜ ካለ ብቻ ይሰማሉ።</p></li><li><p>ከ7፡00 እስከ 8፡40 ያለው መደበኛ ክፍል አጭርና ሥርዓት ያለው ይሆናል፤ ይህም አብዛኛው ጊዜ አብሮ ለመሆን እንዲውል ነው።</p></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 3</span>Walgahicha</h2>
+    <ol class="clauses"><li><p>Walgahiin ji'a sadii sadiin al tokko, Sanbata jalqabaa ji'a sanaa irratti taasifama.</p></li><li><p>Sagantaan sa'aatii 7:00 irratti jalqabee 11:00 irratti xumurama. Miseensi hundi dhufus dhufuu baatus sagantaan 7:00 irratti jalqaba. Namni tokko illee nama biraa hin eegu.</p></li><li><p>Koreen guyyaa kan jijjiiru du'a, ayyaana guddaa yookiin dhimma biyyaaleessaa qofaaf yoo ta'u, guyyaa haaraa yoo xiqqaate torban lama dura beeksisuu qaba.</p></li><li><p>Sagantaan hundi akka sirnaan geggeeffamuuf tartiiba walfakkaataa hordofa:</p><div class="tablewrap"><table><thead><tr><th>Sa'aatii</th><th>Dhimma</th><th>Kan geggeessu</th></tr></thead><tbody><tr><td>7:00</td><td>Baniinsa fi eebba</td><td>Keessummeessaa</td></tr><tr><td>7:10</td><td>Simannaa fi waamicha maqaa</td><td>Barreessaa</td></tr><tr><td>7:20</td><td>Yaadannoo walgahii darbee fi dhimmoota irraa ka'an</td><td>Barreessaa</td></tr><tr><td>7:30</td><td>Gabaasa qabduu maallaqaa: buusii, adabbii, haftee herregaa</td><td>Qabduu Maallaqaa</td></tr><tr><td>7:45</td><td>Oduu maatii: dhaloota, cidha, eebba barnootaa, dhukkuba, fedhii</td><td>Dura Taa'aa</td></tr><tr><td>8:00</td><td>Dhimmoota marii dursanii beeksifaman</td><td>Dura Taa'aa</td></tr><tr><td>8:30</td><td>Keessummeessaa itti aanu mirkaneessuu fi guyyaa beeksisuu</td><td>Dura Taa'aa</td></tr><tr><td>8:40</td><td>Nyaata, buna fi yeroo waliin dabarsuu</td><td>Keessummeessaa</td></tr><tr><td>10:45</td><td>Jecha cufiinsaa fi galata keessummeessaaf</td><td>Dura Taa'aa</td></tr><tr><td>11:00</td><td>Sagantaan xumurama</td><td></td></tr></tbody></table></div></li><li><p>Miseensi dhimma tokko akka irratti mari'atamu barbaadu yoo xiqqaate torban tokko sagantaa dura barreessaaf erga. Dhimmoonni guyyaa sana ka'an yeroon yoo hayyame qofa dhagahamu.</p></li><li><p>Kutaan sirnaa 7:00 irraa hanga 8:40tti gabaabaa fi sirna qabeessa ta'ee eegama; kunis guyyaa irra caalaan waliin ta'uuf akka oolu.</p></li></ol>
+  </div>
 </section>
 <section class="article" id="article-4">
   <div class="gutter"><span class="num">4</span><span class="geez" lang="am">፬</span></div>
@@ -260,6 +282,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
   <div class="col am" lang="am">
     <h2><span class="eyebrow">አንቀጽ ፬</span>ማስተናገድ</h2>
     <ol class="clauses"><li><p>እያንዳንዱ ፕሮግራም በዕጣ በተወሰነው ቅደም ተከተል መሠረት ባገባ አባል በራሱ ቤት ይስተናገዳል።</p></li><li><p>ዕጣው በሁሉም አባላት ፊት አንድ ጊዜ ይወጣል፤ ጸሐፊው ሙሉውን ቅደም ተከተል ይመዘግባል። ይህ አንቀጽ ከሚፈቅደው በስተቀር ቅደም ተከተሉ አይቀየርም።</p></li><li><p>ሁለት አስተናጋጆች በስምምነት ተራቸውን መለዋወጥ ይችላሉ፤ ይህንንም ከፕሮግራሙ ቢያንስ አንድ ወር በፊት ለጸሐፊው ያሳውቃሉ።</p></li><li><p>በከባድ ምክንያት በተራው ማስተናገድ የማይችል አስተናጋጅ ቢያንስ አንድ ወር በፊት ለኮሚቴው ያሳውቃል። በቅደም ተከተሉ ቀጣዩ አስተናጋጅ ይተካል፤ ተራውን ያለፈው አባል በሚቀጥለው ጊዜ ያስተናግዳል።</p></li><li><p>ሁሉም ያገቡ አባላት አንድ ጊዜ ካስተናገዱ በኋላ ዑደቱ በተመሳሳይ ቅደም ተከተል እንደገና ይጀምራል። ከዕጣው በኋላ ያገቡ አባላት በቅደም ተከተሉ መጨረሻ ይጨመራሉ።</p></li><li><p>ያላገቡ አባላት ለማስተናገድ ወይም ካገባ አባል ጋር አብረው ለማስተናገድ በፈቃደኝነት መቅረብ ይችላሉ። ፈቃደኛው በሚቀጥለው ነጻ ተራ ላይ ይጨመራል።</p></li><li><p>አስተናጋጁ ቦታውን፣ ምግቡንና የቡና ሥነ ሥርዓቱን ያዘጋጃል፤ ከመሪው ጋር ፕሮግራሙን በሰዓቱ ያስኬዳል።</p></li><li><p>እንደ ልማዳችን የማስተናገድ ወጪ በአስተናጋጁ ይሸፈናል፤ ነገር ግን ማስተናገድ ውድድር አይደለም። ማንም አስተናጋጅ ከበፊተኛው ለመብለጥ ጫና እንዳይሰማው ስብሰባው ምክንያታዊ የወጪ መመሪያ ያወጣል። በምትኩ ስብሰባው ከገንዘቡ ቋሚ የማስተናገጃ ድጎማ ለመክፈል ሊወስን ይችላል።</p></li><li><p>በፕሮግራሙ መዝጊያ እያንዳንዱ አባል አስተናጋጁን ያመሰግናል፤ ማንም አባል የአስተናጋጁን ቤት ወይም ምግብ አይተችም።</p></li></ol>
+  </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 4</span>Keessummeessuu</h2>
+    <ol class="clauses"><li><p>Sagantaan hundi tartiiba carraadhaan murtaa'een miseensa fuudhe yookiin heerumte tokkoon mana isaa keessatti keessummeeffama.</p></li><li><p>Carraan miseensota hunda duratti al tokko baafama; barreessaan tartiiba guutuu galmeessa. Keewwanni kun yoo hayyame malee tartiibni hin jijjiiramu.</p></li><li><p>Keessummeessitoonni lama waliigalteedhaan dabaree isaanii wal jijjiiruu danda'u; kanas yoo xiqqaate ji'a tokko sagantaa dura barreessaaf beeksisu.</p></li><li><p>Keessummeessaan sababa cimaadhaan dabaree isaatti keessummeessuu hin dandeenye yoo xiqqaate ji'a tokko dura koreef beeksisa. Keessummeessaan tartiibaan itti aanu bakka bu'a; miseensi dabaree isaa darbe yeroo itti aanutti keessummeessa.</p></li><li><p>Miseensonni fuudhanii fi heeruman hundi al tokko erga keessummeessanii booda marsaan tartiiba walfakkaataadhaan irra deebi'ee jalqaba. Miseensonni carraa booda fuudhan yookiin heeruman dhuma tartiibaatti dabalamu.</p></li><li><p>Miseensonni hin fuune yookiin hin heerumne keessummeessuuf yookiin miseensa fuudhe waliin keessummeessuuf fedhiidhaan dhihaachuu danda'u. Fedhiidhaan dhihaate dabaree duwwaa itti aanutti dabalama.</p></li><li><p>Keessummeessaan bakka, nyaata fi sirna bunaa qopheessa; dura taa'aa waliin sagantaa yeroo isaatti geggeessa.</p></li><li><p>Akka aadaa keenyaatti baasiin keessummeessuu keessummeessaadhaan uwwifama; garuu keessummeessuun dorgommii miti. Keessummeessaan tokko illee isa dura ture caaluuf dhiibbaa akka hin qabaanneef Walgahiin qajeelfama baasii madaalawaa baasa. Bakka kanaa Walgahiin maallaqa irraa deeggarsa keessummeessuu dhaabbataa kaffaluuf murteessuu danda'a.</p></li><li><p>Cufiinsa sagantaa irratti miseensi hundi keessummeessaa galateeffata; miseensi tokko illee mana yookiin nyaata keessummeessaa hin qeequ.</p></li></ol>
   </div>
 </section>
 <section class="article" id="article-5">
@@ -272,6 +298,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፭</span>ኮሚቴው</h2>
     <ol class="clauses"><li><p>ስብሰባው በአራት ሰዎች ኮሚቴ ይመራል፦ መሪ፣ ምክትል መሪ፣ ጸሐፊ እና ገንዘብ ያዥ።</p></li><li><p>ኃላፊነቶቻቸው፦</p><ul class="sub"><li>መሪ፦ ፕሮግራሙን ይመራል፣ ስብሰባውን ይወክላል፣ ሥርዓት ያስጠብቃል፣ ይህ ደንብ መከበሩን ያረጋግጣል።</li><li>ምክትል መሪ፦ መሪው በሌለበት ይተካል፤ ከእያንዳንዱ ፕሮግራም በፊት ከአስተናጋጁ ጋር ያስተባብራል።</li><li>ጸሐፊ፦ ቃለ ጉባኤ፣ የመገኘት መዝገብ፣ የማስተናገድ ቅደም ተከተል እና የቅጣት መዝገብ ይይዛል፤ ማስታወቂያና ማስታወሻ ይልካል።</li><li>ገንዘብ ያዥ፦ መዋጮና ቅጣት ይሰበስባል፣ የሂሳብ መዝገብና የባንክ ሂሳብ ይይዛል፣ በእያንዳንዱ ፕሮግራም ሪፖርት ያቀርባል።</li></ul></li><li><p>ኮሚቴው በዓመቱ የመጀመሪያ ፕሮግራም ላይ በተገኙ አባላት አብላጫ ድምፅ ይመረጣል። እያንዳንዱ ለሁለት ዓመት ያገለግላል፤ በተከታታይ አንድ ጊዜ ብቻ እንደገና ሊመረጥ ይችላል። ከዚያ በኋላ ቢያንስ አንድ የሥራ ዘመን ያርፋል።</p></li><li><p>ዕዳ የሌለበት ማንኛውም አባል ለማንኛውም ቦታ መወዳደር ይችላል።</p></li><li><p>ስብሰባው የኮሚቴ አባልን በታማኝነት ጉድለት፣ በተደጋጋሚ መቅረት ወይም ኃላፊነትን በመዘንጋት ምክንያት፣ ከተሰማ በኋላ፣ በሁለት ሦስተኛ ድምፅ ሊያነሳው ይችላል።</p></li><li><p>አንድ ቦታ ክፍት ከሆነ ኮሚቴው እስከ ቀጣዩ ምርጫ ድረስ አንድ አባል ይሾማል።</p></li><li><p>የኮሚቴ አባላት ክፍያ አይከፈላቸውም፤ ከመዋጮም ከቅጣትም ነጻ አይደሉም።</p></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 5</span>Koree</h2>
+    <ol class="clauses"><li><p>Walgahiin koree nama afuriitiin hoogganama: Dura Taa'aa, Itti Aanaa Dura Taa'aa, Barreessaa fi Qabduu Maallaqaa.</p></li><li><p>Dirqamni isaanii:</p><ul class="sub"><li>Dura Taa'aa: sagantaa geggeessa, Walgahii bakka bu'ee dubbata, sirna eega, seerri ittiin bulmaataa kun akka kabajamu mirkaneessa.</li><li>Itti Aanaa Dura Taa'aa: dura taa'aan yeroo hin jirretti bakka bu'a; sagantaa hunda dura keessummeessaa waliin qindeessa.</li><li>Barreessaa: yaadannoo walgahii, galmee argamuu, tartiiba keessummeessuu fi galmee adabbii qabata; beeksisaa fi yaadachiisa erga.</li><li>Qabduu Maallaqaa: buusii fi adabbii walitti qaba, galmee herregaa fi herrega baankii qabata, sagantaa hunda irratti gabaasa dhiheessa.</li></ul></li><li><p>Koreen sagantaa jalqabaa waggaa irratti sagalee caalmaa miseensota argamaniitiin filatama. Tokkoon tokkoon isaanii waggaa lama tajaajilu; walitti aansuun al tokko qofa irra deebi'amee filatamuu danda'u. Sana booda yoo xiqqaate bara hojii tokko boqotu.</p></li><li><p>Miseensi liqii hin qabne kamiyyuu iddoo kamiifuu dorgomuu danda'a.</p></li><li><p>Walgahiin miseensa koree amanamummaa dhabuu, irra deddeebi'ee hafuu yookiin dirqama dagachuu sababaan, erga dhagahamee booda, sagalee sadii keessaa lamaan kaasuu danda'a.</p></li><li><p>Iddoon tokko duwwaa yoo ta'e, koreen hanga filannoo itti aanutti miseensa tokko muuda.</p></li><li><p>Miseensonni koree kaffaltii hin argatan; buusii fi adabbii irraas bilisa miti.</p></li></ol>
+  </div>
 </section>
 <section class="article" id="article-6">
   <div class="gutter"><span class="num">6</span><span class="geez" lang="am">፮</span></div>
@@ -282,6 +312,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
   <div class="col am" lang="am">
     <h2><span class="eyebrow">አንቀጽ ፮</span>ገንዘብ</h2>
     <ol class="clauses"><li><p>እያንዳንዱ አባል በየወሩ 700 ብር ያዋጣል። ክፍያው እስከ ወሩ 10ኛ ቀን ድረስ በስብሰባው የባንክ ሂሳብ ወይም ለገንዘብ ያዡ በደረሰኝ ይፈጸማል።</p></li><li><p>ስብሰባው በራሱ ስም አንድ የባንክ ሂሳብ ይይዛል። ገንዘብ ለማውጣት ሁለት ፊርማ ያስፈልጋል፦ የገንዘብ ያዡ እና የመሪው (ወይም የምክትል መሪው)።</p></li><li><p>ገንዘቡ የሚውለው ለሚከተሉት ብቻ ነው፦</p><ul class="sub"><li>ለአባል ሠርግ፣ ልደት፣ ከባድ ሕመም ወይም በቅርብ ቤተሰቡ ሞት ሲደርስ በድጋፍ ሠንጠረዡ በተወሰነው መጠን የሚሰጥ ድጋፍ፤</li><li>ችግር ላይ ላለ አባል በስብሰባው ፈቃድ የሚሰጥና በተስማሙበት ሁኔታ የሚመለስ የአስቸኳይ ጊዜ ብድር፤</li><li>የጋራ የቤተሰብ ዝግጅቶች እና የስብሰባው የራሱ ወጪዎች (የጽሕፈት መሣሪያ፣ ደረሰኝ፣ የባንክ ክፍያ)፤</li><li>በተገኙ አባላት ሁለት ሦስተኛ የጸደቀ ማንኛውም ሌላ ዓላማ።</li></ul></li><li><p>የድጋፍ ሠንጠረዡ በስብሰባው ይወሰናል፤ በየዓመቱ ይገመገማል፦</p><div class="tablewrap"><table><thead><tr><th>ክስተት</th><th>ከገንዘቡ የሚሰጥ ድጋፍ (ብር)</th></tr></thead><tbody><tr><td>የአባል ሠርግ</td><td class="blank"></td></tr><tr><td>የአባል ልጅ ልደት</td><td class="blank"></td></tr><tr><td>የአባል ወላጅ፣ ባል/ሚስት ወይም ልጅ ሞት</td><td class="blank"></td></tr><tr><td>የአባል ከባድ ሕመም ወይም ሆስፒታል መተኛት</td><td class="blank"></td></tr></tbody></table></div></li><li><p>ያለ ጽሑፍ ጥያቄ፣ ያለ ገንዘብ ያዡ መዝገብ እና ያለ መሪው ፈቃድ ከገንዘቡ ምንም ክፍያ አይወጣም። ከሠንጠረዡ መጠን በላይ የሆኑ ክፍያዎች የስብሰባው ድምፅ ያስፈልጋቸዋል።</p></li><li><p>ገንዘብ ያዡ በእያንዳንዱ ፕሮግራም ሪፖርት ያቀርባል፦ የተሰበሰበ መዋጮ፣ የተሰበሰበ ቅጣት፣ የተከፈለ ክፍያ እና ቀሪ ሂሳብ። ሪፖርቱ በጽሑፍ ሆኖ ከቃለ ጉባኤው ጋር ይያያዛል።</p></li><li><p>የኮሚቴ አባል ያልሆኑ ሁለት አባላት በዓመት አንድ ጊዜ የሂሳብ መዝገቡንና የባንክ መግለጫውን መርምረው ለስብሰባው ሪፖርት ያደርጋሉ።</p></li><li><p>ከ30 ቀን በላይ የዘገየ መዋጮ በወር 100 ብር የመዘግየት ክፍያ ይኖረዋል።</p></li><li><p>ስብሰባው የመዋጮውን መጠን በሁለት ሦስተኛ ድምፅ መቀየር ይችላል። ለውጡ ከሚቀጥለው ሩብ ዓመት ጀምሮ ተግባራዊ ይሆናል።</p></li></ol>
+  </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 6</span>Maallaqa</h2>
+    <ol class="clauses"><li><p>Miseensi hundi ji'a ji'aan Qarshii 700 buusa. Kaffaltiin hanga guyyaa 10ffaa ji'ichaatti herrega baankii Walgahii yookiin qabduu maallaqaaf nagaheedhaan raawwatama.</p></li><li><p>Walgahiin maqaa isaatiin herrega baankii tokko qaba. Maallaqa baasuuf mallattoo lama barbaachisa: kan qabduu maallaqaa fi kan dura taa'aa (yookiin itti aanaa).</p></li><li><p>Maallaqni kun kanneen armaan gadii qofaaf oola:</p><ul class="sub"><li>miseensa tokkoof cidha, dhaloota, dhukkuba cimaa yookiin du'a maatii dhihoo isaa irratti, hanga gabatee deeggarsaa keessatti murtaa'een deeggarsa kennuuf;</li><li>miseensa rakkoo keessa jiruuf liqii hatattamaa, Walgahiin hayyamee haala waliigalameen deebifamu;</li><li>sagantaalee maatii waloo fi baasii Walgahii mataa isaa (meeshaa barreeffamaa, nagahee, kaffaltii baankii);</li><li>kaayyoo biraa kamiyyuu miseensota argaman sadii keessaa lamaan raggaasifame.</li></ul></li><li><p>Gabateen deeggarsaa Walgahiidhaan murtaa'a; waggaa waggaan ilaalama:</p><div class="tablewrap"><table><thead><tr><th>Taatee</th><th>Deeggarsa maallaqa irraa (Qarshii)</th></tr></thead><tbody><tr><td>Cidha miseensaa</td><td class="blank"></td></tr><tr><td>Dhaloota mucaa miseensaa</td><td class="blank"></td></tr><tr><td>Du'a abbaa yookiin haadha, abbaa manaa yookiin haadha manaa, yookiin mucaa miseensaa</td><td class="blank"></td></tr><tr><td>Dhukkuba cimaa yookiin hospitaala ciisuu miseensaa</td><td class="blank"></td></tr></tbody></table></div></li><li><p>Gaaffii barreeffamaa, galmee qabduu maallaqaa fi hayyama dura taa'aa malee kaffaltiin tokko illee maallaqa irraa hin bahu. Kaffaltiin gabatee caalu sagalee Walgahii barbaachisa.</p></li><li><p>Qabduun maallaqaa sagantaa hunda irratti gabaasa dhiheessa: buusii walitti qabame, adabbii walitti qabame, kaffaltii raawwatame fi haftee herregaa. Gabaasni barreeffamaan ta'ee yaadannoo walgahii waliin qabama.</p></li><li><p>Miseensonni lama miseensa koree hin taane waggaatti al tokko galmee herregaa fi ibsa baankii qoratanii Walgahiif gabaasu.</p></li><li><p>Buusiin guyyaa 30 ol ture ji'atti Qarshii 100 kaffaltii turtii qaba.</p></li><li><p>Walgahiin hanga buusii sagalee sadii keessaa lamaan jijjiiruu danda'a. Jijjiiramni kurmaana itti aanu irraa eegalee hojii irra oola.</p></li></ol>
   </div>
 </section>
 <section class="article" id="article-7">
@@ -294,6 +328,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፯</span>መገኘት እና ቅጣት</h2>
     <ol class="clauses"><li><p>በእያንዳንዱ ፕሮግራም መገኘት የአባልነት ግዴታ ነው።</p></li><li><p>መገኘት የማይችል አባል ከፕሮግራሙ ቢያንስ ሦስት ቀን በፊት ለጸሐፊው ያሳውቃል።</p></li><li><p>ቅጣቶች እንደሚከተለው ናቸው፦</p><div class="tablewrap"><table><thead><tr><th>ሁኔታ</th><th>ቅጣት (ብር)</th></tr></thead><tbody><tr><td>ሳያሳውቅ መቅረት</td><td class="num">2,000</td></tr><tr><td>ቢያንስ 3 ቀን በፊት አሳውቆ መቅረት</td><td class="num">1,000</td></tr><tr><td>በሚታለፍ ምክንያት መቅረት (ቁጥር 4 ይመልከቱ)</td><td>የለም</td></tr><tr><td>ሳያሳውቅ ከ30 ደቂቃ በላይ መዘግየት</td><td class="num">200</td></tr><tr><td>ከመሪው አንድ ማስጠንቀቂያ በኋላ ፕሮግራሙን መረበሽ</td><td class="num">500</td></tr><tr><td>አስተናጋጅ ያለ ከባድ ምክንያት ከአንድ ወር ባነሰ ማስታወቂያ ተራውን መሰረዝ</td><td class="num">1,000</td></tr></tbody></table></div></li><li><p>የሚታለፉ ምክንያቶች፦ የራስ ሕመም ወይም የባል፣ የሚስት ወይም የልጅ ሕመም፤ ሞት ወይም ቀብር፤ ልደት፤ የሥራ ጉዞ፤ ፈተና፤ እና አገራዊ ወይም ሃይማኖታዊ ግዴታ። ጸሐፊው ምክንያቱን ይመዘግባል። ኮሚቴው ሌሎች ከባድ ምክንያቶችን ሊቀበል ይችላል።</p></li><li><p>ከከተማ ውጭ ወይም በውጭ አገር የሚኖሩ አባላት ከመገኘት ነጻ ናቸው፤ በቪዲዮ ጥሪ መሳተፍ ይችላሉ። ስብሰባው የተለየ መጠን ካልተስማማ በስተቀር መዋጮ መክፈላቸውን ይቀጥላሉ።</p></li><li><p>ቅጣት በዕለቱ በጸሐፊው ይመዘገባል፤ በሚቀጥለው ፕሮግራም ይገለጻል። ከሚቀጥለው ፕሮግራም በፊት ወይም በዕለቱ ይከፈላል።</p></li><li><p>ቅጣትን የሚቃወም አባል በሁለት ሳምንት ውስጥ ለኮሚቴው ያቀርባል። ኮሚቴው ይወስናል፤ አባሉ በአንቀጽ 10 መሠረት ለሙሉ ስብሰባው ይግባኝ ማለት ይችላል።</p></li><li><p>ያልተከፈለ ቅጣት ያለበት አባል እስኪከፍል ድረስ ድምፅ አይሰጥም። ያልተከፈሉ ቅጣቶች በአንቀጽ 2 መሠረት እንደ ያልተከፈለ መዋጮ ይቆጠራሉ።</p></li><li><p>ቅጣቶች ወደ ገንዘቡ ይገባሉ፤ ከመዋጮ ጋር ሪፖርት ይደረጋሉ።</p></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 7</span>Argamuu fi adabbii</h2>
+    <ol class="clauses"><li><p>Sagantaa hunda irratti argamuun dirqama miseensummaa ti.</p></li><li><p>Miseensi argamuu hin dandeenye yoo xiqqaate guyyaa sadii sagantaa dura barreessaaf beeksisa.</p></li><li><p>Adabbiin akka armaan gadii ti:</p><div class="tablewrap"><table><thead><tr><th>Haala</th><th>Adabbii (Qarshii)</th></tr></thead><tbody><tr><td>Osoo hin beeksisin hafuu</td><td class="num">2,000</td></tr><tr><td>Yoo xiqqaate guyyaa 3 dura beeksisee hafuu</td><td class="num">1,000</td></tr><tr><td>Sababa fudhatama qabuun hafuu (lakk. 4 ilaali)</td><td>hin jiru</td></tr><tr><td>Osoo hin beeksisin daqiiqaa 30 ol turuu</td><td class="num">200</td></tr><tr><td>Akeekkachiisa dura taa'aa tokko booda sagantaa jeequu</td><td class="num">500</td></tr><tr><td>Keessummeessaan sababa cimaa malee beeksisa ji'a tokkoo gadiin dabaree isaa haquu</td><td class="num">1,000</td></tr></tbody></table></div></li><li><p>Sababoonni fudhatama qaban: dhukkuba ofii yookiin dhukkuba abbaa manaa, haadha manaa yookiin mucaa; du'a yookiin awwaalcha; dhaloota; imala hojii; qormaata; fi dirqama biyyaaleessaa yookiin amantii. Barreessaan sababa galmeessa. Koreen sababoota cimoo biroo fudhachuu danda'a.</p></li><li><p>Miseensonni magaalaa alaa yookiin biyya alaa jiraatan argamuu irraa bilisa; waamicha viidiyootiin hirmaachuu danda'u. Walgahiin hanga adda ta'e irratti yoo waliigale malee buusii kaffaluu itti fufu.</p></li><li><p>Adabbiin guyyaa sana barreessaadhaan galmeeffamee sagantaa itti aanu irratti beeksifama. Sagantaa itti aanu dura yookiin guyyaa sana kaffalama.</p></li><li><p>Miseensi adabbii mormu torban lama keessatti koreef dhiheessa. Koreen murteessa; miseensi Keewwata 10 jalatti Walgahii guutuutti ol-iyyachuu danda'a.</p></li><li><p>Miseensi adabbii hin kaffalamne qabu hanga kaffalutti sagalee hin kennu. Adabbiin hin kaffalamne Keewwata 2 jalatti akka buusii hin kaffalamneetti ilaalama.</p></li><li><p>Adabbiin maallaqa keessa gala; buusii waliin gabaafama.</p></li></ol>
+  </div>
 </section>
 <section class="article" id="article-8">
   <div class="gutter"><span class="num">8</span><span class="geez" lang="am">፰</span></div>
@@ -304,6 +342,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
   <div class="col am" lang="am">
     <h2><span class="eyebrow">አንቀጽ ፰</span>የሥነ ምግባር ደንብ</h2>
     <ol class="clauses"><li><p>እንደ ወንድማማችና እህትማማች እርስ በርስ በአክብሮት እንነጋገራለን። ስድብ፣ ጩኸት፣ ማሾፍ የለም።</p></li><li><p>የአስተናጋጁን ቤት እንደ ራሳችን እናከብራለን፦ በሰዓቱ እንደርሳለን፣ ስንጠየቅ እንረዳለን፣ ቦታውን እንዳገኘነው እንተዋለን።</p></li><li><p>በፕሮግራሙ መደበኛ ክፍል ስልኮች ድምፅ አልባ ይሆናሉ።</p></li><li><p>በፕሮግራሙ ጊዜ የፖለቲካና የንግድ ክርክር አይደረግም።</p></li><li><p>ወላጆች ለልጆቻቸው ባሕርይና ደኅንነት ኃላፊ ናቸው።</p></li><li><p>መጠጥ ከቀረበ በመጠን ይወሰዳል። ሥርዓት ያጣ አባል እንዲወጣ ይጠየቃል፤ በአንቀጽ 7 መሠረት ይቀጣል።</p></li><li><p>አንድ አባል በስብሰባው በሚስጥር ያካፈለው በቤተሰቡ ውስጥ ይቀራል።</p></li><li><p>በሌላ አባል ላይ ቅሬታ ያለው አባል በአንቀጽ 10 መሠረት ያቀርባል እንጂ በስብሰባው ፊት ወይም በማኅበራዊ ሚዲያ አያነሳም።</p></li><li><p>መሪው ለጥሰት አንድ ማስጠንቀቂያ ሊሰጥ ይችላል። በዚያው ፕሮግራም ሁለተኛ ጥሰት ይቀጣል። ተደጋጋሚ ጥሰት ለስብሰባው ይቀርባል፤ ስብሰባውም አባሉን ለአንድ ፕሮግራም ሊያግድ ይችላል።</p></li></ol>
+  </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 8</span>Seera naamusaa</h2>
+    <ol class="clauses"><li><p>Akka obboleeyyanii fi obboleettotaatti kabajaan wal dubbifna. Arrabsoo, iyya, qoosaa hin jiru.</p></li><li><p>Mana keessummeessaa akka kan keenyaatti kabajna: yeroo isaatti dhufna, yoo gaafatamne gargaarra, bakka sana akkuma argannetti dhiifna.</p></li><li><p>Kutaa sirnaa sagantaa keessatti bilbilli sagalee malee ta'a.</p></li><li><p>Yeroo sagantaa falmiin siyaasaa fi daldalaa hin taasifamu.</p></li><li><p>Warri amala fi nageenya ijoollee isaaniitiif itti gaafatamoo dha.</p></li><li><p>Dhugaatiin alkoolii yoo dhihaate madaalliidhaan fudhatama. Miseensi sirna dhabe akka bahu gaafatama; Keewwata 7 jalatti adabama.</p></li><li><p>Wanti miseensi tokko Walgahii irratti iccitiidhaan qoodu maatii keessatti hafa.</p></li><li><p>Miseensi miseensa biraa irratti komii qabu Keewwata 10 jalatti dhiheessa malee Walgahii duratti yookiin miidiyaa hawaasummaa irratti hin kaasu.</p></li><li><p>Dura taa'aan cabsaaf akeekkachiisa tokko kennuu danda'a. Sagantaa walfakkaataa keessatti cabsi lammaffaa ni adabama. Cabsi irra deddeebi'u Walgahiif dhihaata; Walgahiinis miseensicha sagantaa tokkoof ugguruu danda'a.</p></li></ol>
   </div>
 </section>
 <section class="article" id="article-9">
@@ -316,6 +358,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፱</span>ውሳኔ እና ድምፅ አሰጣጥ</h2>
     <ol class="clauses"><li><p>ስብሰባው በአጠቃላይ ይወስናል። ኮሚቴው ውሳኔዎችን ያስፈጽማል፤ ከዕለት ተዕለት ጉዳዮች በስተቀር ብቻውን አይወስንም።</p></li><li><p>ምልዓተ ጉባኤ፦ ውሳኔዎች የሚጸኑት ከአባላት ከግማሽ በላይ ሲገኙ ብቻ ነው።</p></li><li><p>መደበኛ ጉዳዮች በተገኙ አባላት አብላጫ ድምፅ ያልፋሉ። ድምፅ እኩል ከሆነ መሪው ይወስናል።</p></li><li><p>የሚከተሉት የተገኙ አባላት ሁለት ሦስተኛ ድምፅ ያስፈልጋቸዋል፦ የመዋጮ መጠን መቀየር፣ ቅጣት መቀየር፣ ከድጋፍ ሠንጠረዡ በላይ ማውጣት፣ አባልን ወይም የኮሚቴ አባልን ማገድ ወይም ማንሳት፣ እና ይህን ደንብ ማሻሻል።</p></li><li><p>ድምፅ በእጅ ማንሳት ይሰጣል። ማንኛውም ሦስት አባላት ሚስጥራዊ ድምፅ መጠየቅ ይችላሉ።</p></li><li><p>እያንዳንዱ አባል አንድ ድምፅ አለው። በውክልና ድምፅ መስጠት የለም፤ ነገር ግን በውጭ አገር ያለ አባል አስቀድሞ በታወቀ ጉዳይ ላይ በጽሑፍ ድምፅ መስጠት ይችላል።</p></li><li><p>የተወሰነ ጉዳይ አዲስ እውነታ ካልተገኘ በስተቀር ለአንድ ዓመት እንደገና አይነሳም።</p></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 9</span>Murtee fi sagalee kennuu</h2>
+    <ol class="clauses"><li><p>Walgahiin waliigalaan murteessa. Koreen murteewwan hojii irra oolcha; dhimmoota guyyaa guyyaa malee kophaa isaa hin murteessu.</p></li><li><p>Kooramii: murteewwan kan raggaasifaman miseensota walakkaa ol yoo argaman qofa.</p></li><li><p>Dhimmoonni idilee sagalee caalmaa miseensota argamaniitiin darbu. Sagaleen walqixa yoo ta'e dura taa'aan murteessa.</p></li><li><p>Dhimmoonni kunneen sagalee sadii keessaa lama miseensota argamanii barbaachisu: hanga buusii jijjiiruu, adabbii jijjiiruu, gabatee deeggarsaa ol baasuu, miseensa yookiin miseensa koree ugguruu yookiin kaasuu, fi seera ittiin bulmaataa kana fooyyessuu.</p></li><li><p>Sagaleen harka ol kaasuun kennama. Miseensonni sadii kamiyyuu sagalee iccitii gaafachuu danda'u.</p></li><li><p>Miseensi hundi sagalee tokko qaba. Bakka bu'ummaadhaan sagalee kennuun hin jiru; garuu miseensi biyya alaa jiru dhimma dursee beeksifame irratti barreeffamaan sagalee kennuu danda'a.</p></li><li><p>Dhimmi al tokko murtaa'e, wanti haaraan yoo argame malee, waggaa tokkoof irra deebi'amee hin kaafamu.</p></li></ol>
+  </div>
 </section>
 <section class="article" id="article-10">
   <div class="gutter"><span class="num">10</span><span class="geez" lang="am">፲</span></div>
@@ -326,6 +372,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
   <div class="col am" lang="am">
     <h2><span class="eyebrow">አንቀጽ ፲</span>አለመግባባትን መፍታት</h2>
     <ol class="clauses"><li><p>በማንኛውም ቤተሰብ አለመግባባት ይጠበቃል። ዋናው ነገር እንዴት እንደሚፈታ ነው።</p></li><li><p>ደረጃዎቹ በቅደም ተከተል፦</p><ul class="sub"><li>ደረጃ 1. ሁለቱ አባላት በግል ተነጋግረው በሁለት ሳምንት ውስጥ በራሳቸው ለመፍታት ይሞክራሉ።</li><li>ደረጃ 2. ካልተፈታ አንዱ አባል ለኮሚቴው በጽሑፍ ያቀርባል። ኮሚቴው ሁለቱንም በአንድ ወር ውስጥ ሰምቶ የመፍትሔ ሐሳብ ያቀርባል።</li><li>ደረጃ 3. አንዱ አባል የኮሚቴውን ሐሳብ ካልተቀበለ ጉዳዩ በሚቀጥለው ፕሮግራም ለሙሉ ስብሰባው ይቀርባል። ስብሰባው ሁለቱንም ሰምቶ በአብላጫ ድምፅ ይወስናል። ድምፅ በሚሰጥበት ጊዜ ሁለቱም አባላት ከክፍሉ ይወጣሉ።</li><li>ደረጃ 4. ክርክሩ የኮሚቴ አባልን የሚመለከት ከሆነ ወይም የስብሰባው ውሳኔ ተቀባይነት ካላገኘ፣ ጉዳዩ ስብሰባው ወደመረጠው የወላጆች ትውልድ ሽማግሌ ይሄዳል። የሽማግሌው ቃል የመጨረሻ ነው።</li></ul></li><li><p>ምንም አለመግባባት በማኅበራዊ ሚዲያ ወይም ከቤተሰብ ውጭ ካሉ ሰዎች ጋር አይወያይም።</p></li><li><p>በእነዚህ ደረጃዎች ለመሳተፍ እምቢ የሚል ወይም የቤተሰብ አለመግባባትን ወደ ውጭ ሰዎች የሚወስድ አባል 1,000 ብር ይቀጣል፤ ሊታገድም ይችላል።</p></li><li><p>አለመግባባት ሲፈታ ሁለቱ አባላት በስብሰባው ፊት እጅ ይጨባበጣሉ፤ ጉዳዩ ተዘግቶ ይመዘገባል።</p></li></ol>
+  </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 10</span>Wal-dhabdee hiikuu</h2>
+    <ol class="clauses"><li><p>Maatii kamiyyuu keessatti wal-dhabdeen ni eegama. Wanti barbaachisaan akkaataa itti hiikamu dha.</p></li><li><p>Tarkaanfiiwwan, tartiibaan:</p><ul class="sub"><li>Tarkaanfii 1. Miseensonni lamaan dhuunfaatti wal dubbatanii torban lama keessatti ofii isaaniitiin hiikuuf yaalu.</li><li>Tarkaanfii 2. Yoo hin hiikamne, miseensi tokko koreef barreeffamaan dhiheessa. Koreen lamaan isaanii ji'a tokko keessatti dhageessee yaada furmaataa dhiheessa.</li><li>Tarkaanfii 3. Miseensi tokko yaada koree yoo hin fudhanne, dhimmichi sagantaa itti aanu irratti Walgahii guutuuf dhihaata. Walgahiin lamaan isaanii dhageessee sagalee caalmaadhaan murteessa. Yeroo sagaleen kennamu miseensonni lamaan kutaa keessaa bahu.</li><li>Tarkaanfii 4. Wal-dhabdeen miseensa koree kan ilaallatu yoo ta'e, yookiin murteen Walgahii fudhatama yoo hin arganne, dhimmichi jaarsa dhaloota warraa Walgahiin filatetti dhihaata. Jechi jaarsaa isa dhumaa ti.</li></ul></li><li><p>Wal-dhabdeen tokko illee miidiyaa hawaasummaa irratti yookiin namoota maatii alaa waliin hin mari'atamu.</p></li><li><p>Miseensi tarkaanfiiwwan kana keessatti hirmaachuu dide, yookiin wal-dhabdee maatii gara namoota alaatti geesse, Qarshii 1,000 adabama; ugguramuus danda'a.</p></li><li><p>Wal-dhabdeen yoo hiikame miseensonni lamaan Walgahii duratti harka wal fuudhu; dhimmichi cufamee galmeeffama.</p></li></ol>
   </div>
 </section>
 <section class="article" id="article-11">
@@ -338,6 +388,10 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፲፩</span>መዝገብ እና ግልጽነት</h2>
     <ol class="clauses"><li><p>ጸሐፊው የአባላት መዝገብ፣ የመገኘት ዝርዝር፣ የእያንዳንዱ ፕሮግራም ቃለ ጉባኤ፣ የማስተናገድ ቅደም ተከተል እና የቅጣት መዝገብ ይይዛል።</p></li><li><p>ገንዘብ ያዡ የመዋጮ መዝገብ፣ ደረሰኞች፣ የባንክ መግለጫዎች እና የክፍያ መዝገብ ይይዛል።</p></li><li><p>ቃለ ጉባኤ በሚቀጥለው ፕሮግራም ተነቦ በአባላት ይጸድቃል።</p></li><li><p>ማንኛውም አባል በማንኛውም ጊዜ ማንኛውንም መዝገብ ለማየት መጠየቅ ይችላል፤ ኮሚቴው በአንድ ሳምንት ውስጥ ያሳያል።</p></li><li><p>መዝገቦች በጋራ ማኅደር፣ በወረቀትና በዲጂታል፣ ይቀመጣሉ፤ በእያንዳንዱ ምርጫ ለሚቀጥለው ኮሚቴ ይተላለፋሉ።</p></li><li><p>የዚህ ደንብ ቅጂ ለእያንዳንዱ አባል እና ለእያንዳንዱ አዲስ አባል ሲቀላቀል ይሰጣል።</p></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 11</span>Galmee fi iftoomina</h2>
+    <ol class="clauses"><li><p>Barreessaan galmee miseensotaa, tarree argamuu, yaadannoo sagantaa hundaa, tartiiba keessummeessuu fi galmee adabbii qabata.</p></li><li><p>Qabduun maallaqaa galmee buusii, nagahee, ibsa baankii fi galmee kaffaltii qabata.</p></li><li><p>Yaadannoon walgahii sagantaa itti aanu irratti dubbifamee miseensotaan raggaasifama.</p></li><li><p>Miseensi kamiyyuu yeroo kamiyyuu galmee kamiyyuu ilaaluuf gaafachuu danda'a; koreen torban tokko keessatti agarsiisa.</p></li><li><p>Galmeewwan faayilii waloo keessatti, waraqaa fi dijitaalaan, qabamu; filannoo hunda irratti koree itti aanuuf dabarfamu.</p></li><li><p>Garagalchi seera ittiin bulmaataa kanaa miseensa hundaaf, fi miseensa haaraa yeroo makamutti kennama.</p></li></ol>
+  </div>
 </section>
 <section class="article" id="article-12">
   <div class="gutter"><span class="num">12</span><span class="geez" lang="am">፲፪</span></div>
@@ -349,17 +403,22 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
     <h2><span class="eyebrow">አንቀጽ ፲፪</span>ማሻሻያ እና ማጽደቅ</h2>
     <ol class="clauses"><li><p>ማንኛውም አባል ማሻሻያ በጽሑፍ ለጸሐፊው ማቅረብ ይችላል። ሐሳቡ በአንድ ፕሮግራም ይገለጻል፤ በሚቀጥለው ድምፅ ይሰጥበታል፤ ይህም እያንዳንዱ አባል ለማሰብ ሦስት ወር እንዲኖረው ነው።</p></li><li><p>ማሻሻያ በተገኙ አባላት ሁለት ሦስተኛ ድምፅ ያልፋል፤ ከሚቀጥለው ፕሮግራም ጀምሮ ተግባራዊ ይሆናል።</p></li><li><p>ይህ ደንብ የሚጸድቀው በአንድ ፕሮግራም ሙሉ በሙሉ ተነቦ፣ ከሁሉም አባላት ሁለት ሦስተኛ ሲያጸድቁት እና በኮሚቴውና በተገኙ አባላት ሲፈረም ነው።</p></li><li><p>ስብሰባው ሲያጸድቅ መወሰን ያለበት ጉዳዮች፦</p><ul class="sub"><li>የማስተናገድ የወጪ መመሪያ ወይም ድጎማ (አንቀጽ 4፣ ቁጥር 8)፤</li><li>የድጋፍ ሠንጠረዥ መጠኖች (አንቀጽ 6፣ ቁጥር 4)፤</li><li>ባልና ሚስት ድምፅ ይስጡ አይስጡ (አንቀጽ 2፣ ቁጥር 2)፤</li><li>በውጭ አገር ላሉ አባላት መዋጮ (አንቀጽ 7፣ ቁጥር 5)፤</li><li>ለመጨረሻ ይግባኝ የሚሆን ሽማግሌ (አንቀጽ 10)።</li></ul></li></ol>
   </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata 12</span>Fooyya'iinsa fi raggaasisuu</h2>
+    <ol class="clauses"><li><p>Miseensi kamiyyuu fooyya'iinsa barreeffamaan barreessaaf dhiheessuu danda'a. Yaadni sagantaa tokko irratti beeksifamee isa itti aanu irratti sagaleen kennama; kunis miseensi hundi itti yaaduuf ji'a sadii akka qabaatuuf.</p></li><li><p>Fooyya'iinsi sagalee sadii keessaa lama miseensota argamaniitiin darba; sagantaa itti aanu irraa eegalee hojii irra oola.</p></li><li><p>Seerri ittiin bulmaataa kun kan raggaasifamu sagantaa tokko irratti guutummaatti dubbifamee, miseensota hundaa keessaa sadii keessaa lamaan raggaasifamee, koree fi miseensota argamaniin yoo mallatteeffame dha.</p></li><li><p>Dhimmoota Walgahiin yeroo raggaasisu murteessuu qabu:</p><ul class="sub"><li>qajeelfama baasii keessummeessuu yookiin deeggarsa keessummeessuu (Keewwata 4, lakk. 8);</li><li>hanga gabatee deeggarsaa (Keewwata 6, lakk. 4);</li><li>abbaan manaa fi haati manaa sagalee kennuu fi dhiisuu (Keewwata 2, lakk. 2);</li><li>buusii miseensota biyya alaa jiraataniif (Keewwata 7, lakk. 5);</li><li>jaarsa ol-iyyannoo dhumaaf (Keewwata 10).</li></ul></li></ol>
+  </div>
 </section>
 
 <section class="signatures" id="signatures">
   <div class="gutter" aria-hidden="true"></div>
   <div class="col en" lang="en"><h3>Adoption and signatures</h3><p class="adopted">Adopted on ____________________ at ____________________.</p><div class="posts"><div class="post"><span class="post-name">Leader</span><span class="line"><small>Name</small></span><span class="line"><small>Signature</small></span></div><div class="post"><span class="post-name">Deputy Leader</span><span class="line"><small>Name</small></span><span class="line"><small>Signature</small></span></div><div class="post"><span class="post-name">Secretary</span><span class="line"><small>Name</small></span><span class="line"><small>Signature</small></span></div><div class="post"><span class="post-name">Treasurer</span><span class="line"><small>Name</small></span><span class="line"><small>Signature</small></span></div></div><h4>Members present</h4><ol class="members"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ol></div>
   <div class="col am" lang="am"><h3>ማጽደቅ እና ፊርማ</h3><p class="adopted">የጸደቀበት ቀን ____________________ ቦታ ____________________።</p><div class="posts"><div class="post"><span class="post-name">መሪ</span><span class="line"><small>ስም</small></span><span class="line"><small>ፊርማ</small></span></div><div class="post"><span class="post-name">ምክትል መሪ</span><span class="line"><small>ስም</small></span><span class="line"><small>ፊርማ</small></span></div><div class="post"><span class="post-name">ጸሐፊ</span><span class="line"><small>ስም</small></span><span class="line"><small>ፊርማ</small></span></div><div class="post"><span class="post-name">ገንዘብ ያዥ</span><span class="line"><small>ስም</small></span><span class="line"><small>ፊርማ</small></span></div></div><h4>የተገኙ አባላት</h4><ol class="members"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ol></div>
+  <div class="col om" lang="om"><h3>Raggaasisuu fi mallattoo</h3><p class="adopted">Guyyaa ____________________ bakka ____________________ tti raggaasifame.</p><div class="posts"><div class="post"><span class="post-name">Dura Taa'aa</span><span class="line"><small>Maqaa</small></span><span class="line"><small>Mallattoo</small></span></div><div class="post"><span class="post-name">Itti Aanaa Dura Taa'aa</span><span class="line"><small>Maqaa</small></span><span class="line"><small>Mallattoo</small></span></div><div class="post"><span class="post-name">Barreessaa</span><span class="line"><small>Maqaa</small></span><span class="line"><small>Mallattoo</small></span></div><div class="post"><span class="post-name">Qabduu Maallaqaa</span><span class="line"><small>Maqaa</small></span><span class="line"><small>Mallattoo</small></span></div></div><h4>Miseensota argaman</h4><ol class="members"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ol></div>
 </section>
 </main>
 
 <footer>
-  <p>Asefa Family Gathering &middot; Constitution and Rules &middot; Draft, 17 October 2026. Amendments follow Article 12.</p>
+  <p>Asefa Family Gathering &middot; Constitution and Rules &middot; Draft, 17 October 2026. Amendments follow Article 12. English, <span lang="am">አማርኛ</span>, Afaan Oromoo.</p>
 </footer>
 
 <script>
@@ -374,7 +433,8 @@ body[data-lang="am"] .toc-am { grid-column: 2; color: var(--ink); font-size: 1.0
   buttons.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang); }); });
   var saved = null;
   try { saved = localStorage.getItem('asefa-lang'); } catch (e) {}
-  if (saved === 'en' || saved === 'am' || saved === 'both') apply(saved);
+  if (saved === 'both') saved = 'all';
+  if (saved === 'en' || saved === 'am' || saved === 'om' || saved === 'all') apply(saved);
 })();
 </script>
 </body>

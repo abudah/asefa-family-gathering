@@ -1,6 +1,6 @@
 # Asefa Family Gathering Constitution
 
-Bilingual (English and Amharic) constitution and rules for the quarterly gathering of the grandchildren of Asefa.
+Trilingual (English, Amharic and Afaan Oromo) constitution and rules for the quarterly gathering of the grandchildren of Asefa.
 
 - `index.html` – the designed web version (served by GitHub Pages)
 - `Asefa-Family-Gathering-Constitution.pdf` – printable PDF

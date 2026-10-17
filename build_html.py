@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the designed HTML version of the Asefa Family Gathering Constitution.
+"""Build the designed HTML version of the Asefa Family Gathering Constitution (EN, AM, OM).
 
 Run:  python3 build_html.py
 Output: Asefa-Family-Gathering-Constitution.html in the same folder.
@@ -12,7 +12,7 @@ import html
 import os
 import re
 
-from build_constitution import CONTENT_EN, CONTENT_AM, DATE_EN, DATE_AM
+from build_constitution import CONTENT_EN, CONTENT_AM, CONTENT_OM, DATE_EN, DATE_AM, DATE_OM
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "Asefa-Family-Gathering-Constitution.html")
@@ -32,7 +32,7 @@ def split(content):
     for item in content:
         kind = item[0]
         if kind == "h1":
-            m = re.match(r"^(?:Article|አንቀጽ)\s+(\d+)\.\s*(.*)$", item[1])
+            m = re.match(r"^(?:Article|አንቀጽ|Keewwata)\s+(\d+)\.\s*(.*)$", item[1])
             current = (int(m.group(1)), m.group(2), [])
             articles.append(current)
         elif kind == "sig":
@@ -133,18 +133,20 @@ def sig_html(spec, lang):
 def build():
     pre_en, arts_en, sig_en = split(CONTENT_EN)
     pre_am, arts_am, sig_am = split(CONTENT_AM)
-    assert len(arts_en) == len(arts_am) == 12
+    pre_om, arts_om, sig_om = split(CONTENT_OM)
+    assert len(arts_en) == len(arts_am) == len(arts_om) == 12
 
     toc = []
-    for (n, t_en, _), (_, t_am, _) in zip(arts_en, arts_am):
+    for (n, t_en, _), (_, t_am, _), (_, t_om, _) in zip(arts_en, arts_am, arts_om):
         toc.append(
             f'<li><a href="#article-{n}"><span class="toc-num">{n}</span>'
-            f'<span class="toc-en en">{esc(t_en)}</span>'
-            f'<span class="toc-am am" lang="am">{esc(t_am)}</span></a></li>'
+            f'<span class="toc-sub toc-en en">{esc(t_en)}</span>'
+            f'<span class="toc-sub toc-am am" lang="am">{esc(t_am)}</span>'
+            f'<span class="toc-sub toc-om om" lang="om">{esc(t_om)}</span></a></li>'
         )
 
     articles = []
-    for (n, t_en, it_en), (_, t_am, it_am) in zip(arts_en, arts_am):
+    for (n, t_en, it_en), (_, t_am, it_am), (_, t_om, it_om) in zip(arts_en, arts_am, arts_om):
         articles.append(f"""
 <section class="article" id="article-{n}">
   <div class="gutter"><span class="num">{n}</span><span class="geez" lang="am">{GEEZ[n - 1]}</span></div>
@@ -155,6 +157,10 @@ def build():
   <div class="col am" lang="am">
     <h2><span class="eyebrow">አንቀጽ {GEEZ[n - 1]}</span>{esc(t_am)}</h2>
     {items_html(it_am)}
+  </div>
+  <div class="col om" lang="om">
+    <h2><span class="eyebrow">Keewwata {n}</span>{esc(t_om)}</h2>
+    {items_html(it_om)}
   </div>
 </section>""")
 
@@ -168,8 +174,8 @@ def build():
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Noto+Serif+Ethiopic:wght@400;600;700&display=swap">
 <style>
-/* Layout: a bound bilingual charter. Article number in the gutter, English and Amharic
-   as parallel columns, one language at a time on a phone or by the switch. */
+/* Layout: a bound trilingual charter. Article number in the gutter, English, Amharic and
+   Afaan Oromo as parallel columns on wide screens, one language at a time by the switch. */
 :root {{
   --paper: #fbfaf6;
   --ink: #1b201d;
@@ -240,7 +246,8 @@ main {{ max-width: 72rem; margin: 0 auto; }}
 .cover h1 {{ font-size: clamp(2.4rem, 6vw, 4.25rem); line-height: 1.02; font-weight: 700; font-variation-settings: "opsz" 144; letter-spacing: -.01em; }}
 .cover .am-title {{ font-family: var(--ethiopic); font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.25; margin-top: .75rem; color: var(--accent); }}
 .cover .sub {{ color: var(--muted); margin-top: 1.5rem; font-size: 1rem; }}
-.cover .sub [lang="am"] {{ display: block; }}
+.cover .sub span {{ display: block; }}
+.cover .om-title {{ font-family: var(--display); font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.25; margin-top: .4rem; color: var(--muted); font-weight: 400; font-style: italic; }}
 .rule {{ height: 3px; width: 5.5rem; background: var(--brass); margin: 1.75rem 0 0; position: relative; }}
 .rule::after {{ content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--brass); }}
 
@@ -248,7 +255,8 @@ main {{ max-width: 72rem; margin: 0 auto; }}
 .facts li {{ border-top: 1px solid var(--line); padding-top: .6rem; }}
 .facts .k {{ display: block; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }}
 .facts .v {{ font-family: var(--display); font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }}
-.facts .v [lang="am"] {{ font-size: 1rem; font-weight: 400; color: var(--muted); display: block; }}
+.facts .v span {{ font-size: .95rem; font-weight: 400; color: var(--muted); display: block; line-height: 1.5; }}
+.facts .v span[lang="om"] {{ font-style: italic; }}
 
 /* ---- contents */
 .toc {{ padding: 2.5rem 0; border-bottom: 1px solid var(--line); }}
@@ -257,7 +265,9 @@ main {{ max-width: 72rem; margin: 0 auto; }}
 .toc a {{ display: grid; grid-template-columns: 2rem 1fr; column-gap: .5rem; align-items: baseline; text-decoration: none; color: var(--ink); padding: .45rem 0; border-bottom: 1px solid var(--line); }}
 .toc a:hover .toc-en, .toc a:hover .toc-am {{ color: var(--accent); }}
 .toc-num {{ font-family: var(--display); color: var(--brass); font-variant-numeric: tabular-nums; }}
-.toc-am {{ grid-column: 2; display: block; font-size: .95rem; color: var(--muted); }}
+.toc-sub {{ grid-column: 2; display: block; }}
+.toc-am, .toc-om {{ font-size: .95rem; color: var(--muted); }}
+.toc-om {{ font-style: italic; }}
 
 /* ---- articles: gutter | en | am */
 .article, .preamble, .signatures {{
@@ -306,18 +316,21 @@ ol.members li {{ border-bottom: 1px solid var(--line); height: 2rem; break-insid
 
 footer {{ color: var(--muted); font-size: .85rem; padding-top: 2rem; max-width: 72rem; margin: 0 auto; }}
 
-/* ---- two-column mode on wide screens, when both languages are shown */
-@media (min-width: 64rem) {{
-  body[data-lang="both"] .article, body[data-lang="both"] .preamble, body[data-lang="both"] .signatures {{
-    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1fr);
+/* ---- three-column mode on wide screens, when all languages are shown */
+body[data-lang="all"] main {{ max-width: 92rem; }}
+@media (min-width: 80rem) {{
+  body[data-lang="all"] .article, body[data-lang="all"] .preamble, body[data-lang="all"] .signatures {{
+    grid-template-columns: 3.5rem repeat(3, minmax(0, 1fr)); column-gap: 2rem;
   }}
-  body[data-lang="both"] .col.en {{ grid-column: 2; }}
-  body[data-lang="both"] .col.am {{ grid-column: 3; }}
-  body[data-lang="both"] .gutter {{ grid-row: 1; }}
+  body[data-lang="all"] .col.en {{ grid-column: 2; }}
+  body[data-lang="all"] .col.am {{ grid-column: 3; }}
+  body[data-lang="all"] .col.om {{ grid-column: 4; }}
+  body[data-lang="all"] .gutter {{ grid-row: 1; }}
+  body[data-lang="all"] .article .col {{ font-size: 1rem; }}
+  body[data-lang="all"] .article h2 {{ font-size: 1.35rem; }}
 }}
-body[data-lang="en"] .am, body[data-lang="en"] .toc-am {{ display: none; }}
-body[data-lang="am"] .en, body[data-lang="am"] .toc-en {{ display: none; }}
-body[data-lang="am"] .toc-am {{ grid-column: 2; color: var(--ink); font-size: 1.05rem; }}
+body[data-lang="en"] :is(.am, .om), body[data-lang="am"] :is(.en, .om), body[data-lang="om"] :is(.en, .am) {{ display: none; }}
+body[data-lang="am"] .toc-am, body[data-lang="om"] .toc-om {{ color: var(--ink); font-size: 1.05rem; font-style: normal; }}
 @media (max-width: 40rem) {{
   .gutter {{ flex-direction: row; align-items: baseline; gap: .6rem; grid-row: auto; grid-column: 1 / -1; }}
   .article, .preamble, .signatures {{ grid-template-columns: 1fr; gap: .5rem; }}
@@ -341,34 +354,36 @@ body[data-lang="am"] .toc-am {{ grid-column: 2; color: var(--ink); font-size: 1.
 }}
 </style>
 </head>
-<body data-lang="both">
+<body data-lang="all">
 
 <header class="toolbar">
-  <span class="brand">Asefa Family Gathering &middot; <span lang="am">የአሰፋ ቤተሰብ ስብሰባ</span></span>
+  <span class="brand">Asefa Family Gathering &middot; <span lang="am">የአሰፋ ቤተሰብ ስብሰባ</span> &middot; <span lang="om">Walgahii Maatii Asefaa</span></span>
   <div class="switch" role="group" aria-label="Language">
-    <button type="button" id="lang-both" data-lang="both" aria-pressed="true">Both</button>
+    <button type="button" id="lang-all" data-lang="all" aria-pressed="true">All</button>
     <button type="button" id="lang-en" data-lang="en" aria-pressed="false">English</button>
     <button type="button" id="lang-am" data-lang="am" lang="am" aria-pressed="false">አማርኛ</button>
+    <button type="button" id="lang-om" data-lang="om" lang="om" aria-pressed="false">Afaan Oromoo</button>
   </div>
 </header>
 
 <main>
 <section class="cover">
-  <span class="eyebrow">Constitution and Rules &middot; <span lang="am">መተዳደሪያ ደንብ</span></span>
+  <span class="eyebrow">Constitution and Rules &middot; <span lang="am">መተዳደሪያ ደንብ</span> &middot; <span lang="om">Seera Ittiin Bulmaataa</span></span>
   <h1>Asefa Family Gathering</h1>
   <div class="am-title" lang="am">የአሰፋ ቤተሰብ ስብሰባ</div>
+  <div class="om-title" lang="om">Walgahii Maatii Asefaa</div>
   <div class="rule"></div>
-  <p class="sub">Draft for adoption &middot; {esc(DATE_EN)}<span lang="am">ለማጽደቅ የቀረበ ረቂቅ &middot; {esc(DATE_AM)}</span></p>
+  <p class="sub"><span lang="en">Draft for adoption &middot; {esc(DATE_EN)}</span><span lang="am">ለማጽደቅ የቀረበ ረቂቅ &middot; {esc(DATE_AM)}</span><span lang="om">Wixinee raggaasisuuf dhihaate &middot; {esc(DATE_OM)}</span></p>
   <ul class="facts">
-    <li><span class="k">Meets</span><span class="v">Every 3 months <span lang="am">በየሦስት ወሩ</span></span></li>
-    <li><span class="k">Day</span><span class="v">First Saturday <span lang="am">የመጀመሪያ ቅዳሜ</span></span></li>
-    <li><span class="k">Program</span><span class="v">7:00 to 11:00 <span lang="am">ከ7፡00 እስከ 11፡00</span></span></li>
-    <li><span class="k">Contribution</span><span class="v">700 birr / month <span lang="am">በወር 700 ብር</span></span></li>
+    <li><span class="k">Meets</span><span class="v">Every 3 months <span lang="am">በየሦስት ወሩ</span><span lang="om">Ji'a sadii sadiin</span></span></li>
+    <li><span class="k">Day</span><span class="v">First Saturday <span lang="am">የመጀመሪያ ቅዳሜ</span><span lang="om">Sanbata jalqabaa</span></span></li>
+    <li><span class="k">Program</span><span class="v">7:00 to 11:00 <span lang="am">ከ7፡00 እስከ 11፡00</span><span lang="om">7:00 hanga 11:00</span></span></li>
+    <li><span class="k">Contribution</span><span class="v">700 birr / month <span lang="am">በወር 700 ብር</span><span lang="om">Ji'atti Qarshii 700</span></span></li>
   </ul>
 </section>
 
 <nav class="toc" aria-label="Contents">
-  <h2>Contents &middot; <span lang="am">ማውጫ</span></h2>
+  <h2>Contents &middot; <span lang="am">ማውጫ</span> &middot; <span lang="om">Qabiyyee</span></h2>
   <ol>{"".join(toc)}</ol>
 </nav>
 
@@ -376,6 +391,7 @@ body[data-lang="am"] .toc-am {{ grid-column: 2; color: var(--ink); font-size: 1.
   <div class="gutter" aria-hidden="true"></div>
   <div class="col en" lang="en">{items_html(pre_en)}</div>
   <div class="col am" lang="am">{items_html(pre_am)}</div>
+  <div class="col om" lang="om">{items_html(pre_om)}</div>
 </section>
 {"".join(articles)}
 
@@ -383,11 +399,12 @@ body[data-lang="am"] .toc-am {{ grid-column: 2; color: var(--ink); font-size: 1.
   <div class="gutter" aria-hidden="true"></div>
   {sig_html(sig_en, "en")}
   {sig_html(sig_am, "am")}
+  {sig_html(sig_om, "om")}
 </section>
 </main>
 
 <footer>
-  <p>Asefa Family Gathering &middot; Constitution and Rules &middot; Draft, {esc(DATE_EN)}. Amendments follow Article 12.</p>
+  <p>Asefa Family Gathering &middot; Constitution and Rules &middot; Draft, {esc(DATE_EN)}. Amendments follow Article 12. English, <span lang="am">አማርኛ</span>, Afaan Oromoo.</p>
 </footer>
 
 <script>
@@ -402,7 +419,8 @@ body[data-lang="am"] .toc-am {{ grid-column: 2; color: var(--ink); font-size: 1.
   buttons.forEach(function (b) {{ b.addEventListener('click', function () {{ apply(b.dataset.lang); }}); }});
   var saved = null;
   try {{ saved = localStorage.getItem('asefa-lang'); }} catch (e) {{}}
-  if (saved === 'en' || saved === 'am' || saved === 'both') apply(saved);
+  if (saved === 'both') saved = 'all';
+  if (saved === 'en' || saved === 'am' || saved === 'om' || saved === 'all') apply(saved);
 }})();
 </script>
 </body>
