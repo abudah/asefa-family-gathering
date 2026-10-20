@@ -204,7 +204,8 @@ CONTENT_EN = [
     ("n", "2.", "We respect the host's home as our own: we arrive on time, we help where asked, and we "
                 "leave the place as we found it."),
     ("n", "3.", "Phones are on silent during the formal part of the program."),
-    ("n", "4.", "Political and business arguments are not held during the program."),
+    ("n", "4.", "Political, religious and business debates are not permitted at the Gathering. Members "
+                "hold different views, and the program is not the place to argue them."),
     ("n", "5.", "Parents are responsible for their children's behaviour and safety."),
     ("n", "6.", "Alcohol, if served, is taken in moderation. A member who becomes disorderly is asked to "
                 "leave and is fined under Article 7."),
@@ -438,7 +439,8 @@ CONTENT_AM = [
     ("n", "2.", "የአስተናጋጁን ቤት እንደ ራሳችን እናከብራለን፦ በሰዓቱ እንደርሳለን፣ ስንጠየቅ እንረዳለን፣ ቦታውን እንዳገኘነው "
                 "እንተዋለን።"),
     ("n", "3.", "በፕሮግራሙ መደበኛ ክፍል ስልኮች ድምፅ አልባ ይሆናሉ።"),
-    ("n", "4.", "በፕሮግራሙ ጊዜ የፖለቲካና የንግድ ክርክር አይደረግም።"),
+    ("n", "4.", "በስብሰባው ላይ የፖለቲካ፣ የሃይማኖት እና የንግድ ክርክር አይፈቀድም። አባላት የተለያየ አመለካከት አላቸው፤ "
+                "ፕሮግራሙ እነዚህን የሚከራከሩበት ቦታ አይደለም።"),
     ("n", "5.", "ወላጆች ለልጆቻቸው ባሕርይና ደኅንነት ኃላፊ ናቸው።"),
     ("n", "6.", "መጠጥ ከቀረበ በመጠን ይወሰዳል። ሥርዓት ያጣ አባል እንዲወጣ ይጠየቃል፤ በአንቀጽ 7 መሠረት ይቀጣል።"),
     ("n", "7.", "አንድ አባል በስብሰባው በሚስጥር ያካፈለው በቤተሰቡ ውስጥ ይቀራል።"),
@@ -680,7 +682,8 @@ CONTENT_OM = [
     ("n", "2.", "Mana keessummeessaa akka kan keenyaatti kabajna: yeroo isaatti dhufna, yoo gaafatamne "
                 "gargaarra, bakka sana akkuma argannetti dhiifna."),
     ("n", "3.", "Kutaa sirnaa sagantaa keessatti bilbilli sagalee malee ta'a."),
-    ("n", "4.", "Yeroo sagantaa falmiin siyaasaa fi daldalaa hin taasifamu."),
+    ("n", "4.", "Walgahii irratti falmiin siyaasaa, amantii fi daldalaa hin hayyamamu. Miseensonni ilaalcha "
+                "adda addaa qabu; sagantaan bakka itti falman miti."),
     ("n", "5.", "Warri amala fi nageenya ijoollee isaaniitiif itti gaafatamoo dha."),
     ("n", "6.", "Dhugaatiin alkoolii yoo dhihaate madaalliidhaan fudhatama. Miseensi sirna dhabe akka bahu "
                 "gaafatama; Keewwata 7 jalatti adabama."),
