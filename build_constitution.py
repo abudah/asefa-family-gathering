@@ -183,9 +183,12 @@ CONTENT_EN = [
         ["Disturbing the program after one warning from the Leader", "500"],
         ["Host cancelling their turn with less than one month's notice, without a serious reason", "1,000"],
     ], [130, 30]),
-    ("n", "4.", "Excused reasons are: the member's own illness or the illness of their spouse or child; a "
-                "death or funeral; a birth; work travel; an exam; and a national or religious duty. The "
-                "Secretary records the reason. The committee may accept other serious reasons."),
+    ("n", "4.", "Excused reasons are only sudden and serious events that cannot be planned around: the "
+                "member's own serious illness or that of their spouse or child; a death or funeral in the "
+                "family; a birth; or a sudden emergency. Planned matters such as work travel, exams, trips "
+                "or social events are not excused, because the date is known three months ahead and such "
+                "things can be rescheduled. The Secretary records the reason, and the committee decides "
+                "whether it qualifies."),
     ("n", "5.", "Members living outside the city or abroad are excused from attendance and may join by "
                 "video call. They continue to pay contributions unless the Gathering agrees a different amount."),
     ("n", "6.", "A fine is recorded by the Secretary on the day and announced at the next program. It is "
@@ -415,9 +418,11 @@ CONTENT_AM = [
         ["ከመሪው አንድ ማስጠንቀቂያ በኋላ ፕሮግራሙን መረበሽ", "500"],
         ["አስተናጋጅ ያለ ከባድ ምክንያት ከአንድ ወር ባነሰ ማስታወቂያ ተራውን መሰረዝ", "1,000"],
     ], [130, 30]),
-    ("n", "4.", "የሚታለፉ ምክንያቶች፦ የራስ ሕመም ወይም የባል፣ የሚስት ወይም የልጅ ሕመም፤ ሞት ወይም ቀብር፤ ልደት፤ የሥራ "
-                "ጉዞ፤ ፈተና፤ እና አገራዊ ወይም ሃይማኖታዊ ግዴታ። ጸሐፊው ምክንያቱን ይመዘግባል። ኮሚቴው ሌሎች ከባድ "
-                "ምክንያቶችን ሊቀበል ይችላል።"),
+    ("n", "4.", "የሚታለፉ ምክንያቶች ድንገተኛና ከባድ፣ አስቀድሞ ሊታቀዱ የማይችሉ ሁኔታዎች ብቻ ናቸው፦ የራስ ከባድ ሕመም "
+                "ወይም የባል፣ የሚስት ወይም የልጅ ከባድ ሕመም፤ በቤተሰብ ውስጥ ሞት ወይም ቀብር፤ ልደት፤ ወይም ድንገተኛ አደጋ። "
+                "የሥራ ጉዞ፣ ፈተና፣ ጉዞ ወይም ማኅበራዊ ዝግጅት የመሳሰሉ አስቀድመው የታቀዱ ጉዳዮች አይታለፉም፤ ምክንያቱም "
+                "ቀኑ ሦስት ወር አስቀድሞ የታወቀ በመሆኑ እነዚህ ሊስተካከሉ ይችላሉ። ጸሐፊው ምክንያቱን ይመዘግባል፤ "
+                "ተቀባይነት ያለው መሆኑን ኮሚቴው ይወስናል።"),
     ("n", "5.", "ከከተማ ውጭ ወይም በውጭ አገር የሚኖሩ አባላት ከመገኘት ነጻ ናቸው፤ በቪዲዮ ጥሪ መሳተፍ ይችላሉ። ስብሰባው "
                 "የተለየ መጠን ካልተስማማ በስተቀር መዋጮ መክፈላቸውን ይቀጥላሉ።"),
     ("n", "6.", "ቅጣት በዕለቱ በጸሐፊው ይመዘገባል፤ በሚቀጥለው ፕሮግራም ይገለጻል። ከሚቀጥለው ፕሮግራም በፊት ወይም በዕለቱ "
@@ -653,9 +658,12 @@ CONTENT_OM = [
         ["Akeekkachiisa dura taa'aa tokko booda sagantaa jeequu", "500"],
         ["Keessummeessaan sababa cimaa malee beeksisa ji'a tokkoo gadiin dabaree isaa haquu", "1,000"],
     ], [130, 30]),
-    ("n", "4.", "Sababoonni fudhatama qaban: dhukkuba ofii yookiin dhukkuba abbaa manaa, haadha manaa yookiin "
-                "mucaa; du'a yookiin awwaalcha; dhaloota; imala hojii; qormaata; fi dirqama biyyaaleessaa "
-                "yookiin amantii. Barreessaan sababa galmeessa. Koreen sababoota cimoo biroo fudhachuu danda'a."),
+    ("n", "4.", "Sababoonni fudhatama qaban taateewwan tasa dhufanii fi cimoo, dursanii karoorfamuu hin "
+                "dandeenye qofa: dhukkuba cimaa ofii yookiin kan abbaa manaa, haadha manaa yookiin mucaa; "
+                "du'a yookiin awwaalcha maatii keessatti; dhaloota; yookiin balaa tasaa. Dhimmoonni dursanii "
+                "karoorfaman akka imala hojii, qormaata, imala yookiin sagantaa hawaasummaa fudhatama hin "
+                "qaban; sababiin isaas guyyaan ji'a sadii dura waan beekamuuf wantoonni kun jijjiiramuu "
+                "danda'u. Barreessaan sababa galmeessa; koreen fudhatama qabaachuu isaa murteessa."),
     ("n", "5.", "Miseensonni magaalaa alaa yookiin biyya alaa jiraatan argamuu irraa bilisa; waamicha "
                 "viidiyootiin hirmaachuu danda'u. Walgahiin hanga adda ta'e irratti yoo waliigale malee "
                 "buusii kaffaluu itti fufu."),
