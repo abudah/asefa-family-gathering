@@ -147,7 +147,7 @@ CONTENT_EN = [
     ("n", "2.", "The Gathering keeps one bank account in its own name. Withdrawals need two signatures: "
                 "the Treasurer and the Leader (or the Deputy Leader)."),
     ("n", "3.", "The fund is used only for:"),
-    ("b", "support to a member at a wedding, a birth, a serious illness, or a death in their close family, "
+    ("b", "support to a member at a serious illness or a death in their close family, "
           "in the amounts fixed in the support schedule;"),
     ("b", "an emergency loan to a member in hardship, approved by the Gathering and repaid on agreed terms;"),
     ("b", "joint family events and the running costs of the Gathering itself (stationery, receipts, bank charges);"),
@@ -155,8 +155,6 @@ CONTENT_EN = [
     ("n", "4.", "The support schedule is set by the Gathering and reviewed every year:"),
     ("t", [
         ["Event", "Support from the fund (birr)"],
-        ["Wedding of a member", ""],
-        ["Birth of a member's child", ""],
         ["Death of a member's parent, spouse or child", ""],
         ["Serious illness or hospital stay of a member", ""],
     ], [100, 60]),
@@ -206,7 +204,7 @@ CONTENT_EN = [
     ("n", "2.", "We respect the host's home as our own: we arrive on time, we help where asked, and we "
                 "leave the place as we found it."),
     ("n", "3.", "Phones are on silent during the formal part of the program."),
-    ("n", "4.", "Political, religious and business debates are not permitted at the Gathering. Members "
+    ("n", "4.", "Political and religious debates are not permitted at the Gathering. Members "
                 "hold different views, and the program is not the place to argue them."),
     ("n", "5.", "Parents are responsible for their children's behaviour and safety."),
     ("n", "6.", "Alcohol, if served, is taken in moderation. A member who becomes disorderly is asked to "
@@ -235,7 +233,7 @@ CONTENT_EN = [
     ("n", "1.", "Disagreements are expected in any family. What matters is how they are settled."),
     ("n", "2.", "The steps, in order:"),
     ("b", "Step 1. The two members talk privately and try to settle it themselves within two weeks."),
-    ("b", "Step 2. If not settled, either member asks the committee in writing. The committee hears both "
+    ("b", "Step 2. If not settled, either member asks the committee, in writing or by word of mouth. The committee hears both "
           "within one month and proposes a settlement."),
     ("b", "Step 3. If either member rejects the committee's proposal, the matter goes to the full Gathering "
           "at the next program. The Gathering hears both and decides by simple majority. Both members "
@@ -386,15 +384,13 @@ CONTENT_AM = [
     ("n", "2.", "ስብሰባው በራሱ ስም አንድ የባንክ ሂሳብ ይይዛል። ገንዘብ ለማውጣት ሁለት ፊርማ ያስፈልጋል፦ የገንዘብ ያዡ እና "
                 "የመሪው (ወይም የምክትል መሪው)።"),
     ("n", "3.", "ገንዘቡ የሚውለው ለሚከተሉት ብቻ ነው፦"),
-    ("b", "ለአባል ሠርግ፣ ልደት፣ ከባድ ሕመም ወይም በቅርብ ቤተሰቡ ሞት ሲደርስ በድጋፍ ሠንጠረዡ በተወሰነው መጠን የሚሰጥ ድጋፍ፤"),
+    ("b", "ለአባል ከባድ ሕመም ወይም በቅርብ ቤተሰቡ ሞት ሲደርስ በድጋፍ ሠንጠረዡ በተወሰነው መጠን የሚሰጥ ድጋፍ፤"),
     ("b", "ችግር ላይ ላለ አባል በስብሰባው ፈቃድ የሚሰጥና በተስማሙበት ሁኔታ የሚመለስ የአስቸኳይ ጊዜ ብድር፤"),
     ("b", "የጋራ የቤተሰብ ዝግጅቶች እና የስብሰባው የራሱ ወጪዎች (የጽሕፈት መሣሪያ፣ ደረሰኝ፣ የባንክ ክፍያ)፤"),
     ("b", "በተገኙ አባላት ሁለት ሦስተኛ የጸደቀ ማንኛውም ሌላ ዓላማ።"),
     ("n", "4.", "የድጋፍ ሠንጠረዡ በስብሰባው ይወሰናል፤ በየዓመቱ ይገመገማል፦"),
     ("t", [
         ["ክስተት", "ከገንዘቡ የሚሰጥ ድጋፍ (ብር)"],
-        ["የአባል ሠርግ", ""],
-        ["የአባል ልጅ ልደት", ""],
         ["የአባል ወላጅ፣ ባል/ሚስት ወይም ልጅ ሞት", ""],
         ["የአባል ከባድ ሕመም ወይም ሆስፒታል መተኛት", ""],
     ], [100, 60]),
@@ -442,7 +438,7 @@ CONTENT_AM = [
     ("n", "2.", "የአስተናጋጁን ቤት እንደ ራሳችን እናከብራለን፦ በሰዓቱ እንደርሳለን፣ ስንጠየቅ እንረዳለን፣ ቦታውን እንዳገኘነው "
                 "እንተዋለን።"),
     ("n", "3.", "በፕሮግራሙ መደበኛ ክፍል ስልኮች ድምፅ አልባ ይሆናሉ።"),
-    ("n", "4.", "በስብሰባው ላይ የፖለቲካ፣ የሃይማኖት እና የንግድ ክርክር አይፈቀድም። አባላት የተለያየ አመለካከት አላቸው፤ "
+    ("n", "4.", "በስብሰባው ላይ የፖለቲካ እና የሃይማኖት ክርክር አይፈቀድም። አባላት የተለያየ አመለካከት አላቸው፤ "
                 "ፕሮግራሙ እነዚህን የሚከራከሩበት ቦታ አይደለም።"),
     ("n", "5.", "ወላጆች ለልጆቻቸው ባሕርይና ደኅንነት ኃላፊ ናቸው።"),
     ("n", "6.", "መጠጥ ከቀረበ በመጠን ይወሰዳል። ሥርዓት ያጣ አባል እንዲወጣ ይጠየቃል፤ በአንቀጽ 7 መሠረት ይቀጣል።"),
@@ -468,7 +464,7 @@ CONTENT_AM = [
     ("n", "1.", "በማንኛውም ቤተሰብ አለመግባባት ይጠበቃል። ዋናው ነገር እንዴት እንደሚፈታ ነው።"),
     ("n", "2.", "ደረጃዎቹ በቅደም ተከተል፦"),
     ("b", "ደረጃ 1. ሁለቱ አባላት በግል ተነጋግረው በሁለት ሳምንት ውስጥ በራሳቸው ለመፍታት ይሞክራሉ።"),
-    ("b", "ደረጃ 2. ካልተፈታ አንዱ አባል ለኮሚቴው በጽሑፍ ያቀርባል። ኮሚቴው ሁለቱንም በአንድ ወር ውስጥ ሰምቶ የመፍትሔ "
+    ("b", "ደረጃ 2. ካልተፈታ አንዱ አባል ለኮሚቴው በጽሑፍ ወይም በቃል ያቀርባል። ኮሚቴው ሁለቱንም በአንድ ወር ውስጥ ሰምቶ የመፍትሔ "
           "ሐሳብ ያቀርባል።"),
     ("b", "ደረጃ 3. አንዱ አባል የኮሚቴውን ሐሳብ ካልተቀበለ ጉዳዩ በሚቀጥለው ፕሮግራም ለሙሉ ስብሰባው ይቀርባል። ስብሰባው "
           "ሁለቱንም ሰምቶ በአብላጫ ድምፅ ይወስናል። ድምፅ በሚሰጥበት ጊዜ ሁለቱም አባላት ከክፍሉ ይወጣሉ።"),
@@ -626,7 +622,7 @@ CONTENT_OM = [
     ("n", "2.", "Walgahiin maqaa isaatiin herrega baankii tokko qaba. Maallaqa baasuuf mallattoo lama "
                 "barbaachisa: kan qabduu maallaqaa fi kan dura taa'aa (yookiin itti aanaa)."),
     ("n", "3.", "Maallaqni kun kanneen armaan gadii qofaaf oola:"),
-    ("b", "miseensa tokkoof cidha, dhaloota, dhukkuba cimaa yookiin du'a maatii dhihoo isaa irratti, hanga "
+    ("b", "miseensa tokkoof dhukkuba cimaa yookiin du'a maatii dhihoo isaa irratti, hanga "
           "gabatee deeggarsaa keessatti murtaa'een deeggarsa kennuuf;"),
     ("b", "miseensa rakkoo keessa jiruuf liqii hatattamaa, Walgahiin hayyamee haala waliigalameen deebifamu;"),
     ("b", "sagantaalee maatii waloo fi baasii Walgahii mataa isaa (meeshaa barreeffamaa, nagahee, kaffaltii baankii);"),
@@ -634,8 +630,6 @@ CONTENT_OM = [
     ("n", "4.", "Gabateen deeggarsaa Walgahiidhaan murtaa'a; waggaa waggaan ilaalama:"),
     ("t", [
         ["Taatee", "Deeggarsa maallaqa irraa (Qarshii)"],
-        ["Cidha miseensaa", ""],
-        ["Dhaloota mucaa miseensaa", ""],
         ["Du'a abbaa yookiin haadha, abbaa manaa yookiin haadha manaa, yookiin mucaa miseensaa", ""],
         ["Dhukkuba cimaa yookiin hospitaala ciisuu miseensaa", ""],
     ], [100, 60]),
@@ -686,7 +680,7 @@ CONTENT_OM = [
     ("n", "2.", "Mana keessummeessaa akka kan keenyaatti kabajna: yeroo isaatti dhufna, yoo gaafatamne "
                 "gargaarra, bakka sana akkuma argannetti dhiifna."),
     ("n", "3.", "Kutaa sirnaa sagantaa keessatti bilbilli sagalee malee ta'a."),
-    ("n", "4.", "Walgahii irratti falmiin siyaasaa, amantii fi daldalaa hin hayyamamu. Miseensonni ilaalcha "
+    ("n", "4.", "Walgahii irratti falmiin siyaasaa fi amantii hin hayyamamu. Miseensonni ilaalcha "
                 "adda addaa qabu; sagantaan bakka itti falman miti."),
     ("n", "5.", "Warri amala fi nageenya ijoollee isaaniitiif itti gaafatamoo dha."),
     ("n", "6.", "Dhugaatiin alkoolii yoo dhihaate madaalliidhaan fudhatama. Miseensi sirna dhabe akka bahu "
@@ -718,7 +712,7 @@ CONTENT_OM = [
     ("n", "2.", "Tarkaanfiiwwan, tartiibaan:"),
     ("b", "Tarkaanfii 1. Miseensonni lamaan dhuunfaatti wal dubbatanii torban lama keessatti ofii "
           "isaaniitiin hiikuuf yaalu."),
-    ("b", "Tarkaanfii 2. Yoo hin hiikamne, miseensi tokko koreef barreeffamaan dhiheessa. Koreen lamaan "
+    ("b", "Tarkaanfii 2. Yoo hin hiikamne, miseensi tokko koreef barreeffamaan yookiin afaaniin dhiheessa. Koreen lamaan "
           "isaanii ji'a tokko keessatti dhageessee yaada furmaataa dhiheessa."),
     ("b", "Tarkaanfii 3. Miseensi tokko yaada koree yoo hin fudhanne, dhimmichi sagantaa itti aanu irratti "
           "Walgahii guutuuf dhihaata. Walgahiin lamaan isaanii dhageessee sagalee caalmaadhaan murteessa. "
