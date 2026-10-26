@@ -189,8 +189,10 @@ CONTENT_EN = [
                 "or social events are not excused, because the date is known three months ahead and such "
                 "things can be rescheduled. The Secretary records the reason, and the committee decides "
                 "whether it qualifies."),
-    ("n", "5.", "Members living outside the city or abroad are excused from attendance and may join by "
-                "video call. They continue to pay contributions unless the Gathering agrees a different amount."),
+    ("n", "5.", "Only members living outside Ethiopia are excused from attendance. They may join by video "
+                "call, and they continue to pay contributions unless the Gathering agrees a different "
+                "amount. Every member living inside the country, including those outside the city, must "
+                "attend, and an absence is fined under clause 3."),
     ("n", "6.", "A fine is recorded by the Secretary on the day and announced at the next program. It is "
                 "paid before or at the next program."),
     ("n", "7.", "A member who disputes a fine raises it with the committee within two weeks. The committee "
@@ -424,8 +426,9 @@ CONTENT_AM = [
                 "የሥራ ጉዞ፣ ፈተና፣ ጉዞ ወይም ማኅበራዊ ዝግጅት የመሳሰሉ አስቀድመው የታቀዱ ጉዳዮች አይታለፉም፤ ምክንያቱም "
                 "ቀኑ ሦስት ወር አስቀድሞ የታወቀ በመሆኑ እነዚህ ሊስተካከሉ ይችላሉ። ጸሐፊው ምክንያቱን ይመዘግባል፤ "
                 "ተቀባይነት ያለው መሆኑን ኮሚቴው ይወስናል።"),
-    ("n", "5.", "ከከተማ ውጭ ወይም በውጭ አገር የሚኖሩ አባላት ከመገኘት ነጻ ናቸው፤ በቪዲዮ ጥሪ መሳተፍ ይችላሉ። ስብሰባው "
-                "የተለየ መጠን ካልተስማማ በስተቀር መዋጮ መክፈላቸውን ይቀጥላሉ።"),
+    ("n", "5.", "ከኢትዮጵያ ውጭ የሚኖሩ አባላት ብቻ ከመገኘት ነጻ ናቸው። በቪዲዮ ጥሪ መሳተፍ ይችላሉ፤ ስብሰባው የተለየ መጠን "
+                "ካልተስማማ በስተቀር መዋጮ መክፈላቸውን ይቀጥላሉ። በአገር ውስጥ የሚኖር እያንዳንዱ አባል፣ ከከተማ ውጭ "
+                "የሚኖሩትን ጨምሮ፣ መገኘት አለበት፤ መቅረት በቁጥር 3 መሠረት ይቀጣል።"),
     ("n", "6.", "ቅጣት በዕለቱ በጸሐፊው ይመዘገባል፤ በሚቀጥለው ፕሮግራም ይገለጻል። ከሚቀጥለው ፕሮግራም በፊት ወይም በዕለቱ "
                 "ይከፈላል።"),
     ("n", "7.", "ቅጣትን የሚቃወም አባል በሁለት ሳምንት ውስጥ ለኮሚቴው ያቀርባል። ኮሚቴው ይወስናል፤ አባሉ በአንቀጽ 10 "
@@ -666,9 +669,10 @@ CONTENT_OM = [
                 "karoorfaman akka imala hojii, qormaata, imala yookiin sagantaa hawaasummaa fudhatama hin "
                 "qaban; sababiin isaas guyyaan ji'a sadii dura waan beekamuuf wantoonni kun jijjiiramuu "
                 "danda'u. Barreessaan sababa galmeessa; koreen fudhatama qabaachuu isaa murteessa."),
-    ("n", "5.", "Miseensonni magaalaa alaa yookiin biyya alaa jiraatan argamuu irraa bilisa; waamicha "
-                "viidiyootiin hirmaachuu danda'u. Walgahiin hanga adda ta'e irratti yoo waliigale malee "
-                "buusii kaffaluu itti fufu."),
+    ("n", "5.", "Miseensonni Itoophiyaa alaa jiraatan qofa argamuu irraa bilisa. Waamicha viidiyootiin "
+                "hirmaachuu danda'u; Walgahiin hanga adda ta'e irratti yoo waliigale malee buusii kaffaluu "
+                "itti fufu. Miseensi biyya keessa jiraatu hundi, kanneen magaalaa alaa jiraatan dabalatee, "
+                "argamuu qaba; hafuun lakk. 3 jalatti adabama."),
     ("n", "6.", "Adabbiin guyyaa sana barreessaadhaan galmeeffamee sagantaa itti aanu irratti beeksifama. "
                 "Sagantaa itti aanu dura yookiin guyyaa sana kaffalama."),
     ("n", "7.", "Miseensi adabbii mormu torban lama keessatti koreef dhiheessa. Koreen murteessa; miseensi "
