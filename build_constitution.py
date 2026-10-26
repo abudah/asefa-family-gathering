@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build the Asefa Family Gathering Constitution as a PDF (English + Amharic + Afaan Oromo).
 
-Run:  python3 build_constitution.py
-Output: Asefa-Family-Gathering-Constitution.pdf in the same folder.
+Run:  python3 build_constitution.py   (builds the designed PDF through build_pdf.py)
+This file holds all the text in English, Amharic and Afaan Oromo.
 
 Edit the CONTENT_EN, CONTENT_AM and CONTENT_OM lists below to change the text, then re-run.
 Each item is one of:
@@ -856,11 +856,11 @@ def page_decor(canvas, doc):
     canvas.restoreState()
 
 
-def build():
+def build_plain(out=None):
     en = make_styles("Helvetica", "Helvetica-Bold")
     am = make_styles("Kefa", "Kefa")
 
-    doc = SimpleDocTemplate(OUT, pagesize=A4, leftMargin=20 * mm, rightMargin=20 * mm,
+    doc = SimpleDocTemplate(out or OUT.replace(".pdf", "-plain.pdf"), pagesize=A4, leftMargin=20 * mm, rightMargin=20 * mm,
                             topMargin=20 * mm, bottomMargin=24 * mm,
                             title="Asefa Family Gathering Constitution",
                             author="The Asefa Family Gathering")
@@ -896,8 +896,11 @@ def build():
     story += render(CONTENT_OM, en)
 
     doc.build(story, onFirstPage=lambda c, d: None, onLaterPages=page_decor)
-    print("Wrote", OUT)
+    print("Wrote plain copy")
 
 
 if __name__ == "__main__":
-    build()
+    # The designed PDF is built by build_pdf.py from the text above.
+    # The plain ReportLab layout is kept as build_plain() for a fallback copy.
+    import build_pdf
+    build_pdf.build()
