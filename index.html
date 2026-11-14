@@ -26,6 +26,13 @@
 .langs button:hover { border-color: var(--gold); }
 .langs button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--green-night); }
 .choose.first .q { font-size: 1.35rem; }
+.ask-msg { display: none; width: 100%; margin: 0; padding: 10px 14px; border-radius: 12px; background: var(--gold); color: var(--green-night); font-weight: 700; line-height: 1.5; }
+.ask-msg span { white-space: nowrap; }
+.ask-msg [lang="am"] { font-family: var(--ethiopic); }
+.choose.ask .ask-msg { display: block; }
+.choose.ask .langs button { animation: nudge 1.2s ease-in-out 2; border-color: var(--gold); }
+@keyframes nudge { 0%, 100% { transform: none; } 50% { transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .choose.ask .langs button { animation: none; } }
 .choose.first .langs button { font-size: 1.25rem; padding: 16px 24px; }
 
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
@@ -60,6 +67,7 @@
 
 <section class="choose" id="choose">
   <div class="wrap">
+    <p class="ask-msg" role="status"><span>Choose your language first to continue.</span> <span lang="am">ለመቀጠል መጀመሪያ ቋንቋ ይምረጡ።</span> <span lang="om">Itti fufuuf dura afaan filadhu.</span></p>
     <div class="q"><span>Choose your language</span> · <span lang="am">ቋንቋ ይምረጡ</span> · <span lang="om">Afaan filadhu</span></div>
     <div class="langs" role="group" aria-label="Language">
       <button type="button" id="pick-en" data-lang="en" lang="en">English</button>
@@ -104,21 +112,40 @@
 <div id="site-foot"></div>
 <script>
 (function () {
-  var q = new URLSearchParams(location.search), next = q.get('next');
+  var q = new URLSearchParams(location.search);
   function safeNext(n) { return n && n.charAt(0) === '/' && n.charAt(1) !== '/' ? n : null; }
+  var pending = safeNext(q.get('next'));
   var box = document.getElementById('choose');
   function mark() {
     document.querySelectorAll('.langs button').forEach(function (b) { b.setAttribute('aria-pressed', String(!!ASEFA.chosen && b.dataset.lang === ASEFA.lang)); });
     box.classList.toggle('first', !ASEFA.chosen);
+    if (ASEFA.chosen) box.classList.remove('ask');
   }
+  function askFirst(target) {
+    pending = target || pending;
+    box.classList.remove('ask'); void box.offsetWidth; box.classList.add('ask');
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  /* Before a language is chosen, links to other pages wait for the choice, then continue there. */
+  document.addEventListener('click', function (e) {
+    if (ASEFA.chosen || !ASEFA.storageOK) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || a.target === '_blank') return;
+    var here = location.pathname.replace(/index\.html$/, '');
+    if (u.pathname.replace(/index\.html$/, '') === here) return;
+    e.preventDefault();
+    askFirst(u.pathname + u.search + u.hash);
+  });
   document.querySelectorAll('.langs button').forEach(function (b) {
     b.addEventListener('click', function () {
       ASEFA.setLang(b.dataset.lang); mark();
-      var n = safeNext(next);
-      if (n) location.href = n;
+      if (pending) location.href = pending;
     });
   });
   mark();
+  if (pending && !ASEFA.chosen) askFirst(pending);
 })();
 </script>
 </body>
