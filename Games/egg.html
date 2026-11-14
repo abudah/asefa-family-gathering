@@ -3,20 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1c120c">
+<meta name="theme-color" content="#0b3d33">
 <title>Enkulal</title>
-<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" data-root="../" data-page="game"></script>
 <style>
 /* Enkulal: hot-egg passing game for the Asefa Family Gathering.
    Pass the phone (or a real object) around the circle; the egg cracks, then bursts at a random moment. */
 :root {
-  --bg: #1c120c;
-  --bg-2: #2b1a10;
-  --cream: #fff3d6;
-  --cream-dim: rgba(255, 243, 214, .66);
-  --gold: #e3b25c;
+  --bg: #0b3d33;
+  --bg-2: #0e4c40;
+  --cream: #fff6e0;
+  --cream-dim: rgba(255, 246, 224, .72);
+  --gold: #f6c453;
   --yolk: #ffb81c;
-  --ember: #e8572a;
+  --ember: #c4202f;
   --ember-hot: #ff7a3d;
   --line: rgba(255, 243, 214, .16);
   --display: "Fraunces", Georgia, serif;
@@ -29,15 +30,19 @@
 html, body { height: 100%; margin: 0; }
 body {
   background: var(--bg);
-  background-image: radial-gradient(80% 60% at 50% 45%, rgba(232, 87, 42, calc(var(--heat) * .6)) 0%, transparent 70%);
+  background-image: radial-gradient(80% 60% at 50% 45%, rgba(232, 87, 42, calc(var(--heat) * .6)) 0%, transparent 70%), linear-gradient(180deg, #0e5245 0%, #0b3d33 55%, #062720 100%);
+  background-attachment: fixed;
   color: var(--cream);
   font-family: var(--body);
   -webkit-tap-highlight-color: transparent;
   overflow: hidden;
-  padding: env(safe-area-inset-top, 0) max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0) max(16px, env(safe-area-inset-left, 0px));
+  padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0) max(16px, env(safe-area-inset-left, 0px));
 }
 html[lang="am"] body, [lang="am"] { font-family: var(--ethiopic); }
 button { font: inherit; color: inherit; cursor: pointer; }
+.ribbon { position: fixed; top: 0; left: 0; right: 0; z-index: 12; }
+.back { align-self: flex-start; color: var(--gold); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.back:hover { text-decoration: underline; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .screen { height: 100%; display: flex; flex-direction: column; max-width: 46rem; margin: 0 auto; }
 [hidden] { display: none !important; }
@@ -131,20 +136,16 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
 </style>
 </head>
 <body>
+<div class="tibeb thin ribbon"></div>
 
 <!-- ============ SETUP ============ -->
 <main class="screen" id="setup">
+  <a class="back" href="./">← <span class="t" lang="en">Family games</span><span class="t" lang="am">የቤተሰብ ጨዋታዎች</span><span class="t" lang="om">Taphoota maatii</span></a>
   <div class="brand">
-    <h1>Enkulal!</h1>
-    <div class="alt"><span lang="am">ዕንቁላል!</span> &nbsp;·&nbsp; <span lang="om">Hanqaaquu!</span></div>
+    <h1><span class="t" lang="en">Enkulal!</span><span class="t" lang="am">ዕንቁላል!</span><span class="t" lang="om">Hanqaaquu!</span></h1>
   </div>
   <p class="tagline" data-t="tagline"></p>
 
-  <div class="seg" role="group" aria-label="Language">
-    <button type="button" id="l-en" data-lang="en">English</button>
-    <button type="button" id="l-am" data-lang="am" lang="am">አማርኛ</button>
-    <button type="button" id="l-om" data-lang="om" lang="om">Afaan Oromoo</button>
-  </div>
 
   <section class="panel">
     <h2 class="label" data-t="players"></h2>
@@ -169,7 +170,6 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
 <main class="screen" id="play" hidden>
   <div class="bar">
     <button class="mini" id="menuBtn" type="button" data-t="menu"></button>
-    <button class="mini" id="langBtn" type="button"></button>
   </div>
   <ul class="score" id="score"></ul>
 
@@ -315,7 +315,7 @@ var store = {
   get: function (k) { try { return localStorage.getItem('enkulal-' + k); } catch (e) { return null; } },
   set: function (k, v) { try { localStorage.setItem('enkulal-' + k, v); } catch (e) {} }
 };
-var lang = store.get('lang') || 'en';
+var lang = (window.ASEFA && ASEFA.lang) || 'en';
 if (!T[lang]) lang = 'en';
 var players = [];
 try { players = JSON.parse(store.get('players') || '[]').map(function (n) { return { name: n, k: 0, out: false }; }); } catch (e) { players = []; }
@@ -336,11 +336,9 @@ function applyLang() {
   document.querySelectorAll('.seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
   var how = $('how'); how.innerHTML = '';
   t('how').forEach(function (s) { var li = document.createElement('li'); li.textContent = s; how.appendChild(li); });
-  $('langBtn').textContent = LANG_NAME[lang];
   $('msg').textContent = running ? t('pass') : t('ready');
   $('forfeitText').textContent = DARES[dareIdx][LANG_IDX[lang]];
   renderScore();
-  store.set('lang', lang);
 }
 
 function renderChips() {
@@ -525,7 +523,6 @@ function wake() { try { if (navigator.wakeLock) navigator.wakeLock.request('scre
 function unwake() { try { if (wakeLock) { wakeLock.release(); wakeLock = null; } } catch (e) {} }
 
 /* ---------------- wiring */
-document.querySelectorAll('.seg button').forEach(function (b) { b.addEventListener('click', function () { lang = b.dataset.lang; applyLang(); }); });
 $('addForm').addEventListener('submit', function (e) {
   e.preventDefault();
   var v = $('nameInput').value.trim(); if (!v) return;
@@ -545,7 +542,6 @@ $('nextBtn').addEventListener('click', ready);
 $('otherDareBtn').addEventListener('click', function () { nextDare(); $('forfeitText').textContent = DARES[dareIdx][LANG_IDX[lang]]; });
 $('againBtn').addEventListener('click', function () { players.forEach(function (p) { p.k = 0; p.out = false; }); renderScore(); ready(); });
 $('menuBtn').addEventListener('click', function () { ready(); $('play').hidden = true; $('setup').hidden = false; });
-$('langBtn').addEventListener('click', function () { lang = lang === 'en' ? 'am' : lang === 'am' ? 'om' : 'en'; applyLang(); });
 document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && running) wake(); });
 
 nextDare(); renderChips(); applyLang();

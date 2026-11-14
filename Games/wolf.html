@@ -3,46 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d1330">
+<meta name="theme-color" content="#072a2c">
 <title>Tekula</title>
-<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" data-root="../" data-page="game"></script>
 <style>
 /* Tekula: wolves, doctor and civilians, for the Asefa Family Gathering.
    One phone. Roles are dealt in secret, then the narrator runs the nights and days from it. */
 :root {
-  --bg: #0d1330;
-  --bg-2: #18204a;
-  --card: #1d2756;
+  --bg: #072a2c;
+  --bg-2: #0d3b3c;
+  --card: #114846;
   --ink: #f4efe2;
   --ink-dim: rgba(244, 239, 226, .66);
   --line: rgba(244, 239, 226, .16);
-  --gold: #e9b95a;
+  --gold: #f6c453;
   --moon: #f6e7b8;
-  --wolf: #d6402f;
-  --doctor: #1fa7a0;
-  --civil: #e9b95a;
-  --detective: #c0479a;
+  --wolf: #d23a2c;
+  --doctor: #1b9aa0;
+  --civil: #f6c453;
+  --detective: #c43d86;
   --display: "Fraunces", Georgia, serif;
   --body: "Source Serif 4", Georgia, serif;
   --ethiopic: "Noto Serif Ethiopic", "Kefa", serif;
   color-scheme: dark;
 }
 body.day {
-  --bg: #2a1a10;
-  --bg-2: #3a2416;
-  --card: #45301f;
-  --gold: #f2b632;
+  --bg: #0e5245;
+  --bg-2: #135f50;
+  --card: #176b5a;
+  --gold: #f6c453;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body {
   background: var(--bg);
-  background-image: radial-gradient(70% 45% at 80% 0%, rgba(246, 231, 184, .14) 0%, transparent 60%);
+  background-image: radial-gradient(70% 45% at 80% 0%, rgba(246, 231, 184, .16) 0%, transparent 60%), linear-gradient(180deg, #0b3a3c 0%, #072a2c 60%, #041c1e 100%);
+  background-attachment: fixed;
   color: var(--ink); font-family: var(--body);
   -webkit-tap-highlight-color: transparent;
   transition: background-color .5s;
 }
-body.day { background-image: radial-gradient(80% 50% at 50% 0%, rgba(242, 182, 50, .22) 0%, transparent 65%); }
+body.day { background-image: radial-gradient(80% 50% at 50% 0%, rgba(246, 196, 83, .3) 0%, transparent 65%), linear-gradient(180deg, #0e5245 0%, #0b3d33 100%); }
+.ribbon { position: fixed; top: 0; left: 0; right: 0; z-index: 12; }
+.back { align-self: flex-start; color: var(--gold); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.back:hover { text-decoration: underline; }
 html[lang="am"] body, [lang="am"] { font-family: var(--ethiopic); }
 button { font: inherit; color: inherit; cursor: pointer; }
 button:disabled { cursor: default; opacity: .4; }
@@ -51,7 +56,7 @@ button:disabled { cursor: default; opacity: .4; }
 
 #app {
   min-height: 100%; max-width: 44rem; margin: 0 auto;
-  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  padding: calc(30px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
   display: flex; flex-direction: column; gap: 18px;
 }
 
@@ -157,6 +162,7 @@ html[lang="am"] .win { font-family: var(--ethiopic); }
 </style>
 </head>
 <body>
+<div class="tibeb thin ribbon"></div>
 <div id="app"></div>
 
 <script>
@@ -402,7 +408,7 @@ function load(k, d) { try { var v = localStorage.getItem(KEY + '-' + k); return 
 function keep(k, v) { try { localStorage.setItem(KEY + '-' + k, JSON.stringify(v)); } catch (e) {} }
 function drop(k) { try { localStorage.removeItem(KEY + '-' + k); } catch (e) {} }
 
-var lang = load('lang', 'en'); if (!T[lang]) lang = 'en';
+var lang = (window.ASEFA && ASEFA.lang) || 'en'; if (!T[lang]) lang = 'en';
 var setup = load('setup', { names: [], wolves: 1, wolvesAuto: true, doctor: true, detective: false, reveal: true });
 var G = null;                       /* the game in progress */
 var ui = { endArmed: false, showRoles: false, pick: null, waitLeft: 0, waitDone: false, timer: null, setupMsg: '' };
@@ -492,10 +498,10 @@ function wireLang() { onAll('.seg button', 'click', function (b) { lang = b.data
 /* ---------- resume */
 function renderResume() {
   app.innerHTML =
-    '<div class="brand"><h1>Tekula!</h1><div class="alt"><span lang="am">ተኩላ!</span> · <span lang="om">Yeeyyii!</span></div></div>' + langSeg() +
+    '<a class="back" href="./">← <span class="t" lang="en">Family games</span><span class="t" lang="am">የቤተሰብ ጨዋታዎች</span><span class="t" lang="om">Taphoota maatii</span></a>' +
+    '<div class="brand"><h1><span class="t" lang="en">Tekula!</span><span class="t" lang="am">ተኩላ!</span><span class="t" lang="om">Yeeyyii!</span></h1></div>' +
     '<div class="center"><p class="tagline">' + esc(t('resume')) + '</p></div>' +
     '<div class="foot"><button class="btn big accent" id="yes">' + esc(t('resumeYes')) + '</button><button class="btn big ghost" id="no">' + esc(t('resumeNo')) + '</button></div>';
-  wireLang();
   on('#yes', 'click', function () { G = saved; if (G.phase === 'deal') G.dealShown = false; offerResume = false; save(); render(); });
   on('#no', 'click', function () { drop('game'); offerResume = false; G = null; render(); });
 }
@@ -507,8 +513,9 @@ function renderSetup() {
   var civ = Math.max(0, n - setup.wolves - (setup.doctor ? 1 : 0) - (setup.detective ? 1 : 0));
   var chips = setup.names.map(function (nm, i) { return '<li><span>' + esc(nm) + '</span><button type="button" data-i="' + i + '" aria-label="Remove ' + esc(nm) + '">×</button></li>'; }).join('');
   app.innerHTML =
-    '<div class="brand"><h1>Tekula!</h1><div class="alt"><span lang="am">ተኩላ!</span> · <span lang="om">Yeeyyii!</span></div></div>' +
-    '<p class="tagline">' + esc(t('tagline')) + '</p>' + langSeg() +
+    '<a class="back" href="./">← <span class="t" lang="en">Family games</span><span class="t" lang="am">የቤተሰብ ጨዋታዎች</span><span class="t" lang="om">Taphoota maatii</span></a>' +
+    '<div class="brand"><h1><span class="t" lang="en">Tekula!</span><span class="t" lang="am">ተኩላ!</span><span class="t" lang="om">Yeeyyii!</span></h1></div>' +
+    '<p class="tagline">' + esc(t('tagline')) + '</p>' +
     '<section class="panel"><h2 class="label">' + esc(t('players')) + ' · ' + n + '</h2>' +
       '<p class="hint">' + ico('moon') + ' ' + esc(t('narratorNote')) + '</p>' +
       '<form class="add" id="addForm"><input id="nameInput" type="text" autocomplete="off" maxlength="18" placeholder="' + esc(t('addName')) + '"><button class="btn" type="submit">' + esc(t('add')) + '</button></form>' +
@@ -529,7 +536,6 @@ function renderSetup() {
     '</section>' +
     '<section class="panel"><h2 class="label">' + esc(t('howTitle')) + '</h2><ol class="how">' + t('how').map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></section>' +
     '<div class="foot"><button class="btn big accent" id="dealBtn">' + esc(t('deal')) + '</button></div>';
-  wireLang();
   on('#addForm', 'submit', function (e) {
     e.preventDefault();
     var v = document.getElementById('nameInput').value.trim();
@@ -600,13 +606,11 @@ function topbar(label, icon) {
   }).join('');
   return '<div class="topbar"><span class="phase">' + ico(icon) + esc(label) + '</span><span class="spacer"></span>' +
     '<button class="mini" id="rolesBtn" aria-pressed="' + ui.showRoles + '">' + esc(t('showRoles')) + '</button>' +
-    '<button class="mini" id="langBtn">' + LANG_NAME[lang] + '</button>' +
     '<button class="mini" id="endBtn">' + esc(ui.endArmed ? t('endConfirm') : t('endGame')) + '</button></div>' +
     '<ul class="status">' + list + '</ul>';
 }
 function wireTop() {
   on('#rolesBtn', 'click', function () { ui.showRoles = !ui.showRoles; render(); });
-  on('#langBtn', 'click', function () { lang = lang === 'en' ? 'am' : lang === 'am' ? 'om' : 'en'; keep('lang', lang); render(); });
   on('#endBtn', 'click', function () {
     if (!ui.endArmed) { ui.endArmed = true; render(); setTimeout(function () { if (ui.endArmed) { ui.endArmed = false; render(); } }, 3000); return; }
     ui.endArmed = false; drop('game'); G = null; render();

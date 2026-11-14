@@ -3,90 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1c120c">
+<meta name="theme-color" content="#0b3d33">
 <title>Asefa Family Games</title>
-<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" data-root="../" data-page="games"></script>
 <style>
-/* Family games home: two game cards, each opens the game on this phone. */
-:root {
-  --bg: #1c120c; --bg-2: #2b1a10; --ink: #fff3d6; --dim: rgba(255, 243, 214, .68);
-  --line: rgba(255, 243, 214, .16); --gold: #e3b25c; --ember: #e8572a; --night: #18204a; --wolf: #d6402f;
-  --display: "Fraunces", Georgia, serif; --body: "Source Serif 4", Georgia, serif; --ethiopic: "Noto Serif Ethiopic", "Kefa", serif;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; }
-body {
-  background: var(--bg); color: var(--ink); font-family: var(--body);
-  background-image: radial-gradient(80% 40% at 50% 0%, rgba(227, 178, 92, .18) 0%, transparent 70%);
-  padding: max(28px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(32px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-}
-[lang="am"] { font-family: var(--ethiopic); }
-main { max-width: 44rem; margin: 0 auto; display: grid; gap: 22px; }
-.eyebrow { font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
-h1 { margin: 6px 0 0; font-family: var(--display); font-weight: 700; font-size: clamp(2.6rem, 11vw, 4rem); line-height: .95; letter-spacing: -.02em; }
-.sub { margin-top: 10px; color: var(--dim); line-height: 1.5; }
-.sub span { display: block; }
-.games { display: grid; gap: 16px; }
-a.game {
-  display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center;
-  padding: 18px; border-radius: 22px; text-decoration: none; color: var(--ink);
-  border: 1px solid var(--line); transition: transform .15s, border-color .15s;
-}
-a.game:hover, a.game:focus-visible { transform: translateY(-2px); border-color: var(--gold); outline: none; }
-a.egg { background: linear-gradient(135deg, #3a2416 0%, #2b1a10 60%); }
-a.wolf { background: linear-gradient(135deg, #1d2756 0%, #121a3f 70%); }
-.art { width: 96px; height: 96px; }
-.art svg { width: 100%; height: 100%; display: block; }
-.name { font-family: var(--display); font-weight: 700; font-size: 1.9rem; line-height: 1; }
-.alt { color: var(--gold); font-size: .95rem; margin-top: 4px; }
-.desc { margin: 8px 0 0; color: var(--dim); line-height: 1.45; font-size: .98rem; }
-.meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
-.meta span { font-size: .8rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
-.play { margin-top: 12px; display: inline-block; font-weight: 600; color: var(--bg); background: var(--ink); padding: 8px 16px; border-radius: 12px; }
-a.wolf .play { background: var(--gold); }
-.foot { color: var(--dim); font-size: .9rem; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 16px; }
-.foot a { color: var(--gold); }
-@media (max-width: 26rem) { a.game { grid-template-columns: 72px 1fr; } .art { width: 72px; height: 72px; } .name { font-size: 1.6rem; } }
+.games { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 46rem) { .games { grid-template-columns: 1fr; } }
+.game { display: flex; flex-direction: column; overflow: hidden; text-decoration: none; color: var(--ink) !important; transition: transform .15s, box-shadow .15s; }
+.game:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -22px rgba(14, 82, 69, .7); }
+.game .art { height: 190px; display: grid; place-items: center; position: relative; overflow: hidden; }
+.game .art svg { height: 150px; width: auto; position: relative; }
+.game.egg .art { background: radial-gradient(circle at 50% 60%, #f6c453 0%, #e2541e 55%, #c4202f 100%); }
+.game.wolf .art { background: radial-gradient(circle at 70% 25%, #f6e7b8 0 7%, transparent 8%), linear-gradient(180deg, #0b2f3a 0%, #0b3d33 100%); }
+.game .body { padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.game h2 { margin: 0; font-family: var(--head); font-weight: 700; font-size: 1.8rem; line-height: 1.1; }
+.game p { margin: 0; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.chips span { font-size: .85rem; padding: 3px 10px; border-radius: 999px; background: var(--cream); color: var(--green); font-weight: 600; }
+.play { margin-top: auto; padding-top: 10px; }
+.tips { margin-top: 22px; padding: 18px 22px; }
+.tips ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 4px; }
 </style>
 </head>
-<body>
-<main>
-  <header>
-    <div class="eyebrow">Asefa Family Gathering</div>
-    <h1>Family Games</h1>
-    <p class="sub"><span lang="am">የቤተሰብ ጨዋታዎች</span><span lang="om">Taphoota maatii</span></p>
-  </header>
+<body class="site">
+<div id="site-head"></div>
 
-  <div class="games">
-    <a class="game egg" href="egg.html">
-      <div class="art" aria-hidden="true">
-        <svg viewBox="-80 -100 160 200"><circle cx="0" cy="0" r="96" fill="#e8572a" opacity=".22"/><path d="M0 -82 C 40 -82 64 -8 64 30 C 64 68 36 88 0 88 C -36 88 -64 68 -64 30 C -64 -8 -40 -82 0 -82 Z" fill="#fbf1dc"/><path d="M0 -82 C 40 -82 64 -8 64 30 C 64 68 36 88 0 88 C 26 72 40 36 36 0 C 30 -40 16 -72 0 -82 Z" fill="#ead6b0"/><path d="M8 -78 L 2 -58 L 14 -48 L 6 -30 L 16 -14" fill="none" stroke="#3d2410" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div>
-        <div class="name">Enkulal!</div>
-        <div class="alt"><span lang="am">ዕንቁላል!</span> · <span lang="om">Hanqaaquu!</span></div>
-        <p class="desc">Pass the egg around the circle as fast as you can. It bursts at a random moment, and whoever holds it does a forfeit.</p>
-        <div class="meta"><span>3+ players</span><span>One phone</span><span>All ages</span></div>
-        <span class="play">Play</span>
-      </div>
-    </a>
-
-    <a class="game wolf" href="wolf.html">
-      <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#2a0f0c"/><path d="M14 16 L24 26 L40 26 L50 16 L48 36 C 46 46 40 52 32 54 C 24 52 18 46 16 36 Z" fill="#4a1c16"/><path d="M14 16 L24 26 L20 30 Z M50 16 L40 26 L44 30 Z" fill="#6e2a20"/><ellipse cx="24.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="39.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="24.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><ellipse cx="39.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><path d="M28 45 L32 49 L36 45 Z" fill="#1a0806"/></svg>
-      </div>
-      <div>
-        <div class="name">Tekula!</div>
-        <div class="alt"><span lang="am">ተኩላ!</span> · <span lang="om">Yeeyyii!</span></div>
-        <p class="desc">Wolves hide among the family, the doctor saves, and everyone votes. A narrator runs the nights from one phone.</p>
-        <div class="meta"><span>5+ players and a narrator</span><span>One phone</span><span>Ages 10+</span></div>
-        <span class="play">Play</span>
-      </div>
-    </a>
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="t" lang="en">Coffee ceremony and games</span><span class="t" lang="am">የቡና ሥነ ሥርዓትና ጨዋታዎች</span><span class="t" lang="om">Sirna bunaa fi taphoota</span></div>
+    <h1><span class="t" lang="en">Family Games</span><span class="t" lang="am">የቤተሰብ ጨዋታዎች</span><span class="t" lang="om">Taphoota maatii</span></h1>
+    <p class="lead"><span class="t" lang="en">Two games for the whole family. Each one is played on a single phone.</span><span class="t" lang="am">ለመላው ቤተሰብ ሁለት ጨዋታዎች። እያንዳንዱ በአንድ ስልክ ይጫወታል።</span><span class="t" lang="om">Taphoota lama maatii guutuuf. Tokkoon tokkoon isaanii bilbila tokkoon taphatama.</span></p>
   </div>
+</section>
+<div class="tibeb"></div>
 
-  <p class="foot">Each game works in English, <span lang="am">አማርኛ</span> and Afaan Oromoo. Turn the sound up. The family constitution is <a href="../">here</a>.</p>
+<main class="section">
+  <div class="wrap">
+    <div class="games">
+      <a class="card game egg" href="egg.html">
+        <div class="art"><svg viewBox="-80 -100 160 200" aria-hidden="true"><path d="M0 -82 C 40 -82 64 -8 64 30 C 64 68 36 88 0 88 C -36 88 -64 68 -64 30 C -64 -8 -40 -82 0 -82 Z" fill="#fbf1dc"/><path d="M0 -82 C 40 -82 64 -8 64 30 C 64 68 36 88 0 88 C 26 72 40 36 36 0 C 30 -40 16 -72 0 -82 Z" fill="#ead6b0"/><ellipse cx="-26" cy="-30" rx="10" ry="19" fill="#fff" opacity=".7" transform="rotate(18 -26 -30)"/><path d="M8 -78 L 2 -58 L 14 -48 L 6 -30 L 16 -14" fill="none" stroke="#3d2410" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M-62 22 L -44 28 L -38 16 L -20 24" fill="none" stroke="#3d2410" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="body">
+          <h2><span class="t" lang="en">Enkulal!</span><span class="t" lang="am">ዕንቁላል!</span><span class="t" lang="om">Hanqaaquu!</span></h2>
+          <p><span class="t" lang="en">Pass the egg around the circle as fast as you can. It bursts at a random moment, and whoever holds it does a forfeit.</span><span class="t" lang="am">ዕንቁላሉን በክቡ ውስጥ በተቻለ ፍጥነት አሳልፉ። በማይታወቅ ጊዜ ይፈነዳል፤ የያዘው ሰው ቅጣት ይፈጽማል።</span><span class="t" lang="om">Hanqaaquu geengoo keessatti hamma dandeessan saffisaan dabarsaa. Yeroo hin beekamnetti dhoha; namni qabate adabbii raawwata.</span></p>
+          <div class="chips"><span><span class="t" lang="en">3+ players</span><span class="t" lang="am">3+ ተጫዋቾች</span><span class="t" lang="om">Taphattoota 3+</span></span><span><span class="t" lang="en">All ages</span><span class="t" lang="am">ለሁሉም ዕድሜ</span><span class="t" lang="om">Umrii hundaaf</span></span><span><span class="t" lang="en">15 minutes</span><span class="t" lang="am">15 ደቂቃ</span><span class="t" lang="om">Daqiiqaa 15</span></span></div>
+          <div class="play"><span class="btn gold"><span class="t" lang="en">Play</span><span class="t" lang="am">ይጫወቱ</span><span class="t" lang="om">Taphadhu</span> →</span></div>
+        </div>
+      </a>
+
+      <a class="card game wolf" href="wolf.html">
+        <div class="art"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#2a0f0c"/><path d="M14 16 L24 26 L40 26 L50 16 L48 36 C 46 46 40 52 32 54 C 24 52 18 46 16 36 Z" fill="#4a1c16"/><path d="M14 16 L24 26 L20 30 Z M50 16 L40 26 L44 30 Z" fill="#6e2a20"/><ellipse cx="24.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="39.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="24.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><ellipse cx="39.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><path d="M28 45 L32 49 L36 45 Z" fill="#1a0806"/></svg></div>
+        <div class="body">
+          <h2><span class="t" lang="en">Tekula!</span><span class="t" lang="am">ተኩላ!</span><span class="t" lang="om">Yeeyyii!</span></h2>
+          <p><span class="t" lang="en">Wolves hide among the family, the doctor saves, and everyone votes. A narrator runs the nights from one phone.</span><span class="t" lang="am">ተኩላዎች በቤተሰቡ መካከል ተደብቀዋል፤ ሐኪሙ ያድናል፣ ሁሉም ድምፅ ይሰጣል። ተራኪው ሌሊቶቹን በአንድ ስልክ ይመራል።</span><span class="t" lang="om">Yeeyyiiwwan maatii keessa dhokataniiru; ogeessi fayyaa ni baraara, hundi sagalee kenna. Seenessaan halkan bilbila tokkoon geggeessa.</span></p>
+          <div class="chips"><span><span class="t" lang="en">5+ players and a narrator</span><span class="t" lang="am">5+ ተጫዋቾችና ተራኪ</span><span class="t" lang="om">Taphattoota 5+ fi seenessaa</span></span><span><span class="t" lang="en">Ages 10+</span><span class="t" lang="am">ከ10 ዓመት በላይ</span><span class="t" lang="om">Umrii 10+</span></span><span><span class="t" lang="en">30 to 45 minutes</span><span class="t" lang="am">ከ30 እስከ 45 ደቂቃ</span><span class="t" lang="om">Daqiiqaa 30 hanga 45</span></span></div>
+          <div class="play"><span class="btn gold"><span class="t" lang="en">Play</span><span class="t" lang="am">ይጫወቱ</span><span class="t" lang="om">Taphadhu</span> →</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="card tips">
+      <p class="label"><span class="t" lang="en">Before you play</span><span class="t" lang="am">ከመጫወትዎ በፊት</span><span class="t" lang="om">Osoo hin taphatin dura</span></p>
+      <ul>
+        <li><span class="t" lang="en">Turn the phone's sound up.</span><span class="t" lang="am">የስልኩን ድምፅ ከፍ ያድርጉ።</span><span class="t" lang="om">Sagalee bilbilaa ol kaasi.</span></li>
+        <li><span class="t" lang="en">Set the screen to stay on for a few minutes.</span><span class="t" lang="am">ማያው ለጥቂት ደቂቃዎች እንዳይጠፋ ያስተካክሉ።</span><span class="t" lang="om">Iskiriiniin daqiiqaa muraasaaf akka hin dhamne qindeessi.</span></li>
+        <li><span class="t" lang="en">Names you add are remembered on this phone.</span><span class="t" lang="am">ያስገቧቸው ስሞች በዚህ ስልክ ላይ ይቀመጣሉ።</span><span class="t" lang="om">Maqaan galchite bilbila kana irratti ni yaadatama.</span></li>
+      </ul>
+    </div>
+  </div>
 </main>
+
+<div id="site-foot"></div>
 </body>
 </html>
