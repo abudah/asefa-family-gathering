@@ -87,8 +87,9 @@ CONTENT_EN = [
     ("n", "1.", "The Gathering meets once every three months, on the first Saturday of that month."),
     ("n", "2.", "The program begins at 7:00 and ends at 11:00. The program starts at 7:00 whether or not "
                 "every member has arrived. Nobody waits for anybody."),
-    ("n", "3.", "The committee may move a date only for a death, a major holiday, or a national event, and "
-                "must announce the new date at least two weeks ahead."),
+    ("n", "3.", "The program cannot be rescheduled without a probable cause. Personal plans, travel, or a "
+                "member's convenience are not a cause. The committee may move a date only for a death, a "
+                "major holiday, or a national event, and must announce the new date at least two weeks ahead."),
     ("n", "4.", "Every program follows the same order so that it runs smoothly:"),
     ("t", [
         ["Time", "Item", "Led by"],
@@ -329,8 +330,9 @@ CONTENT_AM = [
     ("n", "1.", "ስብሰባው በየሦስት ወሩ አንድ ጊዜ፣ በዚያ ወር የመጀመሪያ ቅዳሜ ይካሄዳል።"),
     ("n", "2.", "ፕሮግራሙ በ7፡00 ይጀምራል፣ በ11፡00 ያበቃል። ሁሉም አባል ቢደርስም ባይደርስም ፕሮግራሙ በ7፡00 ይጀምራል። "
                 "ማንም ማንንም አይጠብቅም።"),
-    ("n", "3.", "ኮሚቴው ቀን የሚቀይረው ለሞት፣ ለትልቅ በዓል ወይም ለአገራዊ ጉዳይ ብቻ ሲሆን፣ አዲሱን ቀን ቢያንስ ከሁለት "
-                "ሳምንት በፊት ማሳወቅ አለበት።"),
+    ("n", "3.", "ፕሮግራሙ በቂና ተጨባጭ ምክንያት ሳይኖር ወደ ሌላ ቀን አይዛወርም። የግል ዕቅድ፣ ጉዞ ወይም የአንድ አባል "
+                "ምቾት ምክንያት አይሆንም። ኮሚቴው ቀን የሚቀይረው ለሞት፣ ለትልቅ በዓል ወይም ለአገራዊ ጉዳይ ብቻ ሲሆን፣ "
+                "አዲሱን ቀን ቢያንስ ከሁለት ሳምንት በፊት ማሳወቅ አለበት።"),
     ("n", "4.", "እያንዳንዱ ፕሮግራም በተመሳሳይ ቅደም ተከተል ይካሄዳል፦"),
     ("t", [
         ["ሰዓት", "ጉዳይ", "የሚመራው"],
@@ -557,8 +559,10 @@ CONTENT_OM = [
     ("n", "1.", "Walgahiin ji'a sadii sadiin al tokko, Sanbata jalqabaa ji'a sanaa irratti taasifama."),
     ("n", "2.", "Sagantaan sa'aatii 7:00 irratti jalqabee 11:00 irratti xumurama. Miseensi hundi dhufus "
                 "dhufuu baatus sagantaan 7:00 irratti jalqaba. Namni tokko illee nama biraa hin eegu."),
-    ("n", "3.", "Koreen guyyaa kan jijjiiru du'a, ayyaana guddaa yookiin dhimma biyyaaleessaa qofaaf yoo "
-                "ta'u, guyyaa haaraa yoo xiqqaate torban lama dura beeksisuu qaba."),
+    ("n", "3.", "Sagantaan sababa ga'aa fi qabatamaa malee guyyaa biraatti hin jijjiiramu. Karoorri dhuunfaa, "
+                "imaltiin yookiin mijaa'ina miseensa tokkoo sababa hin ta'u. Koreen guyyaa kan jijjiiru du'a, "
+                "ayyaana guddaa yookiin dhimma biyyaaleessaa qofaaf yoo ta'u, guyyaa haaraa yoo xiqqaate "
+                "torban lama dura beeksisuu qaba."),
     ("n", "4.", "Sagantaan hundi akka sirnaan geggeeffamuuf tartiiba walfakkaataa hordofa:"),
     ("t", [
         ["Sa'aatii", "Dhimma", "Kan geggeessu"],
