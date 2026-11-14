@@ -162,7 +162,7 @@ footer { margin-top: 2.4rem; color: var(--muted); font-size: .9rem; }
 /* =====================================================================
    PHOTO ALBUMS
    For each round, paste:
-   - album:  the link to that round's Google Drive folder.
+   - album:  the link to that round's Google Photos shared album or Google Drive folder.
              Share the folder as "Anyone with the link" and choose "Editor",
              so family members can upload their own photos into it.
    - images: (optional) the IDs of a few photos to show here as a gallery.
@@ -171,13 +171,13 @@ footer { margin-top: 2.4rem; color: var(--muted); font-size: .9rem; }
    ===================================================================== */
 var ALBUMS = {
   1: { album: "", images: [] },
-  2: { album: "", images: [] }
+  2: { album: "https://photos.app.goo.gl/MvLgzYVoU4DYMHEZ7", images: [] }
 };
 
 (function () {
   var cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
   var up = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>';
-  function safe(u) { return /^https:\/\/(drive|photos)\.google\.com\//.test(u) ? u : ''; }
+  function safe(u) { return /^https:\/\/((drive|photos)\.google\.com|photos\.app\.goo\.gl)\//.test(u) ? u : ''; }
   function id(x) { return /^[A-Za-z0-9_-]{10,}$/.test(x) ? x : ''; }
   document.querySelectorAll('.photos').forEach(function (box) {
     var a = ALBUMS[box.dataset.round] || {}, link = safe(a.album || ''), imgs = (a.images || []).map(id).filter(Boolean);
