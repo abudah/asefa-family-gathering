@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c120c">
+<title>Asefa Family Games</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+/* Family games home: two game cards, each opens the game on this phone. */
+:root {
+  --bg: #1c120c; --bg-2: #2b1a10; --ink: #fff3d6; --dim: rgba(255, 243, 214, .68);
+  --line: rgba(255, 243, 214, .16); --gold: #e3b25c; --ember: #e8572a; --night: #18204a; --wolf: #d6402f;
+  --display: "Fraunces", Georgia, serif; --body: "Source Serif 4", Georgia, serif; --ethiopic: "Noto Serif Ethiopic", "Kefa", serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body);
+  background-image: radial-gradient(80% 40% at 50% 0%, rgba(227, 178, 92, .18) 0%, transparent 70%);
+  padding: max(28px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(32px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+[lang="am"] { font-family: var(--ethiopic); }
+main { max-width: 44rem; margin: 0 auto; display: grid; gap: 22px; }
+.eyebrow { font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+h1 { margin: 6px 0 0; font-family: var(--display); font-weight: 700; font-size: clamp(2.6rem, 11vw, 4rem); line-height: .95; letter-spacing: -.02em; }
+.sub { margin-top: 10px; color: var(--dim); line-height: 1.5; }
+.sub span { display: block; }
+.games { display: grid; gap: 16px; }
+a.game {
+  display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center;
+  padding: 18px; border-radius: 22px; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); transition: transform .15s, border-color .15s;
+}
+a.game:hover, a.game:focus-visible { transform: translateY(-2px); border-color: var(--gold); outline: none; }
+a.egg { background: linear-gradient(135deg, #3a2416 0%, #2b1a10 60%); }
+a.wolf { background: linear-gradient(135deg, #1d2756 0%, #121a3f 70%); }
+.art { width: 96px; height: 96px; }
+.art svg { width: 100%; height: 100%; display: block; }
+.name { font-family: var(--display); font-weight: 700; font-size: 1.9rem; line-height: 1; }
+.alt { color: var(--gold); font-size: .95rem; margin-top: 4px; }
+.desc { margin: 8px 0 0; color: var(--dim); line-height: 1.45; font-size: .98rem; }
+.meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.meta span { font-size: .8rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
+.play { margin-top: 12px; display: inline-block; font-weight: 600; color: var(--bg); background: var(--ink); padding: 8px 16px; border-radius: 12px; }
+a.wolf .play { background: var(--gold); }
+.foot { color: var(--dim); font-size: .9rem; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 16px; }
+.foot a { color: var(--gold); }
+@media (max-width: 26rem) { a.game { grid-template-columns: 72px 1fr; } .art { width: 72px; height: 72px; } .name { font-size: 1.6rem; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Asefa Family Gathering</div>
+    <h1>Family Games</h1>
+    <p class="sub"><span lang="am">የቤተሰብ ጨዋታዎች</span><span lang="om">Taphoota maatii</span></p>
+  </header>
+
+  <div class="games">
+    <a class="game egg" href="egg.html">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="-80 -100 160 200"><circle cx="0" cy="0" r="96" fill="#e8572a" opacity=".22"/><path d="M0 -82 C 40 -82 64 -8 64 30 C 64 68 36 88 0 88 C -36 88 -64 68 -64 30 C -64 -8 -40 -82 0 -82 Z" fill="#fbf1dc"/><path d="M0 -82 C 40 -82 64 -8 64 30 C 64 68 36 88 0 88 C 26 72 40 36 36 0 C 30 -40 16 -72 0 -82 Z" fill="#ead6b0"/><path d="M8 -78 L 2 -58 L 14 -48 L 6 -30 L 16 -14" fill="none" stroke="#3d2410" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="name">Enkulal!</div>
+        <div class="alt"><span lang="am">ዕንቁላል!</span> · <span lang="om">Hanqaaquu!</span></div>
+        <p class="desc">Pass the egg around the circle as fast as you can. It bursts at a random moment, and whoever holds it does a forfeit.</p>
+        <div class="meta"><span>3+ players</span><span>One phone</span><span>All ages</span></div>
+        <span class="play">Play</span>
+      </div>
+    </a>
+
+    <a class="game wolf" href="wolf.html">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#2a0f0c"/><path d="M14 16 L24 26 L40 26 L50 16 L48 36 C 46 46 40 52 32 54 C 24 52 18 46 16 36 Z" fill="#4a1c16"/><path d="M14 16 L24 26 L20 30 Z M50 16 L40 26 L44 30 Z" fill="#6e2a20"/><ellipse cx="24.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="39.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="24.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><ellipse cx="39.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><path d="M28 45 L32 49 L36 45 Z" fill="#1a0806"/></svg>
+      </div>
+      <div>
+        <div class="name">Tekula!</div>
+        <div class="alt"><span lang="am">ተኩላ!</span> · <span lang="om">Yeeyyii!</span></div>
+        <p class="desc">Wolves hide among the family, the doctor saves, and everyone votes. A narrator runs the nights from one phone.</p>
+        <div class="meta"><span>5+ players and a narrator</span><span>One phone</span><span>Ages 10+</span></div>
+        <span class="play">Play</span>
+      </div>
+    </a>
+  </div>
+
+  <p class="foot">Each game works in English, <span lang="am">አማርኛ</span> and Afaan Oromoo. Turn the sound up. The family constitution is <a href="../">here</a>.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1330">
+<title>Tekula</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+/* Tekula: wolves, doctor and civilians, for the Asefa Family Gathering.
+   One phone. Roles are dealt in secret, then the narrator runs the nights and days from it. */
+:root {
+  --bg: #0d1330;
+  --bg-2: #18204a;
+  --card: #1d2756;
+  --ink: #f4efe2;
+  --ink-dim: rgba(244, 239, 226, .66);
+  --line: rgba(244, 239, 226, .16);
+  --gold: #e9b95a;
+  --moon: #f6e7b8;
+  --wolf: #d6402f;
+  --doctor: #1fa7a0;
+  --civil: #e9b95a;
+  --detective: #c0479a;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Source Serif 4", Georgia, serif;
+  --ethiopic: "Noto Serif Ethiopic", "Kefa", serif;
+  color-scheme: dark;
+}
+body.day {
+  --bg: #2a1a10;
+  --bg-2: #3a2416;
+  --card: #45301f;
+  --gold: #f2b632;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--bg);
+  background-image: radial-gradient(70% 45% at 80% 0%, rgba(246, 231, 184, .14) 0%, transparent 60%);
+  color: var(--ink); font-family: var(--body);
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .5s;
+}
+body.day { background-image: radial-gradient(80% 50% at 50% 0%, rgba(242, 182, 50, .22) 0%, transparent 65%); }
+html[lang="am"] body, [lang="am"] { font-family: var(--ethiopic); }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:disabled { cursor: default; opacity: .4; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+#app {
+  min-height: 100%; max-width: 44rem; margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+/* ---------- common pieces */
+.brand h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 12vw, 4.4rem); line-height: .9; letter-spacing: -.02em; font-variation-settings: "opsz" 144; }
+.brand .alt { color: var(--gold); margin-top: 6px; }
+.tagline { font-family: var(--display); font-size: 1.25rem; line-height: 1.35; margin: 0; text-wrap: balance; }
+html[lang="am"] .tagline { font-family: var(--ethiopic); font-size: 1.15rem; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 4px; gap: 4px; flex-wrap: wrap; align-self: flex-start; }
+.seg button { border: 0; background: transparent; padding: 8px 16px; border-radius: 999px; color: var(--ink-dim); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
+.panel { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 10px; }
+.label { font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0; font-weight: 600; }
+html[lang="am"] .label { letter-spacing: .04em; font-size: .9rem; }
+.hint { color: var(--ink-dim); font-size: .95rem; margin: 0; line-height: 1.45; }
+.warn { color: #ffb4a6; }
+.btn { border: 0; border-radius: 14px; padding: 12px 18px; font-weight: 600; font-size: 1.05rem; background: var(--ink); color: var(--bg); }
+.btn.big { width: 100%; padding: 17px; font-size: 1.25rem; border-radius: 18px; font-family: var(--display); }
+html[lang="am"] .btn.big { font-family: var(--ethiopic); }
+.btn.accent { background: var(--gold); color: #1b1408; }
+.btn.danger { background: var(--wolf); color: #fff; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.link { border: 0; background: none; color: var(--ink-dim); text-decoration: underline; text-underline-offset: 4px; padding: 8px; font-size: 1rem; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+.add { display: flex; gap: 8px; }
+.add input { flex: 1; min-width: 0; font: inherit; font-size: 1.1rem; color: var(--ink); background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.add input::placeholder { color: var(--ink-dim); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.chips li { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 14px; }
+.chips button { border: 0; background: rgba(244, 239, 226, .1); width: 28px; height: 28px; border-radius: 50%; line-height: 1; }
+
+.setting { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.setting:last-child { border-bottom: 0; }
+.setting .name { display: flex; align-items: center; gap: 10px; }
+.stepper { display: inline-flex; align-items: center; gap: 4px; }
+.stepper button { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); font-size: 1.3rem; line-height: 1; }
+.stepper output { min-width: 2.2ch; text-align: center; font-family: var(--display); font-size: 1.5rem; font-weight: 700; }
+.switch { width: 54px; height: 32px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-2); position: relative; padding: 0; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--ink-dim); transition: transform .2s, background .2s; }
+.switch[aria-checked="true"] { background: var(--gold); border-color: var(--gold); }
+.switch[aria-checked="true"]::after { transform: translateX(22px); background: #1b1408; }
+.mix { display: flex; flex-wrap: wrap; gap: 8px; }
+.mix span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px 5px 6px; border-radius: 999px; background: var(--bg-2); border: 1px solid var(--line); font-size: .95rem; }
+ol.how { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 10px; }
+ol.how li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: 8px; line-height: 1.45; }
+ol.how li::before { content: counter(s); font-family: var(--display); font-weight: 700; font-size: 1.3rem; color: var(--gold); line-height: 1.1; }
+
+/* role icons */
+.ico { width: 30px; height: 30px; flex: none; display: inline-block; }
+.ico.lg { width: 132px; height: 132px; }
+.ico svg { width: 100%; height: 100%; display: block; }
+
+/* ---------- dealing */
+.center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 18px; }
+.passname { font-family: var(--display); font-weight: 700; font-size: clamp(2.6rem, 12vw, 4rem); line-height: 1; }
+html[lang="am"] .passname { font-family: var(--display); }
+.progress { color: var(--ink-dim); font-size: .95rem; }
+.rolecard { width: 100%; max-width: 26rem; border-radius: 26px; padding: 28px 22px; background: var(--card); border: 2px solid var(--rc, var(--gold)); display: grid; justify-items: center; gap: 12px; box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .7); }
+.rolecard .rname { font-family: var(--display); font-weight: 700; font-size: 2.6rem; line-height: 1; color: var(--rc, var(--gold)); }
+html[lang="am"] .rolecard .rname { font-family: var(--ethiopic); font-size: 2.3rem; }
+.rolecard p { margin: 0; line-height: 1.5; font-size: 1.05rem; }
+.rolecard .mates { color: var(--ink); font-weight: 600; }
+
+/* ---------- narrator */
+.topbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.phase { font-family: var(--display); font-weight: 700; font-size: 1.4rem; display: inline-flex; align-items: center; gap: 8px; }
+html[lang="am"] .phase { font-family: var(--ethiopic); }
+.mini { border: 1px solid var(--line); background: transparent; color: var(--ink-dim); border-radius: 999px; padding: 6px 12px; font-size: .88rem; }
+.mini[aria-pressed="true"] { color: var(--bg); background: var(--gold); border-color: var(--gold); }
+.read { border-radius: 22px; padding: 22px; background: var(--card); border: 1px solid var(--line); }
+.read .label { margin-bottom: 8px; }
+.read .say { margin: 0; font-family: var(--display); font-weight: 600; font-size: clamp(1.5rem, 6.5vw, 2.1rem); line-height: 1.25; text-wrap: balance; }
+html[lang="am"] .read .say { font-family: var(--ethiopic); font-size: clamp(1.35rem, 6vw, 1.85rem); line-height: 1.5; }
+.note { border-left: 3px solid var(--gold); padding: 4px 0 4px 12px; color: var(--ink); line-height: 1.45; }
+.note .label { margin-bottom: 4px; }
+.pick { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 8px; }
+.pick button { text-align: left; border: 1px solid var(--line); background: var(--bg-2); border-radius: 14px; padding: 12px 14px; font-size: 1.08rem; display: flex; align-items: center; gap: 8px; min-height: 52px; }
+.pick button[aria-pressed="true"] { border-color: var(--gold); background: rgba(233, 185, 90, .18); box-shadow: inset 0 0 0 1px var(--gold); }
+.pick .tag { margin-left: auto; font-size: .78rem; color: var(--ink-dim); }
+.answer { border-radius: 22px; padding: 26px 20px; text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 9vw, 3rem); line-height: 1.1; }
+html[lang="am"] .answer { font-family: var(--ethiopic); }
+.answer.yes { background: var(--wolf); color: #fff; }
+.answer.no { background: var(--doctor); color: #fff; }
+.answer small { display: block; font-size: .45em; font-weight: 600; margin-top: 10px; opacity: .92; }
+.timer { font-family: var(--display); font-weight: 700; font-size: clamp(4rem, 22vw, 7rem); text-align: center; line-height: 1; font-variant-numeric: tabular-nums; }
+.timer.done { color: var(--wolf); }
+.status { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.status li { display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; padding: 4px 10px 4px 5px; border-radius: 999px; background: var(--bg-2); border: 1px solid var(--line); }
+.status li.out { opacity: .4; text-decoration: line-through; }
+.status .ico { width: 22px; height: 22px; }
+.reveal { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px; background: var(--bg-2); border: 1px solid var(--line); }
+.reveal .ico { width: 54px; height: 54px; }
+.reveal b { font-family: var(--display); font-size: 1.3rem; }
+html[lang="am"] .reveal b { font-family: var(--ethiopic); }
+.win { text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 10vw, 3.4rem); line-height: 1.05; }
+html[lang="am"] .win { font-family: var(--ethiopic); }
+.roles-list { display: grid; gap: 8px; }
+.roles-list div { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 12px; background: var(--bg-2); }
+.roles-list .out { opacity: .55; }
+.foot { display: grid; gap: 10px; margin-top: auto; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+(function () {
+'use strict';
+
+/* ============================================================ TEXT */
+var T = {
+  en: {
+    tagline: "Wolves hide among the family. The doctor saves, the village votes. Who can you trust?",
+    narratorNote: "Choose one narrator who does not play. Add everyone else below.",
+    players: "Players", addName: "Add a name", add: "Add",
+    minPlayers: "Add at least 5 players.",
+    roles: "Roles",
+    wolf: "Wolf", wolves: "Wolves", doctor: "Doctor", detective: "Detective", civilian: "Civilian", narrator: "Narrator",
+    detectiveOpt: "Detective (optional)",
+    suggested: function (n, w) { return "Suggested for " + n + " players: " + w + (w === 1 ? " wolf" : " wolves"); },
+    reveal: "Show a player's role when they are out",
+    mix: "This game", civilians: "Civilians",
+    howTitle: "How to play",
+    how: [
+      "Deal the roles. The phone goes to each player in turn, and only they look at it.",
+      "Give the phone to the narrator. At night everyone closes their eyes. The narrator wakes the wolves, then the doctor, and taps who they point at.",
+      "In the morning the narrator reads out what happened. Everyone discusses, then votes one person out.",
+      "The village wins when every wolf is out. The wolves win when there are as many wolves as everyone else."
+    ],
+    deal: "Deal the roles",
+    passTo: "Pass the phone to", privacy: "Nobody else should look at the screen.",
+    showRole: function (n) { return "I am " + n + ". Show my role."; },
+    yourRole: "Your role", hidePass: "Hide it and pass the phone on",
+    desc: {
+      wolf: "Each night, wake with the other wolves and choose someone to remove. By day, act innocent.",
+      doctor: "Each night, choose one person to save, even yourself. If the wolves pick that person, they survive.",
+      civilian: "You have no night power. Listen, ask questions and vote out the wolves.",
+      detective: "Each night, point at one person. The narrator shows you, thumb up or down, whether that person is a wolf."
+    },
+    mates: function (names) { return "Your fellow wolves: " + names; },
+    lone: "You are the only wolf.",
+    allSeen: "Everyone has seen their role. Give the phone to the narrator.",
+    redeal: "Someone saw the wrong role? Deal again",
+    startNight: "Start the first night",
+    night: function (n) { return "Night " + n; }, day: function (n) { return "Day " + n; },
+    showRoles: "Roles", endGame: "End game", endConfirm: "Tap again to end",
+    readAloud: "Read aloud", forNarrator: "For the narrator",
+    next: "Next", confirm: "Confirm",
+    sayClose: "Night falls. Everyone, close your eyes.",
+    sayWolvesWake: "Wolves, open your eyes. Silently choose someone to attack.",
+    sayWolvesSleep: "Wolves, close your eyes.",
+    sayDoctorWake: "Doctor, open your eyes. Choose someone to save.",
+    sayDoctorSleep: "Doctor, close your eyes.",
+    sayDetWake: "Detective, open your eyes. Point at someone to check.",
+    sayDetSleep: "Detective, close your eyes.",
+    sayMorning: "Morning has come. Everyone, open your eyes.",
+    pickWolves: "Tap the person the wolves point at.",
+    pickDoctor: "Tap the person the doctor points at.",
+    pickDet: "Tap the person the detective points at.",
+    isWolf: "Wolf", isWolfHow: "Show the detective a thumb up",
+    notWolf: "Not a wolf", notWolfHow: "Show the detective a thumb down",
+    roleOut: function (r) { return "The " + r.toLowerCase() + " is out of the game. Read these lines anyway and wait a few seconds, so nobody can tell."; },
+    wait: function (s) { return "Wait " + s + "s"; },
+    killed: function (n) { return "Last night the wolves attacked " + n + ". " + n + " is out of the game."; },
+    saved: "The wolves attacked last night, but the doctor saved that person. Nobody is out.",
+    wasRole: function (n, r) { return n + " was: " + r; },
+    discuss: "Talk it over. Who are the wolves?",
+    discussNote: "Let everyone speak. When time is up, move to the vote.",
+    startTimer: "Start", pause: "Pause", plusMin: "+1 minute",
+    toVote: "Go to the vote",
+    voteSay: "Time to vote. On three, everyone point at the person they want out.",
+    voteNote: "Tap the person with the most votes. If it is a tie, choose no one.",
+    noOne: "No one (tie)",
+    votedOut: function (n) { return n + " is voted out of the game."; },
+    noVote: "The vote is tied. Nobody leaves today.",
+    toNight: "Start the next night",
+    villageWins: "The village wins! Every wolf is out.",
+    wolvesWin: "The wolves win! They now equal everyone else.",
+    allRoles: "Everyone's role",
+    again: "Play again with the same players", newGame: "Change players",
+    resume: "A game is in progress. Continue it?", resumeYes: "Continue", resumeNo: "New game",
+    in: "In", out: "Out"
+  },
+  am: {
+    tagline: "ተኩላዎች በቤተሰቡ መካከል ተደብቀዋል። ሐኪሙ ያድናል፣ ነዋሪዎቹ ድምፅ ይሰጣሉ። ማንን ታምናላችሁ?",
+    narratorNote: "የማይጫወት አንድ ተራኪ ምረጡ። ሌሎቹን ሁሉ ከታች ያስገቡ።",
+    players: "ተጫዋቾች", addName: "ስም ያስገቡ", add: "ጨምሩ",
+    minPlayers: "ቢያንስ 5 ተጫዋቾች ያስገቡ።",
+    roles: "ሚናዎች",
+    wolf: "ተኩላ", wolves: "ተኩላዎች", doctor: "ሐኪም", detective: "መርማሪ", civilian: "ነዋሪ", narrator: "ተራኪ",
+    detectiveOpt: "መርማሪ (አማራጭ)",
+    suggested: function (n, w) { return "ለ" + n + " ተጫዋቾች የሚመከር፦ " + w + " ተኩላ"; },
+    reveal: "ተጫዋች ሲወጣ ሚናውን አሳይ",
+    mix: "የዚህ ጨዋታ ሚናዎች", civilians: "ነዋሪዎች",
+    howTitle: "አጨዋወት",
+    how: [
+      "ሚናዎቹን አከፋፍሉ። ስልኩ ለእያንዳንዱ ተጫዋች በተራ ይሰጣል፤ የሚያየውም ባለቤቱ ብቻ ነው።",
+      "ስልኩን ለተራኪው ስጡ። በሌሊት ሁሉም ዓይኑን ይጨፍናል። ተራኪው ተኩላዎቹን፣ ከዚያም ሐኪሙን ይቀሰቅሳል፤ የጠቆሙትንም ሰው ይነካል።",
+      "ጠዋት ተራኪው የሆነውን ያነባል። ሁሉም ይወያያል፣ ከዚያም አንድ ሰው በድምፅ ያስወጣል።",
+      "ተኩላዎቹ በሙሉ ሲወጡ ነዋሪዎቹ ያሸንፋሉ። የተኩላዎቹ ቁጥር ከሌሎቹ ጋር እኩል ሲሆን ተኩላዎቹ ያሸንፋሉ።"
+    ],
+    deal: "ሚናዎቹን አከፋፍሉ",
+    passTo: "ስልኩን ለዚህ ሰው ስጡ፦", privacy: "ሌላ ሰው ማያውን መመልከት የለበትም።",
+    showRole: function (n) { return "እኔ " + n + " ነኝ። ሚናዬን አሳይ።"; },
+    yourRole: "ሚናችሁ", hidePass: "ደብቁና ስልኩን አሳልፉ",
+    desc: {
+      wolf: "በየሌሊቱ ከሌሎቹ ተኩላዎች ጋር ነቅታችሁ የምታስወጡትን ሰው ምረጡ። ቀን ላይ ንጹሕ መስላችሁ ተቀመጡ።",
+      doctor: "በየሌሊቱ የምታድኑትን አንድ ሰው ምረጡ፤ ራሳችሁንም ቢሆን። ተኩላዎቹ ያንን ሰው ከመረጡ ይተርፋል።",
+      civilian: "የሌሊት ኃይል የላችሁም። አድምጡ፣ ጠይቁ፣ ተኩላዎቹንም በድምፅ አስወጡ።",
+      detective: "በየሌሊቱ ወደ አንድ ሰው ጠቁሙ። ሰውዬው ተኩላ መሆን አለመሆኑን ተራኪው በአውራ ጣት ያሳያችኋል።"
+    },
+    mates: function (names) { return "አብረዋችሁ ያሉ ተኩላዎች፦ " + names; },
+    lone: "ብቸኛው ተኩላ እናንተ ናችሁ።",
+    allSeen: "ሁሉም ሚናውን አይቷል። ስልኩን ለተራኪው ስጡ።",
+    redeal: "አንድ ሰው የሌላውን ሚና አየ? እንደገና አከፋፍሉ",
+    startNight: "የመጀመሪያውን ሌሊት ጀምሩ",
+    night: function (n) { return "ሌሊት " + n; }, day: function (n) { return "ቀን " + n; },
+    showRoles: "ሚናዎች", endGame: "ጨዋታውን ጨርስ", endConfirm: "ለመጨረስ እንደገና ይንኩ",
+    readAloud: "ጮክ ብለው ያንብቡ", forNarrator: "ለተራኪው",
+    next: "ቀጣይ", confirm: "አረጋግጡ",
+    sayClose: "ሌሊት ሆኗል። ሁላችሁም ዓይናችሁን ጨፍኑ።",
+    sayWolvesWake: "ተኩላዎች፣ ዓይናችሁን ግለጡ። በዝምታ የምታጠቁትን ሰው ምረጡ።",
+    sayWolvesSleep: "ተኩላዎች፣ ዓይናችሁን ጨፍኑ።",
+    sayDoctorWake: "ሐኪም፣ ዓይናችሁን ግለጡ። የምታድኑትን ሰው ምረጡ።",
+    sayDoctorSleep: "ሐኪም፣ ዓይናችሁን ጨፍኑ።",
+    sayDetWake: "መርማሪ፣ ዓይናችሁን ግለጡ። የምትመረምሩትን ሰው ጠቁሙ።",
+    sayDetSleep: "መርማሪ፣ ዓይናችሁን ጨፍኑ።",
+    sayMorning: "ነግቷል። ሁላችሁም ዓይናችሁን ግለጡ።",
+    pickWolves: "ተኩላዎቹ የጠቆሙትን ሰው ይንኩ።",
+    pickDoctor: "ሐኪሙ የጠቆመውን ሰው ይንኩ።",
+    pickDet: "መርማሪው የጠቆመውን ሰው ይንኩ።",
+    isWolf: "ተኩላ ነው", isWolfHow: "ለመርማሪው አውራ ጣት ወደ ላይ አሳዩ",
+    notWolf: "ተኩላ አይደለም", notWolfHow: "ለመርማሪው አውራ ጣት ወደ ታች አሳዩ",
+    roleOut: function (r) { return r + " ከጨዋታው ወጥቷል። ማንም እንዳያውቅ መስመሮቹን እንደተለመደው አንብበው ጥቂት ሰከንድ ይጠብቁ።"; },
+    wait: function (s) { return s + " ሰከንድ ይጠብቁ"; },
+    killed: function (n) { return "ትናንት ሌሊት ተኩላዎቹ ያጠቁት፦ " + n + "። " + n + " ከጨዋታው ውጪ ነው።"; },
+    saved: "ትናንት ሌሊት ተኩላዎቹ አጠቁ፤ ሐኪሙ ግን አዳነ። ማንም አልወጣም።",
+    wasRole: function (n, r) { return n + " ፦ " + r; },
+    discuss: "ተወያዩ። ተኩላዎቹ እነማን ናቸው?",
+    discussNote: "ሁሉም እንዲናገር ዕድል ስጡ። ሰዓቱ ሲያልቅ ወደ ድምፅ ይሂዱ።",
+    startTimer: "ጀምሩ", pause: "አቁሙ", plusMin: "+1 ደቂቃ",
+    toVote: "ወደ ድምፅ ሂዱ",
+    voteSay: "የድምፅ ሰዓት ነው። ሦስት ስል ሁላችሁም እንዲወጣ የምትፈልጉትን ሰው ጠቁሙ።",
+    voteNote: "ብዙ ድምፅ ያገኘውን ሰው ይንኩ። እኩል ከሆነ «ማንም» ይምረጡ።",
+    noOne: "ማንም (እኩል ድምፅ)",
+    votedOut: function (n) { return n + " በድምፅ ከጨዋታው ወጥቷል።"; },
+    noVote: "ድምፁ እኩል ሆኗል። ዛሬ ማንም አይወጣም።",
+    toNight: "ቀጣዩን ሌሊት ጀምሩ",
+    villageWins: "ነዋሪዎቹ አሸነፉ! ተኩላዎቹ በሙሉ ወጥተዋል።",
+    wolvesWin: "ተኩላዎቹ አሸነፉ! ቁጥራቸው ከሌሎቹ ጋር እኩል ሆኗል።",
+    allRoles: "የሁሉም ሚና",
+    again: "በተመሳሳይ ተጫዋቾች እንደገና ተጫወቱ", newGame: "ተጫዋቾችን ቀይሩ",
+    resume: "ያልተጠናቀቀ ጨዋታ አለ። ይቀጥል?", resumeYes: "ቀጥሉ", resumeNo: "አዲስ ጨዋታ",
+    in: "በጨዋታ ላይ", out: "የወጡ"
+  },
+  om: {
+    tagline: "Yeeyyiiwwan maatii keessa dhokataniiru. Ogeessi fayyaa ni baraara, jiraattonni sagalee kennu. Eenyu amantu?",
+    narratorNote: "Seenessaa hin taphanne tokko filadhaa. Kanneen hafan hunda armaan gaditti galchaa.",
+    players: "Taphattoota", addName: "Maqaa galchi", add: "Dabali",
+    minPlayers: "Yoo xiqqaate taphattoota 5 galchaa.",
+    roles: "Gaheewwan",
+    wolf: "Yeeyyii", wolves: "Yeeyyiiwwan", doctor: "Ogeessa fayyaa", detective: "Qorataa", civilian: "Jiraataa", narrator: "Seenessaa",
+    detectiveOpt: "Qorataa (filannoo)",
+    suggested: function (n, w) { return "Taphattoota " + n + "f kan gorfamu: yeeyyii " + w; },
+    reveal: "Taphataan yeroo ba'u gahee isaa agarsiisi",
+    mix: "Gaheewwan tapha kanaa", civilians: "Jiraattota",
+    howTitle: "Akkaataa taphaa",
+    how: [
+      "Gaheewwan qoodaa. Bilbilli taphataa hundaaf walduraa duubaan kennama; kan ilaalu abbaa isaa qofa.",
+      "Bilbila seenessaaf kennaa. Halkan hundi ija isaa cufa. Seenessaan yeeyyiiwwan, itti aansee ogeessa fayyaa dammaqsa; nama isaan agarsiisanis tuqa.",
+      "Ganama seenessaan waan ta'e dubbisa. Hundi ni mari'ata, achiis nama tokko sagaleedhaan baasa.",
+      "Yeroo yeeyyiiwwan hundi ba'an jiraattonni mo'u. Yeroo baay'inni yeeyyiiwwanii kan warra kaanii wajjin walqixa ta'u yeeyyiiwwan mo'u."
+    ],
+    deal: "Gaheewwan qoodaa",
+    passTo: "Bilbila nama kanaaf kennaa:", privacy: "Namni biraa iskiriinii ilaaluu hin qabu.",
+    showRole: function (n) { return "Ani " + n + ". Gahee koo natti agarsiisi."; },
+    yourRole: "Gaheen kee", hidePass: "Dhoksiitii bilbila dabarsi",
+    desc: {
+      wolf: "Halkan halkan yeeyyii kaan waliin dammaqaatii nama tokko baasuuf filadhaa. Guyyaa akka nama qulqulluutti of fakkeessaa.",
+      doctor: "Halkan halkan nama tokko baraaruuf filadhu, of illee. Yoo yeeyyiiwwan nama sana filatan, namni sun ni hafa.",
+      civilian: "Humna halkanii hin qabdu. Dhaggeeffadhu, gaaffii gaafadhu, yeeyyiiwwan sagaleedhaan baasi.",
+      detective: "Halkan halkan nama tokko qubaan agarsiisi. Seenessaan namni sun yeeyyii ta'uu fi dhiisuu isaa quba abbaatiin si agarsiisa."
+    },
+    mates: function (names) { return "Yeeyyiiwwan si waliin jiran: " + names; },
+    lone: "Yeeyyiin ati qofa.",
+    allSeen: "Hundi gahee isaa argeera. Bilbila seenessaaf kennaa.",
+    redeal: "Namni gahee nama biraa arge jiraa? Irra deebi'aa qoodaa",
+    startNight: "Halkan jalqabaa jalqabi",
+    night: function (n) { return "Halkan " + n; }, day: function (n) { return "Guyyaa " + n; },
+    showRoles: "Gaheewwan", endGame: "Tapha xumuri", endConfirm: "Xumuruuf irra deebi'ii tuqi",
+    readAloud: "Sagalee ol kaasii dubbisi", forNarrator: "Seenessaaf",
+    next: "Itti fufi", confirm: "Mirkaneessi",
+    sayClose: "Halkan ta'eera. Hundi keessan ija keessan cufaa.",
+    sayWolvesWake: "Yeeyyiiwwan, ija keessan banaa. Callisaan nama haleeltan filadhaa.",
+    sayWolvesSleep: "Yeeyyiiwwan, ija keessan cufaa.",
+    sayDoctorWake: "Ogeessa fayyaa, ija kee bani. Nama baraartu filadhu.",
+    sayDoctorSleep: "Ogeessa fayyaa, ija kee cufi.",
+    sayDetWake: "Qorataa, ija kee bani. Nama qorattu qubaan agarsiisi.",
+    sayDetSleep: "Qorataa, ija kee cufi.",
+    sayMorning: "Bari'eera. Hundi keessan ija keessan banaa.",
+    pickWolves: "Nama yeeyyiiwwan qubaan agarsiisan tuqi.",
+    pickDoctor: "Nama ogeessi fayyaa agarsiise tuqi.",
+    pickDet: "Nama qorataan agarsiise tuqi.",
+    isWolf: "Yeeyyii dha", isWolfHow: "Qorataadhaaf quba abbaa ol agarsiisi",
+    notWolf: "Yeeyyii miti", notWolfHow: "Qorataadhaaf quba abbaa gadi agarsiisi",
+    roleOut: function (r) { return r + " taphaa ba'eera. Akka namni hin beekneef, jechoota kana akkuma duraatti dubbisiitii sekondii muraasa eegi."; },
+    wait: function (s) { return "Sekondii " + s + " eegi"; },
+    killed: function (n) { return "Halkan darbe yeeyyiiwwan " + n + " haleelan. " + n + " taphaa ala ta'eera."; },
+    saved: "Halkan darbe yeeyyiiwwan haleelan, garuu ogeessi fayyaa baraare. Namni ba'e hin jiru.",
+    wasRole: function (n, r) { return n + ": " + r + " ture"; },
+    discuss: "Mari'adhaa. Yeeyyiiwwan eenyu fa'i?",
+    discussNote: "Hundi akka dubbatu carraa kennaa. Yeroon yoo xumurame gara sagaleetti ce'aa.",
+    startTimer: "Jalqabi", pause: "Dhaabi", plusMin: "+daqiiqaa 1",
+    toVote: "Gara sagaleetti ce'aa",
+    voteSay: "Yeroon sagalee kennuu ga'eera. Yeroon sadii jedhu, hundi keessan nama akka ba'u barbaaddan qubaan agarsiisaa.",
+    voteNote: "Nama sagalee baay'ee argate tuqi. Yoo walqixa ta'e, \"namni hin jiru\" filadhu.",
+    noOne: "Namni hin jiru (walqixa)",
+    votedOut: function (n) { return n + " sagaleedhaan taphaa ba'eera."; },
+    noVote: "Sagaleen walqixa ta'eera. Har'a namni hin ba'u.",
+    toNight: "Halkan itti aanu jalqabi",
+    villageWins: "Jiraattonni mo'an! Yeeyyiiwwan hundi ba'aniiru.",
+    wolvesWin: "Yeeyyiiwwan mo'an! Baay'inni isaanii kan warra kaanii wajjin walqixa ta'eera.",
+    allRoles: "Gahee hundaa",
+    again: "Taphattoota walfakkaatoon irra deebi'aa taphadhaa", newGame: "Taphattoota jijjiiraa",
+    resume: "Taphni hin xumuramne jira. Itti fuftuu?", resumeYes: "Itti fufi", resumeNo: "Tapha haaraa",
+    in: "Taphatti jiru", out: "Kan ba'an"
+  }
+};
+var LANG_NAME = { en: "English", am: "አማርኛ", om: "Afaan Oromoo" };
+
+/* ============================================================ ICONS */
+var ICON = {
+  wolf: '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#2a0f0c"/><path d="M14 16 L24 26 L40 26 L50 16 L48 36 C 46 46 40 52 32 54 C 24 52 18 46 16 36 Z" fill="#4a1c16"/><path d="M14 16 L24 26 L20 30 Z M50 16 L40 26 L44 30 Z" fill="#6e2a20"/><ellipse cx="24.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="39.5" cy="34" rx="4.6" ry="3" fill="#ffcf4a"/><ellipse cx="24.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><ellipse cx="39.5" cy="34" rx="1.4" ry="2.6" fill="#2a0f0c"/><path d="M28 45 L32 49 L36 45 Z" fill="#1a0806"/></svg>',
+  doctor: '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#e8f7f5"/><circle cx="32" cy="32" r="31" fill="none" stroke="#1fa7a0" stroke-width="2"/><path d="M26 14 H38 V26 H50 V38 H38 V50 H26 V38 H14 V26 H26 Z" fill="#1fa7a0"/></svg>',
+  civilian: '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#3a2a12"/><path d="M10 32 L32 10 L54 32 Z" fill="#e9b95a"/><path d="M16 32 L32 16 L48 32 Z" fill="#c9952f" opacity=".6"/><rect x="16" y="32" width="32" height="20" rx="3" fill="#f4efe2"/><path d="M28 52 V40 C 28 37 36 37 36 40 V52 Z" fill="#6b3e26"/></svg>',
+  detective: '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#2b1030"/><circle cx="28" cy="28" r="12" fill="#f4efe2" opacity=".18"/><circle cx="28" cy="28" r="12" fill="none" stroke="#f4efe2" stroke-width="4"/><path d="M37 37 L50 50" stroke="#c0479a" stroke-width="7" stroke-linecap="round"/></svg>',
+  moon: '<svg viewBox="0 0 64 64"><path d="M40 8 A 26 26 0 1 0 56 44 A 20 20 0 1 1 40 8 Z" fill="#f6e7b8"/></svg>',
+  sun: '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13" fill="#f2b632"/><g stroke="#f2b632" stroke-width="4" stroke-linecap="round"><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6 6M12 52l6-6M46 18l6-6"/></g></svg>'
+};
+var ROLE_COLOR = { wolf: 'var(--wolf)', doctor: 'var(--doctor)', civilian: 'var(--civil)', detective: 'var(--detective)' };
+function ico(name, cls) { return '<span class="ico' + (cls ? ' ' + cls : '') + '" aria-hidden="true">' + ICON[name] + '</span>'; }
+
+/* ============================================================ STATE */
+var KEY = 'tekula-v1';
+function load(k, d) { try { var v = localStorage.getItem(KEY + '-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }
+function keep(k, v) { try { localStorage.setItem(KEY + '-' + k, JSON.stringify(v)); } catch (e) {} }
+function drop(k) { try { localStorage.removeItem(KEY + '-' + k); } catch (e) {} }
+
+var lang = load('lang', 'en'); if (!T[lang]) lang = 'en';
+var setup = load('setup', { names: [], wolves: 1, wolvesAuto: true, doctor: true, detective: false, reveal: true });
+var G = null;                       /* the game in progress */
+var ui = { endArmed: false, showRoles: false, pick: null, waitLeft: 0, waitDone: false, timer: null, setupMsg: '' };
+var saved = load('game', null);
+var offerResume = !!(saved && saved.phase && saved.phase !== 'over');
+
+function t(k) { return T[lang][k]; }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function roleName(r) { return t(r); }
+function save() { if (G) keep('game', G); }
+
+function suggestWolves(n) { return n >= 16 ? 4 : n >= 12 ? 3 : n >= 8 ? 2 : 1; }
+function maxWolves(n) { var specials = (setup.doctor ? 1 : 0) + (setup.detective ? 1 : 0); return Math.max(1, Math.min(Math.floor((n - 1) / 2), n - 1 - specials)); }
+function fixWolves() {
+  var n = setup.names.length;
+  if (setup.wolvesAuto) setup.wolves = suggestWolves(n);
+  setup.wolves = Math.max(1, Math.min(setup.wolves, maxWolves(Math.max(n, 3))));
+}
+
+function rand(n) { try { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; } catch (e) { return Math.floor(Math.random() * n); } }
+function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = rand(i + 1); var x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+
+function newGame() {
+  fixWolves();
+  var roles = [];
+  for (var i = 0; i < setup.wolves; i++) roles.push('wolf');
+  if (setup.doctor) roles.push('doctor');
+  if (setup.detective) roles.push('detective');
+  while (roles.length < setup.names.length) roles.push('civilian');
+  shuffle(roles);
+  G = {
+    phase: 'deal', dealIdx: 0, dealShown: false,
+    players: setup.names.map(function (n, i) { return { name: n, role: roles[i], alive: true }; }),
+    settings: { doctor: setup.doctor, detective: setup.detective, reveal: setup.reveal },
+    round: 1, step: 0, sub: 'wake', picks: {}, lastOut: null, lastSaved: false, voteOut: null, winner: null, timerLeft: 180
+  };
+  ui.pick = null; ui.showRoles = false;
+  save();
+}
+
+function alive() { return G.players.filter(function (p) { return p.alive; }); }
+function aliveRole(r) { return G.players.some(function (p) { return p.alive && p.role === r; }); }
+function checkWin() {
+  var w = alive().filter(function (p) { return p.role === 'wolf'; }).length;
+  var o = alive().length - w;
+  if (w === 0) return 'village';
+  if (w >= o) return 'wolves';
+  return null;
+}
+function nightSteps() {
+  var s = ['close', 'wolves'];
+  if (G.settings.doctor) s.push('doctor');
+  if (G.settings.detective) s.push('detective');
+  s.push('dawn');
+  return s;
+}
+
+/* ============================================================ RENDER */
+var app = document.getElementById('app');
+function render() {
+  document.documentElement.lang = lang;
+  stopTimer(false);
+  var night = G && G.phase === 'night';
+  var day = G && (G.phase === 'morning' || G.phase === 'discuss' || G.phase === 'vote' || G.phase === 'voted');
+  document.body.classList.toggle('day', !!day);
+  if (offerResume) return renderResume();
+  if (!G || G.phase === 'setup') return renderSetup();
+  if (G.phase === 'deal') return renderDeal();
+  if (G.phase === 'dealt') return renderDealt();
+  if (night) return renderNight();
+  if (G.phase === 'morning') return renderMorning();
+  if (G.phase === 'discuss') return renderDiscuss();
+  if (G.phase === 'vote') return renderVote();
+  if (G.phase === 'voted') return renderVoted();
+  if (G.phase === 'over') return renderOver();
+}
+function on(sel, ev, fn) { var el = app.querySelector(sel); if (el) el.addEventListener(ev, fn); }
+function onAll(sel, ev, fn) { app.querySelectorAll(sel).forEach(function (el) { el.addEventListener(ev, function () { fn(el); }); }); }
+
+function langSeg() {
+  return '<div class="seg" role="group" aria-label="Language">' + ['en', 'am', 'om'].map(function (l) {
+    return '<button type="button" data-lang="' + l + '" lang="' + l + '" aria-pressed="' + (l === lang) + '">' + LANG_NAME[l] + '</button>';
+  }).join('') + '</div>';
+}
+function wireLang() { onAll('.seg button', 'click', function (b) { lang = b.dataset.lang; keep('lang', lang); render(); }); }
+
+/* ---------- resume */
+function renderResume() {
+  app.innerHTML =
+    '<div class="brand"><h1>Tekula!</h1><div class="alt"><span lang="am">ተኩላ!</span> · <span lang="om">Yeeyyii!</span></div></div>' + langSeg() +
+    '<div class="center"><p class="tagline">' + esc(t('resume')) + '</p></div>' +
+    '<div class="foot"><button class="btn big accent" id="yes">' + esc(t('resumeYes')) + '</button><button class="btn big ghost" id="no">' + esc(t('resumeNo')) + '</button></div>';
+  wireLang();
+  on('#yes', 'click', function () { G = saved; if (G.phase === 'deal') G.dealShown = false; offerResume = false; save(); render(); });
+  on('#no', 'click', function () { drop('game'); offerResume = false; G = null; render(); });
+}
+
+/* ---------- setup */
+function renderSetup() {
+  fixWolves();
+  var n = setup.names.length, mw = maxWolves(Math.max(n, 3));
+  var civ = Math.max(0, n - setup.wolves - (setup.doctor ? 1 : 0) - (setup.detective ? 1 : 0));
+  var chips = setup.names.map(function (nm, i) { return '<li><span>' + esc(nm) + '</span><button type="button" data-i="' + i + '" aria-label="Remove ' + esc(nm) + '">×</button></li>'; }).join('');
+  app.innerHTML =
+    '<div class="brand"><h1>Tekula!</h1><div class="alt"><span lang="am">ተኩላ!</span> · <span lang="om">Yeeyyii!</span></div></div>' +
+    '<p class="tagline">' + esc(t('tagline')) + '</p>' + langSeg() +
+    '<section class="panel"><h2 class="label">' + esc(t('players')) + ' · ' + n + '</h2>' +
+      '<p class="hint">' + ico('moon') + ' ' + esc(t('narratorNote')) + '</p>' +
+      '<form class="add" id="addForm"><input id="nameInput" type="text" autocomplete="off" maxlength="18" placeholder="' + esc(t('addName')) + '"><button class="btn" type="submit">' + esc(t('add')) + '</button></form>' +
+      '<ul class="chips">' + chips + '</ul>' +
+      (ui.setupMsg ? '<p class="hint warn">' + esc(ui.setupMsg) + '</p>' : '') +
+    '</section>' +
+    '<section class="panel"><h2 class="label">' + esc(t('roles')) + '</h2>' +
+      '<div class="setting"><span class="name">' + ico('wolf') + esc(t('wolves')) + '</span><span class="stepper"><button type="button" id="wMinus" aria-label="−"' + (setup.wolves <= 1 ? ' disabled' : '') + '>−</button><output>' + setup.wolves + '</output><button type="button" id="wPlus" aria-label="+"' + (setup.wolves >= mw ? ' disabled' : '') + '>+</button></span></div>' +
+      (n >= 5 ? '<p class="hint">' + esc(t('suggested')(n, suggestWolves(n))) + '</p>' : '') +
+      '<div class="setting"><span class="name">' + ico('doctor') + esc(t('doctor')) + '</span><button type="button" class="switch" id="swDoc" role="switch" aria-checked="' + setup.doctor + '" aria-label="' + esc(t('doctor')) + '"></button></div>' +
+      '<div class="setting"><span class="name">' + ico('detective') + esc(t('detectiveOpt')) + '</span><button type="button" class="switch" id="swDet" role="switch" aria-checked="' + setup.detective + '" aria-label="' + esc(t('detective')) + '"></button></div>' +
+      '<div class="setting"><span class="name">' + esc(t('reveal')) + '</span><button type="button" class="switch" id="swRev" role="switch" aria-checked="' + setup.reveal + '" aria-label="' + esc(t('reveal')) + '"></button></div>' +
+      (n >= 5 ? '<p class="label" style="margin-top:6px">' + esc(t('mix')) + '</p><div class="mix">' +
+        '<span>' + ico('wolf') + setup.wolves + ' ' + esc(t('wolves')) + '</span>' +
+        (setup.doctor ? '<span>' + ico('doctor') + '1 ' + esc(t('doctor')) + '</span>' : '') +
+        (setup.detective ? '<span>' + ico('detective') + '1 ' + esc(t('detective')) + '</span>' : '') +
+        '<span>' + ico('civilian') + civ + ' ' + esc(t('civilians')) + '</span></div>' : '') +
+    '</section>' +
+    '<section class="panel"><h2 class="label">' + esc(t('howTitle')) + '</h2><ol class="how">' + t('how').map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></section>' +
+    '<div class="foot"><button class="btn big accent" id="dealBtn">' + esc(t('deal')) + '</button></div>';
+  wireLang();
+  on('#addForm', 'submit', function (e) {
+    e.preventDefault();
+    var v = document.getElementById('nameInput').value.trim();
+    if (v && !setup.names.some(function (x) { return x.toLowerCase() === v.toLowerCase(); })) setup.names.push(v);
+    ui.setupMsg = ''; keep('setup', setup); render();
+    var inp = document.getElementById('nameInput'); if (inp) inp.focus();
+  });
+  onAll('.chips button', 'click', function (b) { setup.names.splice(+b.dataset.i, 1); keep('setup', setup); render(); });
+  on('#wMinus', 'click', function () { setup.wolves--; setup.wolvesAuto = false; keep('setup', setup); render(); });
+  on('#wPlus', 'click', function () { setup.wolves++; setup.wolvesAuto = false; keep('setup', setup); render(); });
+  on('#swDoc', 'click', function () { setup.doctor = !setup.doctor; keep('setup', setup); render(); });
+  on('#swDet', 'click', function () { setup.detective = !setup.detective; keep('setup', setup); render(); });
+  on('#swRev', 'click', function () { setup.reveal = !setup.reveal; keep('setup', setup); render(); });
+  on('#dealBtn', 'click', function () {
+    if (setup.names.length < 5) { ui.setupMsg = t('minPlayers'); render(); return; }
+    ui.setupMsg = ''; newGame(); render(); window.scrollTo(0, 0);
+  });
+}
+
+/* ---------- dealing roles in secret */
+function renderDeal() {
+  var p = G.players[G.dealIdx];
+  if (!G.dealShown) {
+    app.innerHTML =
+      '<div class="center">' +
+        '<div class="progress">' + (G.dealIdx + 1) + ' / ' + G.players.length + '</div>' +
+        '<div class="hint">' + esc(t('passTo')) + '</div>' +
+        '<div class="passname">' + esc(p.name) + '</div>' +
+        '<p class="hint">' + esc(t('privacy')) + '</p>' +
+      '</div>' +
+      '<div class="foot"><button class="btn big accent" id="show">' + esc(t('showRole')(p.name)) + '</button></div>';
+    on('#show', 'click', function () { G.dealShown = true; save(); render(); });
+    return;
+  }
+  var mates = '';
+  if (p.role === 'wolf') {
+    var others = G.players.filter(function (x) { return x.role === 'wolf' && x !== p; }).map(function (x) { return x.name; });
+    mates = '<p class="mates">' + esc(others.length ? t('mates')(others.join(', ')) : t('lone')) + '</p>';
+  }
+  app.innerHTML =
+    '<div class="center">' +
+      '<div class="label">' + esc(p.name) + ' · ' + esc(t('yourRole')) + '</div>' +
+      '<div class="rolecard" style="--rc:' + ROLE_COLOR[p.role] + '">' + ico(p.role, 'lg') +
+        '<div class="rname">' + esc(roleName(p.role)) + '</div>' +
+        '<p>' + esc(t('desc')[p.role]) + '</p>' + mates +
+      '</div>' +
+    '</div>' +
+    '<div class="foot"><button class="btn big" id="hide">' + esc(t('hidePass')) + '</button></div>';
+  on('#hide', 'click', function () {
+    G.dealShown = false; G.dealIdx++;
+    if (G.dealIdx >= G.players.length) G.phase = 'dealt';
+    save(); render();
+  });
+}
+function renderDealt() {
+  app.innerHTML =
+    '<div class="center">' + ico('moon', 'lg') + '<p class="tagline">' + esc(t('allSeen')) + '</p></div>' +
+    '<div class="foot"><button class="btn big accent" id="go">' + esc(t('startNight')) + '</button>' +
+    '<button class="link" id="redeal">' + esc(t('redeal')) + '</button></div>';
+  on('#go', 'click', function () { G.phase = 'night'; G.step = 0; G.sub = 'wake'; G.picks = {}; save(); render(); });
+  on('#redeal', 'click', function () { newGame(); render(); });
+}
+
+/* ---------- narrator chrome */
+function topbar(label, icon) {
+  var list = G.players.map(function (p) {
+    return '<li class="' + (p.alive ? '' : 'out') + '">' + (ui.showRoles ? ico(p.role) : '') + '<span>' + esc(p.name) + '</span></li>';
+  }).join('');
+  return '<div class="topbar"><span class="phase">' + ico(icon) + esc(label) + '</span><span class="spacer"></span>' +
+    '<button class="mini" id="rolesBtn" aria-pressed="' + ui.showRoles + '">' + esc(t('showRoles')) + '</button>' +
+    '<button class="mini" id="langBtn">' + LANG_NAME[lang] + '</button>' +
+    '<button class="mini" id="endBtn">' + esc(ui.endArmed ? t('endConfirm') : t('endGame')) + '</button></div>' +
+    '<ul class="status">' + list + '</ul>';
+}
+function wireTop() {
+  on('#rolesBtn', 'click', function () { ui.showRoles = !ui.showRoles; render(); });
+  on('#langBtn', 'click', function () { lang = lang === 'en' ? 'am' : lang === 'am' ? 'om' : 'en'; keep('lang', lang); render(); });
+  on('#endBtn', 'click', function () {
+    if (!ui.endArmed) { ui.endArmed = true; render(); setTimeout(function () { if (ui.endArmed) { ui.endArmed = false; render(); } }, 3000); return; }
+    ui.endArmed = false; drop('game'); G = null; render();
+  });
+}
+function readBlock(text) { return '<div class="read"><div class="label">' + esc(t('readAloud')) + '</div><p class="say">' + esc(text) + '</p></div>'; }
+function noteBlock(text) { return '<div class="note"><div class="label">' + esc(t('forNarrator')) + '</div>' + esc(text) + '</div>'; }
+function picker(list, extra) {
+  return '<div class="pick">' + list.map(function (p) {
+    var i = G.players.indexOf(p);
+    return '<button type="button" data-i="' + i + '" aria-pressed="' + (ui.pick === i) + '">' + esc(p.name) + (ui.showRoles ? '<span class="tag">' + esc(roleName(p.role)) + '</span>' : '') + '</button>';
+  }).join('') + (extra || '') + '</div>';
+}
+function wirePicker() {
+  onAll('.pick button', 'click', function (b) {
+    ui.pick = b.dataset.i === 'none' ? -1 : +b.dataset.i;
+    app.querySelectorAll('.pick button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    var c = document.getElementById('confirm'); if (c) c.disabled = false;
+  });
+}
+
+/* ---------- night */
+var SAY = {
+  wolves: ['sayWolvesWake', 'sayWolvesSleep', 'pickWolves', 'wolf'],
+  doctor: ['sayDoctorWake', 'sayDoctorSleep', 'pickDoctor', 'doctor'],
+  detective: ['sayDetWake', 'sayDetSleep', 'pickDet', 'detective']
+};
+function renderNight() {
+  var steps = nightSteps(), step = steps[G.step], body = '', foot = '';
+  if (step === 'close') {
+    body = readBlock(t('sayClose'));
+    foot = '<button class="btn big accent" id="next">' + esc(t('next')) + '</button>';
+  } else if (step === 'dawn') {
+    body = readBlock(t('sayMorning'));
+    foot = '<button class="btn big accent" id="next">' + esc(t('next')) + '</button>';
+  } else {
+    var s = SAY[step], roleAlive = aliveRole(s[3]);
+    if (G.sub === 'wake') {
+      if (roleAlive) {
+        body = readBlock(t(s[0])) + noteBlock(t(s[2])) + picker(alive());
+        foot = '<button class="btn big accent" id="confirm"' + (ui.pick === null ? ' disabled' : '') + '>' + esc(t('confirm')) + '</button>';
+      } else {
+        body = readBlock(t(s[0])) + noteBlock(t('roleOut')(roleName(s[3])));
+        foot = ui.waitDone
+          ? '<button class="btn big accent" id="outNext">' + esc(t('next')) + '</button>'
+          : '<button class="btn big accent" id="waitNext" disabled>' + esc(t('wait')(ui.waitLeft || 6)) + '</button>';
+      }
+    } else if (G.sub === 'answer') {
+      var target = G.players[G.picks.detective], wolf = target.role === 'wolf';
+      body = '<div class="answer ' + (wolf ? 'yes' : 'no') + '">' + esc(target.name) + ': ' + esc(wolf ? t('isWolf') : t('notWolf')) + '<small>' + esc(wolf ? t('isWolfHow') : t('notWolfHow')) + '</small></div>';
+      foot = '<button class="btn big accent" id="next">' + esc(t('next')) + '</button>';
+    } else {
+      body = readBlock(t(s[1]));
+      foot = '<button class="btn big accent" id="next">' + esc(t('next')) + '</button>';
+    }
+  }
+  app.innerHTML = topbar(t('night')(G.round), 'moon') + '<div style="display:grid; gap:16px">' + body + '</div><div class="foot">' + foot + '</div>';
+  wireTop(); wirePicker();
+  on('#confirm', 'click', function () {
+    if (ui.pick === null) return;
+    G.picks[step] = ui.pick; ui.pick = null;
+    G.sub = (step === 'detective') ? 'answer' : 'sleep';
+    save(); render();
+  });
+  on('#next', 'click', advanceNight);
+  on('#outNext', 'click', function () { G.sub = 'sleep'; ui.waitDone = false; ui.waitLeft = 0; save(); render(); });
+  if (document.getElementById('waitNext')) startWait();
+}
+function startWait() {
+  if (!ui.waitLeft) ui.waitLeft = 6;
+  var btn = document.getElementById('waitNext');
+  var iv = setInterval(function () {
+    ui.waitLeft--;
+    if (!document.body.contains(btn)) { clearInterval(iv); return; }
+    if (ui.waitLeft <= 0) { clearInterval(iv); ui.waitLeft = 0; ui.waitDone = true; render(); }
+    else { btn.textContent = t('wait')(ui.waitLeft); }
+  }, 1000);
+}
+function advanceNight() {
+  var steps = nightSteps(), step = steps[G.step];
+  if (step === 'dawn') { resolveNight(); return; }
+  if (step === 'close' || G.sub === 'sleep' || G.sub === 'answer') {
+    if (G.sub === 'answer') { G.sub = 'sleep'; save(); render(); return; }
+    G.step++; G.sub = 'wake'; ui.pick = null; ui.waitLeft = 0; ui.waitDone = false;
+    save(); render(); return;
+  }
+}
+function resolveNight() {
+  var target = G.picks.wolves, saveIdx = G.picks.doctor;
+  G.lastOut = null; G.lastSaved = false;
+  if (target !== undefined && target !== null) {
+    if (G.settings.doctor && saveIdx === target) G.lastSaved = true;
+    else { G.players[target].alive = false; G.lastOut = target; }
+  }
+  G.phase = 'morning'; G.picks = {}; ui.showRoles = false;
+  save(); render();
+}
+
+/* ---------- day */
+function revealHtml(i) {
+  var p = G.players[i];
+  if (!G.settings.reveal) return '';
+  return '<div class="reveal">' + ico(p.role) + '<div><div class="hint">' + esc(t('wasRole')(p.name, roleName(p.role))) + '</div><b style="color:' + ROLE_COLOR[p.role] + '">' + esc(roleName(p.role)) + '</b></div></div>';
+}
+function renderMorning() {
+  var text = G.lastOut !== null ? t('killed')(G.players[G.lastOut].name) : t('saved');
+  app.innerHTML = topbar(t('day')(G.round), 'sun') + '<div style="display:grid; gap:16px">' + readBlock(text) + (G.lastOut !== null ? revealHtml(G.lastOut) : '') + '</div>' +
+    '<div class="foot"><button class="btn big accent" id="next">' + esc(t('next')) + '</button></div>';
+  wireTop();
+  on('#next', 'click', function () {
+    var w = checkWin(); if (w) { G.winner = w; G.phase = 'over'; save(); render(); return; }
+    G.phase = 'discuss'; G.timerLeft = 180; save(); render();
+  });
+}
+var tick = null;
+function stopTimer(keepRunningFlag) { if (tick) { clearInterval(tick); tick = null; } if (!keepRunningFlag) ui.timerRunning = false; }
+function fmt(s) { s = Math.max(0, s); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+function beep() {
+  try { var a = new (window.AudioContext || window.webkitAudioContext)(); [0, .25, .5].forEach(function (d) { var o = a.createOscillator(), g = a.createGain(); o.frequency.value = 880; o.connect(g); g.connect(a.destination); g.gain.setValueAtTime(.25, a.currentTime + d); g.gain.exponentialRampToValueAtTime(.001, a.currentTime + d + .2); o.start(a.currentTime + d); o.stop(a.currentTime + d + .22); }); } catch (e) {}
+  if (navigator.vibrate) { try { navigator.vibrate([200, 100, 200]); } catch (e) {} }
+}
+function renderDiscuss() {
+  app.innerHTML = topbar(t('day')(G.round), 'sun') +
+    '<div style="display:grid; gap:16px">' + readBlock(t('discuss')) + noteBlock(t('discussNote')) +
+    '<div class="timer' + (G.timerLeft <= 0 ? ' done' : '') + '" id="clock">' + fmt(G.timerLeft) + '</div>' +
+    '<div class="row" style="justify-content:center"><button class="btn" id="tGo">' + esc(t('startTimer')) + '</button><button class="btn ghost" id="tPlus">' + esc(t('plusMin')) + '</button></div></div>' +
+    '<div class="foot"><button class="btn big accent" id="toVote">' + esc(t('toVote')) + '</button></div>';
+  wireTop();
+  var clock = document.getElementById('clock'), go = document.getElementById('tGo');
+  function paint() { clock.textContent = fmt(G.timerLeft); clock.classList.toggle('done', G.timerLeft <= 0); go.textContent = ui.timerRunning ? t('pause') : t('startTimer'); }
+  go.addEventListener('click', function () {
+    if (ui.timerRunning) { stopTimer(); paint(); save(); return; }
+    if (G.timerLeft <= 0) G.timerLeft = 60;
+    ui.timerRunning = true; paint();
+    tick = setInterval(function () {
+      G.timerLeft--; paint();
+      if (G.timerLeft <= 0) { stopTimer(); paint(); beep(); }
+      save();
+    }, 1000);
+  });
+  on('#tPlus', 'click', function () { G.timerLeft += 60; paint(); save(); });
+  on('#toVote', 'click', function () { stopTimer(); G.phase = 'vote'; ui.pick = null; save(); render(); });
+}
+function renderVote() {
+  app.innerHTML = topbar(t('day')(G.round), 'sun') +
+    '<div style="display:grid; gap:16px">' + readBlock(t('voteSay')) + noteBlock(t('voteNote')) +
+    picker(alive(), '<button type="button" data-i="none" aria-pressed="' + (ui.pick === -1) + '">' + esc(t('noOne')) + '</button>') + '</div>' +
+    '<div class="foot"><button class="btn big danger" id="confirm"' + (ui.pick === null ? ' disabled' : '') + '>' + esc(t('confirm')) + '</button></div>';
+  wireTop(); wirePicker();
+  on('#confirm', 'click', function () {
+    if (ui.pick === null) return;
+    G.voteOut = ui.pick >= 0 ? ui.pick : null;
+    if (G.voteOut !== null) G.players[G.voteOut].alive = false;
+    ui.pick = null; G.phase = 'voted'; save(); render();
+  });
+}
+function renderVoted() {
+  var text = G.voteOut !== null ? t('votedOut')(G.players[G.voteOut].name) : t('noVote');
+  app.innerHTML = topbar(t('day')(G.round), 'sun') + '<div style="display:grid; gap:16px">' + readBlock(text) + (G.voteOut !== null ? revealHtml(G.voteOut) : '') + '</div>' +
+    '<div class="foot"><button class="btn big accent" id="next">' + esc(t('toNight')) + '</button></div>';
+  wireTop();
+  var w = checkWin();
+  if (w) { document.getElementById('next').textContent = t('next'); }
+  on('#next', 'click', function () {
+    var win = checkWin(); if (win) { G.winner = win; G.phase = 'over'; save(); render(); return; }
+    G.round++; G.phase = 'night'; G.step = 0; G.sub = 'wake'; G.picks = {}; save(); render();
+  });
+}
+
+/* ---------- game over */
+function renderOver() {
+  var wolvesWon = G.winner === 'wolves';
+  var list = G.players.map(function (p) {
+    return '<div class="' + (p.alive ? '' : 'out') + '">' + ico(p.role) + '<span style="flex:1">' + esc(p.name) + '</span><b style="color:' + ROLE_COLOR[p.role] + '">' + esc(roleName(p.role)) + '</b></div>';
+  }).join('');
+  app.innerHTML =
+    '<div class="center" style="flex:none; padding-top:20px">' + ico(wolvesWon ? 'wolf' : 'civilian', 'lg') +
+      '<div class="win" style="color:' + (wolvesWon ? 'var(--wolf)' : 'var(--gold)') + '">' + esc(wolvesWon ? t('wolvesWin') : t('villageWins')) + '</div></div>' +
+    '<section class="panel"><h2 class="label">' + esc(t('allRoles')) + '</h2><div class="roles-list">' + list + '</div></section>' +
+    '<div class="foot"><button class="btn big accent" id="again">' + esc(t('again')) + '</button><button class="btn big ghost" id="change">' + esc(t('newGame')) + '</button></div>';
+  drop('game');
+  on('#again', 'click', function () { newGame(); render(); window.scrollTo(0, 0); });
+  on('#change', 'click', function () { G = null; render(); window.scrollTo(0, 0); });
+}
+
+render();
+})();
+</script>
+</body>
+</html>
