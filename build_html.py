@@ -230,6 +230,10 @@ a {{ color: var(--accent); }}
   border-bottom: 1px solid var(--line);
 }}
 .brand {{ font-family: var(--display); font-size: .95rem; letter-spacing: .01em; color: var(--muted); }}
+.sitenav {{ display: flex; gap: 6px; margin-right: auto; }}
+.sitenav a {{ font-size: .9rem; color: var(--accent); text-decoration: none; padding: .3rem .7rem; border: 1px solid var(--line); border-radius: 999px; }}
+.sitenav a:hover {{ border-color: var(--accent); }}
+@media print {{ .sitenav {{ display: none; }} }}
 .switch {{ display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }}
 .switch button {{
   font: inherit; font-size: .85rem; border: 0; background: transparent; color: var(--muted);
@@ -358,6 +362,7 @@ body[data-lang="am"] .toc-am, body[data-lang="om"] .toc-om {{ color: var(--ink);
 
 <header class="toolbar">
   <span class="brand">Asefa Family Gathering &middot; <span lang="am">የአሰፋ ቤተሰብ ስብሰባ</span> &middot; <span lang="om">Walgahii Maatii Asefaa</span></span>
+  <nav class="sitenav" aria-label="Site"><a href="meetups.html">Meetups</a><a href="Games/">Games</a></nav>
   <div class="switch" role="group" aria-label="Language">
     <button type="button" id="lang-all" data-lang="all" aria-pressed="true">All</button>
     <button type="button" id="lang-en" data-lang="en" aria-pressed="false">English</button>

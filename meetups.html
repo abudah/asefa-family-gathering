@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Asefa Family Meetups</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* Meetups: one card per round. The current round shows its full schedule in three languages. */
+:root {
+  --paper: #fbfaf6; --ink: #1b201d; --muted: #5f6762; --line: #d6dbd4; --tint: #edf3ee;
+  --accent: #1e5a3a; --brass: #a4761e; --card: #ffffff;
+  --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --ethiopic: "Noto Serif Ethiopic", "Kefa", serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #131614; --ink: #e9e7df; --muted: #a2aaa4; --line: #2b322d; --tint: #1a241e; --accent: #7fc69c; --brass: #d8ab4f; --card: #181c19; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #131614; --ink: #e9e7df; --muted: #a2aaa4; --line: #2b322d; --tint: #1a241e; --accent: #7fc69c; --brass: #d8ab4f; --card: #181c19; color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.55;
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) 4rem max(16px, env(safe-area-inset-left, 0px));
+}
+[lang="am"] { font-family: var(--ethiopic); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+main { max-width: 52rem; margin: 0 auto; }
+
+.top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.top .brand { font-family: var(--display); color: var(--muted); font-size: .95rem; margin-right: auto; }
+.top a { font-size: .9rem; text-decoration: none; padding: .3rem .7rem; border: 1px solid var(--line); border-radius: 999px; }
+.top a[aria-current="page"] { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+header.hero { padding: 2.6rem 0 1.6rem; }
+.eyebrow { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); }
+h1 { margin: .4rem 0 0; font-family: var(--display); font-weight: 700; font-size: clamp(2.4rem, 7vw, 3.6rem); line-height: 1; letter-spacing: -.01em; text-wrap: balance; }
+.hero .alt { margin-top: .5rem; color: var(--muted); }
+.hero .alt span { display: block; }
+
+.rounds { display: grid; gap: 18px; }
+.round { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px; }
+.round.current { border: 2px solid var(--accent); }
+.round-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.round-num { font-family: var(--display); font-weight: 700; font-size: 2.6rem; line-height: 1; color: var(--brass); font-variant-numeric: tabular-nums; }
+.round-title { font-family: var(--display); font-weight: 600; font-size: 1.35rem; }
+.round-title small { display: block; font-family: var(--body); font-weight: 400; font-size: .95rem; color: var(--muted); }
+.badge { margin-left: auto; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; background: var(--tint); color: var(--accent); font-weight: 600; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 10px 24px; margin: 16px 0 6px; padding: 0; list-style: none; }
+.facts li { border-top: 1px solid var(--line); padding-top: 8px; }
+.facts .k { display: block; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.facts .v { font-family: var(--display); font-weight: 600; font-size: 1.1rem; }
+.facts .v span { display: block; font-family: var(--body); font-weight: 400; font-size: .92rem; color: var(--muted); }
+.facts .v span[lang="am"] { font-family: var(--ethiopic); }
+.note { color: var(--muted); margin: 10px 0 0; }
+
+h3 { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); margin: 22px 0 8px; }
+ol.sched { list-style: none; margin: 0; padding: 0; }
+ol.sched li { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); }
+ol.sched li:last-child { border-bottom: 0; }
+.time { font-family: var(--display); font-weight: 700; font-size: 1.2rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+.what b { font-weight: 600; font-size: 1.08rem; }
+.what span { display: block; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+.what span[lang="om"] { font-style: italic; }
+.what a { font-size: .9rem; }
+.mins { font-size: .9rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.highlight { background: var(--tint); margin: 0 -12px; padding-left: 12px !important; padding-right: 12px !important; border-radius: 10px; }
+
+/* photos */
+.photos { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 4px; }
+.photo-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.pbtn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--accent); }
+.pbtn.solid { background: var(--accent); color: var(--paper); }
+.pbtn svg { width: 18px; height: 18px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 8px; margin-top: 14px; }
+.gallery a { display: block; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--tint); }
+.gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.empty { color: var(--muted); font-size: .95rem; margin: 4px 0 0; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 12px; }
+
+footer { margin-top: 2.4rem; color: var(--muted); font-size: .9rem; }
+@media (max-width: 34rem) {
+  ol.sched li { grid-template-columns: 3.6rem minmax(0, 1fr); }
+  .mins { grid-column: 2; }
+  .badge { margin-left: 0; }
+}
+@media print { .top { display: none; } .round { break-inside: avoid; } body { padding: 0; } }
+</style>
+</head>
+<body>
+<main>
+  <nav class="top" aria-label="Site">
+    <span class="brand">Asefa Family Gathering</span>
+    <a href="./">Constitution</a>
+    <a href="meetups.html" aria-current="page">Meetups</a>
+    <a href="Games/">Games</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">Every three months · first Saturday</div>
+    <h1>Meetups</h1>
+    <div class="alt"><span lang="am">ስብሰባዎች</span><span lang="om">Walgahiiwwan</span></div>
+  </header>
+
+  <div class="rounds">
+
+    <!-- ROUND 2 -->
+    <section class="round current" id="round-2" aria-labelledby="r2">
+      <div class="round-head">
+        <span class="round-num">2</span>
+        <span class="round-title" id="r2">Round 2<small><span lang="am">ዙር 2</span> · <span lang="om">Marsaa 2</span></small></span>
+        <span class="badge">Latest</span>
+      </div>
+      <ul class="facts">
+        <li><span class="k">Date</span><span class="v">Saturday 14 November 2026<span lang="am">ቅዳሜ ኅዳር 5 ቀን 2019 ዓ.ም.</span></span></li>
+        <li><span class="k">Hosts</span><span class="v">Babutu and Xena<span lang="am">አስተናጋጆች</span><span lang="om">Keessummeessitoota</span></span></li>
+        <li><span class="k">Time</span><span class="v">7:00 to 11:00<span lang="am">ከ7፡00 እስከ 11፡00</span></span></li>
+      </ul>
+
+      <h3>Schedule · <span lang="am">መርሐ ግብር</span> · <span lang="om">Sagantaa</span></h3>
+      <ol class="sched">
+        <li><span class="time">7:00</span><span class="what"><b>Blessing and welcome</b><span lang="am">ምርቃትና አቀባበል</span><span lang="om">Eebba fi simannaa</span></span><span class="mins">30 min</span></li>
+        <li><span class="time">7:30</span><span class="what"><b>Lunch</b><span lang="am">ምሳ</span><span lang="om">Laaqana</span></span><span class="mins">40 min</span></li>
+        <li><span class="time">8:10</span><span class="what"><b>Family news</b><span lang="am">የቤተሰብ ዜና</span><span lang="om">Oduu maatii</span></span><span class="mins">15 min</span></li>
+        <li><span class="time">8:25</span><span class="what"><b>Host interview</b><span lang="am">ከአስተናጋጆቹ ጋር አጭር ቃለ መጠይቅ</span><span lang="om">Gaaffii fi deebii keessummeessitoota waliin</span></span><span class="mins">10 min</span></li>
+        <li><span class="time">8:35</span><span class="what"><b>Finance report</b><span lang="am">የገንዘብ ሪፖርት</span><span lang="om">Gabaasa maallaqaa</span></span><span class="mins">15 min</span></li>
+        <li><span class="time">8:50</span><span class="what"><b>Constitution reading and adoption</b><span lang="am">የመተዳደሪያ ደንቡ ንባብና ማጽደቅ</span><span lang="om">Seera ittiin bulmaataa dubbisuu fi raggaasisuu</span><a href="./">Read the constitution</a></span><span class="mins">15 min</span></li>
+        <li class="highlight"><span class="time">9:05</span><span class="what"><b>Coffee ceremony and games</b><span lang="am">የቡና ሥነ ሥርዓትና ጨዋታዎች</span><span lang="om">Sirna bunaa fi taphoota</span><a href="Games/">Open the family games</a></span><span class="mins">60 min</span></li>
+        <li><span class="time">10:05</span><span class="what"><b>Lottery for the hosting order</b><span lang="am">የአስተናጋጅነት ተራ ዕጣ</span><span lang="om">Carraa tartiiba keessummeessuu</span></span><span class="mins">20 min</span></li>
+        <li><span class="time">10:25</span><span class="what"><b>Reflection and testimony from the family abroad</b><span lang="am">ከውጭ አገር የመጡ የቤተሰብ አባላት ሐሳብና ምስክርነት</span><span lang="om">Yaada fi ragaa maatii biyya alaa dhufanii</span></span><span class="mins">20 min</span></li>
+        <li><span class="time">10:45</span><span class="what"><b>Closing blessing</b><span lang="am">የመዝጊያ ምርቃት</span><span lang="om">Eebba cufiinsaa</span></span><span class="mins">15 min</span></li>
+      </ol>
+      <div class="photos" data-round="2"></div>
+    </section>
+
+    <!-- ROUND 3 -->
+    <section class="round" id="round-3" aria-labelledby="r3">
+      <div class="round-head">
+        <span class="round-num">3</span>
+        <span class="round-title" id="r3">Round 3<small><span lang="am">ዙር 3</span> · <span lang="om">Marsaa 3</span></small></span>
+        <span class="badge">Next</span>
+      </div>
+      <p class="note">The date and the hosts will be set by the lottery at Round 2.<br><span lang="am">ቀኑና አስተናጋጆቹ በዙር 2 ዕጣ ይወሰናሉ።</span><br><span lang="om">Guyyaa fi keessummeessitoonni carraa Marsaa 2 irratti murtaa'u.</span></p>
+    </section>
+
+    <!-- ROUND 1 -->
+    <section class="round" id="round-1" aria-labelledby="r1">
+      <div class="round-head">
+        <span class="round-num">1</span>
+        <span class="round-title" id="r1">Round 1<small><span lang="am">ዙር 1</span> · <span lang="om">Marsaa 1</span></small></span>
+      </div>
+      <p class="note">Our first meetup. Details will be added here.<br><span lang="am">የመጀመሪያው ስብሰባችን። ዝርዝሩ እዚህ ይጨመራል።</span><br><span lang="om">Walgahii keenya jalqabaa. Bal'inni isaa asitti ni dabalama.</span></p>
+      <div class="photos" data-round="1"></div>
+    </section>
+
+  </div>
+
+  <footer>Asefa Family Gathering · <span lang="am">የአሰፋ ቤተሰብ ስብሰባ</span> · <span lang="om">Walgahii Maatii Asefaa</span></footer>
+</main>
+<script>
+/* =====================================================================
+   PHOTO ALBUMS
+   For each round, paste:
+   - album:  the link to that round's Google Drive folder.
+             Share the folder as "Anyone with the link" and choose "Editor",
+             so family members can upload their own photos into it.
+   - images: (optional) the IDs of a few photos to show here as a gallery.
+             Share each photo as "Anyone with the link: Viewer". The ID is the
+             long code in its link: drive.google.com/file/d/THIS_PART/view
+   ===================================================================== */
+var ALBUMS = {
+  1: { album: "", images: [] },
+  2: { album: "", images: [] }
+};
+
+(function () {
+  var cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+  var up = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>';
+  function safe(u) { return /^https:\/\/(drive|photos)\.google\.com\//.test(u) ? u : ''; }
+  function id(x) { return /^[A-Za-z0-9_-]{10,}$/.test(x) ? x : ''; }
+  document.querySelectorAll('.photos').forEach(function (box) {
+    var a = ALBUMS[box.dataset.round] || {}, link = safe(a.album || ''), imgs = (a.images || []).map(id).filter(Boolean);
+    var h = '<h3>Photos · <span lang="am">ፎቶዎች</span> · <span lang="om">Suuraawwan</span></h3>';
+    if (link) {
+      h += '<div class="photo-actions">' +
+        '<a class="pbtn solid" href="' + link + '" target="_blank" rel="noopener">' + cam + 'See the photos</a>' +
+        '<a class="pbtn" href="' + link + '" target="_blank" rel="noopener">' + up + 'Add your photos</a></div>';
+      if (imgs.length) {
+        h += '<div class="gallery">' + imgs.map(function (x) {
+          return '<a href="https://drive.google.com/file/d/' + x + '/view" target="_blank" rel="noopener"><img loading="lazy" alt="Photo from the meetup" onerror="this.parentNode.style.display=\'none\'" src="https://drive.google.com/thumbnail?id=' + x + '&sz=w600"></a>';
+        }).join('') + '</div>';
+      }
+    } else {
+      h += '<p class="empty">The photo album for this round will be linked here soon.<br><span lang="am">የዚህ ዙር የፎቶ አልበም በቅርቡ እዚህ ይያያዛል።</span><br><span lang="om">Albamiin suuraa marsaa kanaa dhiyootti asitti ni walqabsiifama.</span></p>';
+    }
+    box.innerHTML = h;
+  });
+})();
+</script>
+</body>
+</html>

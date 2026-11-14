@@ -16,23 +16,31 @@ Each item is one of:
 """
 
 import os
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm
-from reportlab.lib import colors
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_CENTER
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, KeepTogether,
-)
+
+# ReportLab is only needed for the old plain PDF (build_plain). The text below,
+# the website and the designed PDF work without it.
+try:
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.units import mm
+    from reportlab.lib import colors
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.lib.enums import TA_CENTER
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    from reportlab.platypus import (
+        SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, KeepTogether,
+    )
+    HAVE_REPORTLAB = True
+except ImportError:
+    HAVE_REPORTLAB = False
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "Asefa-Family-Gathering-Constitution.pdf")
 
 # Kefa ships with macOS and covers Ethiopic script.
 KEFA = "/System/Library/Fonts/Supplemental/KefaIII.ttf"
-pdfmetrics.registerFont(TTFont("Kefa", KEFA))
+if HAVE_REPORTLAB:
+    pdfmetrics.registerFont(TTFont("Kefa", KEFA))
 
 DATE_EN = "17 October 2026"
 DATE_AM = "ጥቅምት 7 ቀን 2019 ዓ.ም. (17 October 2026)"
@@ -768,9 +776,10 @@ CONTENT_OM = [
 # --------------------------------------------------------------------------
 # STYLES AND BUILDER
 # --------------------------------------------------------------------------
-INK = colors.HexColor("#1f2933")
-RULE = colors.HexColor("#9aa5b1")
-TINT = colors.HexColor("#eef2f6")
+if HAVE_REPORTLAB:
+    INK = colors.HexColor("#1f2933")
+    RULE = colors.HexColor("#9aa5b1")
+    TINT = colors.HexColor("#eef2f6")
 
 
 def make_styles(font, bold):
