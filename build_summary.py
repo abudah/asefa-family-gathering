@@ -105,6 +105,10 @@ PAGES = [
     },
 ]
 
+# Page order in the PDF: Amharic, then Afaan Oromo, then English.
+ORDER = ["am", "om", "en"]
+ORDERED = sorted(PAGES, key=lambda p: ORDER.index(p["lang"]))
+
 COLORS = ["#0e5245", "#c4202f", "#1b9aa0", "#b8296e", "#d99a1e", "#2e8b57"]
 
 CSS = """
@@ -185,7 +189,7 @@ def page(p):
 def build():
     doc = ('<!doctype html><html><head><meta charset="utf-8"><title>Constitution in Brief</title>'
            f'<style>{CSS.replace("TIBEB", tibeb_uri())}</style></head><body>'
-           + "".join(page(p) for p in PAGES) + "</body></html>")
+           + "".join(page(p) for p in ORDERED) + "</body></html>")
     with open(TMP, "w", encoding="utf-8") as f:
         f.write(doc)
     subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
