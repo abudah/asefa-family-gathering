@@ -23,19 +23,19 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 LANGS = [
     {
-        "code": "en", "content": CONTENT_EN, "letter": "A", "kicker": "Part A",
-        "name": "English", "contents": "Contents",
-        "article": lambda n: f"Article {n}",
-    },
-    {
-        "code": "am", "content": CONTENT_AM, "letter": "ለ", "kicker": "ክፍል ለ",
+        "code": "am", "content": CONTENT_AM, "letter": "ሀ", "kicker": "ክፍል ሀ",
         "name": "አማርኛ", "contents": "ማውጫ",
         "article": lambda n: f"አንቀጽ {GEEZ[n - 1]}",
     },
     {
-        "code": "om", "content": CONTENT_OM, "letter": "C", "kicker": "Kutaa C",
+        "code": "om", "content": CONTENT_OM, "letter": "B", "kicker": "Kutaa B",
         "name": "Afaan Oromoo", "contents": "Qabiyyee",
         "article": lambda n: f"Keewwata {n}",
+    },
+    {
+        "code": "en", "content": CONTENT_EN, "letter": "C", "kicker": "Part C",
+        "name": "English", "contents": "Contents",
+        "article": lambda n: f"Article {n}",
     },
 ]
 

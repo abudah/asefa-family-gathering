@@ -53,7 +53,7 @@ CONTENT_EN = [
     ("p", "This constitution governs the quarterly gathering of the grandchildren of Asefa. "
           "It is written so that every member knows what is expected, so that the gathering runs "
           "without waiting on anyone, and so that no member has cause to be angry at another. "
-          "The English text is followed by Amharic and Afaan Oromo versions. Where they differ, the "
+          "It is written in Amharic, Afaan Oromo and English. Where the versions differ, the "
           "Gathering decides which text controls."),
 
     ("h1", "Article 1. Name and purpose"),
@@ -296,8 +296,8 @@ CONTENT_EN = [
 CONTENT_AM = [
     ("p", "ይህ መተዳደሪያ ደንብ የአሰፋ የልጅ ልጆች በየሦስት ወሩ የሚያደርጉትን የቤተሰብ ስብሰባ የሚመራ ነው። "
           "የተጻፈውም እያንዳንዱ አባል ከእሱ የሚጠበቀውን እንዲያውቅ፣ ስብሰባው ማንንም ሳይጠብቅ እንዲካሄድ፣ "
-          "እንዲሁም አንዱ በሌላው ላይ የሚቆጣበት ምክንያት እንዳይኖር ነው። የእንግሊዝኛውን ጽሑፍ የአማርኛና የአፋን ኦሮሞ ቅጂዎች "
-          "ይከተሉታል። ሲለያዩ የትኛው እንደሚጸና ስብሰባው ይወስናል።"),
+          "እንዲሁም አንዱ በሌላው ላይ የሚቆጣበት ምክንያት እንዳይኖር ነው። ደንቡ በአማርኛ፣ በአፋን ኦሮሞና በእንግሊዝኛ "
+          "ተዘጋጅቷል። ሲለያዩ የትኛው እንደሚጸና ስብሰባው ይወስናል።"),
 
     ("h1", "አንቀጽ 1. ስም እና ዓላማ"),
     ("n", "1.", "ማኅበሩ \"የአሰፋ ቤተሰብ ስብሰባ\" (ከዚህ በኋላ \"ስብሰባው\") ተብሎ ይጠራል።"),
@@ -525,7 +525,7 @@ CONTENT_OM = [
     ("p", "Seerri ittiin bulmaataa kun walgahii ilmaan ijoollee Asefaa ji'a sadii sadiin taasifamu bulcha. "
           "Kan barreeffameef miseensi hundi waan isa irraa eegamu akka beeku, walgahiin nama tokko illee "
           "osoo hin eegin akka geggeeffamu, akkasumas miseensi tokko isa biraa irratti akka hin aarreef. "
-          "Barreeffamni kun Afaan Ingilizii, Afaan Amaaraa fi Afaan Oromootiin dhihaateera. Isaan yoo wal "
+          "Barreeffamni kun Afaan Amaaraa, Afaan Oromoo fi Afaan Ingiliziitiin dhihaateera. Isaan yoo wal "
           "dhaban, isa kamtu akka hojjetu Walgahiin murteessa."),
 
     ("h1", "Keewwata 1. Maqaa fi kaayyoo"),
